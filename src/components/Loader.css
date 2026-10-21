@@ -1,4 +1,4 @@
 /* ============ loader ============ */
-/* A plain moss cover, the same colour as the hero behind it, so nothing unstyled flashes while the hero is set up. It shows no mark or text. */
-#loader { position: fixed; inset: 0; z-index: 9; background: var(--moss); transition: opacity .38s ease; }
+/* A plain dark cover, the same colour as the scene's first frame, so nothing unstyled flashes while the dishes load. It shows no mark or text. */
+#loader { position: fixed; inset: 0; z-index: 9; background: #0b0d08; transition: opacity .38s ease; }
 #loader.out { opacity: 0; pointer-events: none; }

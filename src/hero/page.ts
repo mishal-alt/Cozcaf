@@ -1,109 +1,102 @@
 /* ======================================================================
-   PAGE ELEMENTS: the header, big lettering, copy, buttons, badge and glow the hero drives
+   PAGE ELEMENTS: the COZCAF lettering that docks into the header, and the copy, badge and ticker around the scene
    ====================================================================== */
-import { $ } from './canvas';
-import { FX, T } from './config';
-import { reduced } from './env';
-import { clamp, easeOutBack, easeOutCubic, easeOutExpo, lerp, prog, rng } from './math';
-import { V, dyn } from './state';
-import { levelAt } from './timeline';
-import type { Cached } from './types';
+import { TALL, reduced } from './env';
+import { clamp, easeInOut, easeOutBack, easeOutCubic, lerp, prog, smooth } from './math';
+import type { Anchor } from './scene';
 
-interface Els {
-  logo: Cached;
-  nav: Cached;
-  hr: Cached;
-  kicker: Cached;
-  coz: Cached;
-  caf: Cached;
-  badge: Cached;
-  bsvg: Cached;
-  bl: Cached[];
-  br: Cached;
-  trust: Cached;
-  btnM: Cached;
-  btnV: Cached;
-  marq: Cached;
-  glow: Cached;
-  hdrBg: Cached;
-  ui: Cached;
-  dock: Cached;
-  words: Cached[];
+const $ = <T extends Element = HTMLElement>(id: string): T => {
+  const e = document.getElementById(id);
+  if (!e) throw new Error(`COZCAF hero: #${id} is missing from the page`);
+  return e as unknown as T;
+};
+
+/** the lockup is viewBox 127 310 354 63; the six letters sit at 201.33 315.02 and are 278.67 wide */
+const VB_X = 127, VB_Y = 310, VB_H = 63, LET_X = 201.33, LET_Y = 315.02, LET_W = 278.67;
+
+/** scroll distance (x viewport height) over which the lettering travels into the header */
+const DOCK_RANGE = 0.85;
+
+export interface PageEls {
+  /** call every frame of the scene with its clock */
+  chrome(t: number, a: Anchor): void;
+  /** re-read the layout (the lettering's resting place in the header, the heading's size) */
+  measure(): void;
+  /** scroll progress 0..1 of the dock; moves the lettering and fades the hero */
+  scroll(): number;
 }
 
-export const el = {} as Els;
+export function initPage(): PageEls {
+  const hero = $('hero'), wm = $<SVGSVGElement>('wm'), link = $<HTMLAnchorElement>('logoLink'), icon = $('wmIcon'), sheen = $('sheen');
+  const letters = Array.from(wm.querySelectorAll<SVGPathElement>('path.wl'));
+  const hdrBg = $('hdrBg'), nav = $('nav'), hr = $('hr'), kicker = $('kicker'), badge = $('badge'), bsvg = $('bsvg');
+  const bl = document.getElementById('bl'), br = document.getElementById('br'), chip = $('chip'), marq = $('marq');
 
-export function bindEls(): void {
-  const c = (id: string): Cached => $(id);
-  Object.assign(el, {
-    logo: c('logoLink'), nav: c('nav'), hr: c('hr'), kicker: c('kicker'), coz: c('coz'), caf: c('caf'), badge: c('badge'), bsvg: c('bsvg'),
-    bl: [c('bl1'), c('bl2'), c('bl3')], br: c('br'), trust: c('trust'), btnM: c('ctaMenu'), btnV: c('ctaVisit'),
-    marq: c('marq'), glow: c('glow'), hdrBg: c('hdrBg'), ui: c('ui'), dock: c('dock'), words: [],
+  // the tagline stays real text; each word gets its own span to reveal
+  const words = (kicker.textContent ?? '').trim().split(/\s+/);
+  kicker.textContent = '';
+  const spans = words.map((w, i) => {
+    const s = document.createElement('span');
+    s.className = 'w'; s.textContent = w; kicker.appendChild(s);
+    if (i < words.length - 1) kicker.appendChild(document.createTextNode(' '));
+    return s;
   });
-}
 
-/** the kicker stays real text; each word gets its own span to reveal */
-export function setupWords(): void {
-  const k = el.kicker, words = (k.textContent ?? '').trim().split(/\s+/);
-  k.textContent = '';
-  words.forEach((w, i) => {
-    const s = document.createElement('span') as Cached; s.className = 'w'; s.textContent = w; k.appendChild(s); el.words.push(s);
-    if (i < words.length - 1) k.appendChild(document.createTextNode(' '));
-  });
-}
+  let tx0 = 0, ty0 = 0, k0 = 1, vh = innerHeight, docked = false;
 
-/** a small noise tile, laid over the page at FX.grain opacity */
-export function makeGrain(): void {
-  const c = document.createElement('canvas'); c.width = c.height = 160;
-  const g = c.getContext('2d') as CanvasRenderingContext2D, id = g.createImageData(160, 160), r = rng(77);
-  for (let i = 0; i < id.data.length; i += 4) { const v = r() * 255; id.data[i] = id.data[i + 1] = id.data[i + 2] = v; id.data[i + 3] = 255; }
-  g.putImageData(id, 0, 0);
-  const gr = $('grain'); gr.style.backgroundImage = `url(${c.toDataURL('image/png')})`; gr.style.opacity = String(FX.grain);
-}
+  /** where the lettering rests in the header, and the transform that lifts it to the big centred heading */
+  function measure(): void {
+    const W = innerWidth, tall = TALL.matches;
+    vh = innerHeight;
+    const hw = tall ? Math.min(W * 0.88, 520) : Math.min(W * 0.46, 660), hy = tall ? 78 : 96;
+    document.documentElement.style.setProperty('--hw', hw + 'px');
+    document.documentElement.style.setProperty('--hy', hy + 'px');
+    const was = wm.style.transform;
+    wm.style.transform = 'none';
+    const r = wm.getBoundingClientRect(), u = r.height / VB_H;
+    wm.style.transform = was;
+    k0 = hw / (LET_W * u);
+    tx0 = (W - hw) / 2 - r.left - k0 * (LET_X - VB_X) * u;
+    ty0 = hy - r.top - k0 * (LET_Y - VB_Y) * u;
+  }
 
-export function placeGlow(): void {
-  const d = V.DRAW_H * 1.9, g = el.glow.style;
-  g.left = (V.cup.x - d / 2) + 'px'; g.top = (V.cup.y - d / 2) + 'px'; g.width = d + 'px'; g.height = d + 'px';
-}
+  /** the first scroll: the lettering glides up and shrinks into the header while the page slides over the scene */
+  function scroll(): number {
+    const sp = clamp(scrollY / (vh * DOCK_RANGE));
+    const e = reduced ? (sp > 0.5 ? 1 : 0) : easeInOut(sp);
+    wm.style.transform = `translate3d(${lerp(tx0, 0, e).toFixed(2)}px,${lerp(ty0, 0, e).toFixed(2)}px,0) scale(${lerp(k0, 1, e).toFixed(4)})`;
+    icon.style.opacity = String(smooth(clamp((sp - 0.55) / 0.3)));                   // the bean mark appears as the word settles
+    wm.style.filter = e > 0.98 ? 'none' : '';
+    hero.style.opacity = String(1 - clamp((sp - 0.15) / 0.6));
+    hdrBg.style.opacity = String(clamp((sp - 0.5) / 0.35));
+    const d = e > 0.9;
+    if (d !== docked) { docked = d; link.tabIndex = d ? 0 : -1; link.style.pointerEvents = d ? 'auto' : 'none'; link.toggleAttribute('data-docked', d); }
+    return sp;
+  }
 
-/* write opacity / transform / visibility only when they change */
-function put(e: Cached, o: number, x = 0, y = 0, sc = 1): void {
-  const op = o.toFixed(3); if (e._o !== op) { e.style.opacity = op; e._o = op; }
-  const tf = `translate3d(${x.toFixed(2)}px,${y.toFixed(2)}px,0) scale(${sc.toFixed(4)})`; if (e._t !== tf) { e.style.transform = tf; e._t = tf; }
-  const v = o > .02 ? 'visible' : 'hidden'; if (e._v !== v) { e.style.visibility = v; e._v = v; }
-}
-function putWord(e: Cached, q: number): void {
-  const op = q.toFixed(3); if (e._o === op) return; e._o = op;
-  e.style.opacity = op; e.style.transform = `translateY(${(8 * (1 - q)).toFixed(2)}px)`;
-}
+  const put = (e: HTMLElement | null, o: number, y = 0): void => { if (e) { e.style.opacity = o.toFixed(3); e.style.transform = `translate3d(0,${y.toFixed(2)}px,0)`; } };
 
-let badgeAngle = 0;
-export function arrive(t: number, par: { x: number; y: number }): void {
-  const s = V.s;
-  let p = easeOutCubic(prog(t, T.header));
-  put(el.logo, p, -24 * (1 - p), 0);
-  put(el.nav, p, 0, -8 * (1 - p));
-  put(el.hr, p, 24 * (1 - p), 0);
-  // the kicker reveals word by word once the lid has seated
-  el.words.forEach((w, i) => putWord(w, easeOutCubic(prog(t, [T.kicker[0] + i * T.kickerStagger, T.kicker[1] + i * T.kickerStagger]))));
-  // big lettering slides in from the sides and drifts opposite to the cup (parallax)
-  p = easeOutExpo(prog(t, T.coz)); put(el.coz, p, -170 * (1 - p) + par.x, par.y);
-  p = easeOutExpo(prog(t, T.caf)); put(el.caf, p, 170 * (1 - p) + par.x, par.y);
-  // the rotating badge: pops in, speeds up once after the lid seats, then calms
-  const bp = prog(t, T.badge);
-  put(el.badge, clamp(bp * 2), 0, 0, lerp(.55, 1, easeOutBack(bp, 1.2)));
-  const w0 = 360 / FX.badgeSpinSeconds, b0 = T.badgeBoost[0], bd = T.badgeBoost[1] - b0, u = clamp((t - b0) / bd);
-  const extra = w0 * FX.badgeBoost * (u * bd / 2 - bd / (4 * Math.PI) * Math.sin(2 * Math.PI * u));
-  badgeAngle = reduced ? 0 : w0 * t + extra;
-  const ba = `rotate(${badgeAngle.toFixed(2)}deg)`; if (el.bsvg._t !== ba) { el.bsvg.style.transform = ba; el.bsvg._t = ba; }
-  el.bl.forEach((e, i) => { const q = easeOutCubic(prog(t, [T.textL[0] + i * .08, T.textL[1] + i * .08])); put(e, q, 0, 18 * (1 - q)); });
-  p = easeOutCubic(prog(t, T.textM)); put(el.trust, p, 0, 12 * (1 - p));
-  p = easeOutCubic(prog(t, T.textR)); put(el.br, p, 0, 16 * (1 - p));
-  // conversion layer: right after the lid presses on
-  p = easeOutCubic(prog(t, T.cta)); put(el.btnM, p, 0, 14 * (1 - p));
-  p = easeOutCubic(prog(t, [T.cta[0] + .1, T.cta[1] + .1])); put(el.btnV, p, 0, 14 * (1 - p));
-  p = easeOutCubic(prog(t, T.marquee)); put(el.marq, 1, 0, 46 * s * (1 - p));
-  // warm light behind the cup, growing as the coffee fills
-  const lv = levelAt(t), gp = easeOutCubic(prog(t, T.cupEnter));
-  put(el.glow, gp * (FX.glowMin + (FX.glowMax - FX.glowMin) * lv) * (1 - dyn.dockE), 0, 0, 1 + FX.glowGrow * lv);
+  function chrome(t: number, a: Anchor): void {
+    const hp = easeOutCubic(prog(t, 1, 1.8));
+    nav.style.opacity = hr.style.opacity = hp.toFixed(3);
+    marq.style.opacity = easeOutCubic(prog(t, 1.4, 2.2)).toFixed(3); marq.style.transform = `translate3d(0,${((1 - easeOutCubic(prog(t, 1.4, 2.2))) * 46).toFixed(1)}px,0)`;
+    // the lettering: one letter at a time, then a single warm glint across it
+    letters.forEach((e, i) => { const q = easeOutCubic(prog(t, 2.2 + i * 0.08, 3.1 + i * 0.08)); e.style.opacity = q.toFixed(3); e.style.transform = `translateY(${((1 - q) * 9).toFixed(2)}px)`; });
+    const sp = prog(t, 3.7, 5.2);
+    sheen.setAttribute('transform', `translate(${(160 + sp * 330).toFixed(1)} 0) skewX(-22)`);
+    sheen.style.opacity = String(Math.sin(Math.PI * sp));
+    spans.forEach((w, i) => { const q = easeOutCubic(prog(t, 2.6 + i * 0.09, 3.1 + i * 0.09)); w.style.opacity = q.toFixed(3); w.style.transform = `translateY(${(8 * (1 - q)).toFixed(2)}px)`; });
+    // the badge pops in beside the bucket and turns
+    const bp = prog(t, 2.5, 3.1), sz = a.land ? 124 : 92, bx = innerWidth / 2 + (a.x + a.w * 0.52 - innerWidth / 2) * a.s, by = innerHeight * (a.land ? 0.62 : 0.64) + (a.y - a.h * 0.68 - innerHeight * (a.land ? 0.62 : 0.64)) * a.s;
+    badge.style.width = badge.style.height = sz + 'px';
+    badge.style.left = Math.min(innerWidth - sz - 14, bx) + 'px'; badge.style.top = Math.max(110, by) + 'px';
+    badge.style.opacity = clamp(bp * 2).toFixed(3); badge.style.transform = `scale(${(0.55 + 0.45 * easeOutBack(bp, 1.2)).toFixed(4)})`;
+    bsvg.style.transform = `rotate(${reduced ? 0 : ((t * 360) / 28).toFixed(2)}deg)`;
+    const ex = easeOutCubic(prog(t, 2.4, 3.2));
+    put(bl, ex, (1 - ex) * 14); put(br, ex, (1 - ex) * 14);
+    chip.style.opacity = easeOutCubic(prog(t, 3.3, 4.1)).toFixed(3);
+  }
+
+  measure();
+  return { chrome, measure, scroll };
 }

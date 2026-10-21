@@ -1,30 +1,33 @@
-/* ============ header (fixed, above everything but the loader) ============ */
-#hdr { position: fixed; left: 0; right: 0; top: 0; z-index: 4; height: calc(var(--hh) * var(--s) * 1px); pointer-events: none; }
-#hdrBg { position: fixed; left: 0; right: 0; top: 0; z-index: 2; pointer-events: none; height: calc(var(--hh) * var(--s) * 1px); background: rgba(46,56,39,.94); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(244,239,230,.12); opacity: 0; }
-#hdrIn { position: absolute; left: 0; top: 0; height: calc(var(--hh) * 1px); transform-origin: 0 0; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 64px; width: 1440px; }
+/* ============ header (fixed, above everything but the loader) ============
+   Plain responsive CSS. The COZCAF lockup (#wm) rests here as the logo; at the top of the page src/hero/page.ts lifts it into the big
+   centred heading and lets it glide back on the first scroll, so there is no second logo to show or hide. */
+#hdr { position: fixed; left: 0; right: 0; top: 0; z-index: 4; height: calc(var(--hh) * 1px); pointer-events: none; --logo-h: 22px; }
+#hdrBg { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: rgba(46,56,39,.94); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(244,239,230,.12); opacity: 0; }
+#hdrIn { position: relative; z-index: 2; height: 100%; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 64px; }
 #hdrIn > * { pointer-events: auto; }
-.logoLink { justify-self: start; display: block; line-height: 0; }
-.logoLink img { height: 19.5px; width: auto; display: block; }
-#nav { display: flex; gap: 34px; font-size: 13px; font-weight: 500; letter-spacing: .04em; }
+.logoLink { justify-self: start; display: flex; align-items: center; line-height: 0; min-height: 44px; min-width: 44px; }
+#wm { display: block; height: var(--logo-h); width: calc(var(--logo-h) * 354 / 63); overflow: visible; fill: var(--letter); transform-origin: 0 0; will-change: transform; filter: drop-shadow(0 2px 18px rgba(0,0,0,.45)); }
+#wmIcon { opacity: 0; }
+#wm .wl { opacity: 0; transform-box: fill-box; transform-origin: 50% 100%; }
+#nav { display: flex; gap: 34px; font-size: 13px; font-weight: 500; letter-spacing: .04em; opacity: 0; }
 #nav a { position: relative; padding: 10px 2px; text-decoration: none; color: var(--text-hi); text-shadow: 0 0 10px rgba(46,56,39,.95), 0 0 3px rgba(46,56,39,.9); }
 #nav a::after { content: ""; position: absolute; left: 2px; right: 2px; bottom: 5px; height: 1px; background: var(--cream); transform: scaleX(0); transform-origin: 0 50%; transition: transform .25s ease; }
 #nav a:hover::after, #nav a:focus-visible::after, #nav a[aria-current="true"]::after { transform: scaleX(1); }
-#hr { justify-self: end; display: flex; align-items: center; gap: 12px; }
+#hr { justify-self: end; display: flex; align-items: center; gap: 12px; opacity: 0; }
 .wa { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 16px 0 12px; background: rgba(59,72,51,.96); border: 1px solid rgba(244,239,230,.6); border-radius: 999px; font-size: 12.5px; font-weight: 600; letter-spacing: .02em; text-decoration: none; color: var(--cream); white-space: nowrap; transition: background .2s ease, border-color .2s ease; }
 .wa:hover { background: #4a5a40; border-color: var(--cream); }
 .wa .short { display: none; }
 .rnd { position: relative; width: 34px; height: 34px; padding: 0; border-radius: 50%; border: 1px solid rgba(244,239,230,.3); background: transparent; display: grid; place-items: center; color: var(--cream); cursor: pointer; text-decoration: none; transition: background .2s ease, border-color .2s ease; }
 .rnd:hover { background: rgba(244,239,230,.12); border-color: rgba(244,239,230,.6); }
-.dock .glyph { opacity: calc(1 - var(--dk, 0)); }
-#burger { display: none; }
-#hdr.tall #hdrIn { grid-template-columns: 1fr auto; padding: 0 16px; width: 390px; }
-#hdr.tall #nav { display: none; }
-#hdr.tall #burger { display: grid; }
-#hdr.tall .logoLink { display: flex; align-items: center; min-height: max(44px, calc(44px / var(--s))); min-width: 44px; }
-#hdr.tall .logoLink img { height: 16px; }
-#hdr.tall #hr { gap: 8px; }
-#hdr.tall .rnd { width: max(44px, calc(44px / var(--s))); height: max(44px, calc(44px / var(--s))); }
-#hdr.tall .wa { display: none; }
+#burger, #dock { display: none; }                                          /* desktop has the Menu link in the nav */
+@media (max-width: 767px), (max-aspect-ratio: 4/5) {
+  #hdr { --logo-h: 18px; }
+  #hdrIn { grid-template-columns: 1fr auto; padding: 0 16px; }
+  #nav, .wa { display: none; }
+  #burger, #dock { display: grid; }
+  #hr { gap: 8px; }
+  .rnd { width: 44px; height: 44px; }
+}
 /* phone menu: a full-screen sheet under the header buttons (the burger turns into the close X) */
 #hdrIn { z-index: 2; }
 #sheet[hidden] { display: none; }

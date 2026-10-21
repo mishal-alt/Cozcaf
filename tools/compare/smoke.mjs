@@ -12,7 +12,7 @@ for (const [width, height] of [[360, 640], [390, 844], [414, 896], [600, 900], [
     const touch = width < 800;
     const { ctx, page, errors } = await open(browser, 'http://127.0.0.1:4704/', { width, height, dpr: touch ? 2 : 1, mobile: touch, reducedMotion });
     await page.waitForFunction(() => !document.getElementById('loader'), null, { timeout: 30000 });
-    if (reducedMotion === 'no-preference') await page.keyboard.press('Escape');
+    if (reducedMotion === 'no-preference') await page.waitForTimeout(700);
     // scroll the whole page so every lazy image loads and every reveal fires
     const H = await page.evaluate(() => document.documentElement.scrollHeight);
     for (let y = 0; y < H; y += Math.round(height * 0.7)) { await page.evaluate((y) => window.scrollTo(0, y), y); await page.waitForTimeout(120); }

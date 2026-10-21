@@ -1,36 +1,30 @@
-/* ============ hero layer (fixed, sits under the page that scrolls over it) ============ */
-#hero { position: fixed; inset: 0; z-index: 0; overflow: hidden; background: var(--moss); }
-#stage { position: absolute; left: 0; top: 0; width: 1440px; height: 900px; transform-origin: 0 0; }
-#stage .abs { position: absolute; }
+/* ============ the opening page: a fixed layer under the page that scrolls over it ============
+   One canvas draws the still-life; the copy, badge and ticker are plain HTML laid over it. The COZCAF lettering lives in the header
+   (Header.astro) and docks there on the first scroll. --hw / --hy (the heading's width and top) are set by src/hero/page.ts. */
+#hero { position: fixed; inset: 0; z-index: 0; overflow: hidden; background: #0b0d08; --hw: min(46vw, 660px); --hy: 96px; }
+#fx { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 
-body.skipping .anim { transition: opacity .45s ease, transform .45s ease !important; }
+#kicker { position: absolute; left: 0; right: 0; top: calc(var(--hy) + var(--hw) * .1864 + 16px); margin: 0; text-align: center; font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: .25em; text-transform: uppercase; color: var(--text-md); text-shadow: 0 1px 12px rgba(0,0,0,.5); }
+#kicker .w { display: inline-block; opacity: 0; }
 
-#glow { border-radius: 50%; pointer-events: none; opacity: 0; will-change: opacity, transform;
-  background: radial-gradient(closest-side, rgba(255,192,122,.60), rgba(255,170,100,.26) 42%, rgba(255,160,90,0) 100%); }
+#chip { position: absolute; left: 80px; bottom: 204px; height: 26px; padding: 0 12px; font-size: 11.5px; line-height: 24px; letter-spacing: .06em; border-color: rgba(244,239,230,.35); background: rgba(46,56,39,.45); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); opacity: 0; }
 
-.kicker { left: 0; width: 1440px; top: 122px; margin: 0; text-align: center; font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: .25em; text-transform: uppercase; color: var(--text-md); }
-.kicker .w { display: inline-block; opacity: 0; transform: translateY(8px); }
-/* The giant COZ / CAF are the real COZCAF logo lettering (the same vector letters as the wordmark and the cup print),
-   one SVG per letter, so they stay razor sharp at any size. --cap is the capital height; --g is the logo's own letter gap. */
-#stage .big { --cap: 184px; --g: .468; top: 336px; display: flex; align-items: flex-start; height: var(--cap); gap: calc(var(--cap) * var(--g)); fill: var(--letter); white-space: nowrap; filter: drop-shadow(0 4px 24px rgba(0,0,0,.12)); }
-#stage .big svg { display: block; height: 100%; width: auto; flex: none; }
-#stage .coz { right: 884px; }
-#stage .caf { --g: .401; left: 896px; }
-.badge {
-  left: 932px; top: 184px; width: 128px; height: 128px; border-radius: 50%;
-  border: 1px solid var(--line); background: rgba(59,72,51,.4);
-  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
-  box-shadow: 0 20px 25px -5px rgba(0,0,0,.25), 0 8px 10px -6px rgba(0,0,0,.25);
-  display: grid; place-items: center;
-}
-.badge svg { position: absolute; inset: 0; width: 100%; height: 100%; padding: 4px; overflow: visible; will-change: transform; }
-.badge .star { font-size: 37.5px; font-weight: 300; line-height: 1; color: var(--cream); }
+#badge { position: absolute; left: 0; top: 0; border-radius: 50%; border: 1px solid var(--line); background: rgba(59,72,51,.4); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,.25), 0 8px 10px -6px rgba(0,0,0,.25); display: grid; place-items: center; opacity: 0; pointer-events: none; }
+#badge svg { position: absolute; inset: 0; width: 100%; height: 100%; padding: 4px; box-sizing: border-box; overflow: visible; will-change: transform; }
+#badge text { font: 600 9px/1 var(--font-body); letter-spacing: .24em; text-transform: uppercase; fill: var(--cream); }
+#badge .star { font-size: 34px; font-weight: 300; line-height: 1; color: var(--cream); }
 
-.bl { left: 80px; top: 730px; font-size: 16px; line-height: 24px; letter-spacing: -.025em; color: var(--text-hi); }
-.bl span { display: block; }
-.br { right: 80px; top: 716px; text-align: right; }
-.br .a { font-size: 14px; line-height: 20px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--cream); }
-.cue { margin-top: 14px; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-size: 12px; line-height: 16px; letter-spacing: .05em; text-transform: uppercase; color: var(--text-md); }
+#bl { position: absolute; left: 80px; bottom: 128px; font-size: 16px; line-height: 24px; letter-spacing: -.025em; color: var(--text-hi); text-shadow: 0 1px 14px rgba(0,0,0,.55); opacity: 0; }
+#bl span { display: block; }
+#br { position: absolute; right: 80px; bottom: 116px; text-align: right; text-shadow: 0 1px 14px rgba(0,0,0,.55); opacity: 0; }
+#br .a { font-size: 14px; line-height: 20px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--cream); }
+/* a soft pool of shade under the side copy, so it stays readable where it crosses the bowls */
+#bl, #br { isolation: isolate; }
+#bl::before, #br::before { content: ""; position: absolute; z-index: -1; inset: -56px -96px -48px -96px; background: radial-gradient(closest-side, rgba(8,10,6,.6), rgba(8,10,6,0)); pointer-events: none; }
+.hero-ctas { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; text-shadow: none; }
+.btn.sm { height: 40px; padding: 0 20px; font-size: 13px; }
+.hero-ctas .btn.ghost { background: rgba(46,56,39,.35); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.cue { margin-top: 12px; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-size: 12px; line-height: 16px; letter-spacing: .05em; text-transform: uppercase; color: var(--text-md); }
 .cue:hover { color: #fff; }
 .cue .cb { position: relative; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; }
 .cue .cb::after { content: ""; position: absolute; inset: -1px; border-radius: 50%; border: 1px solid var(--line); animation: ring 2.6s ease-out infinite; }
@@ -38,43 +32,21 @@ body.skipping .anim { transition: opacity .45s ease, transform .45s ease !import
 @keyframes ring { 0% { transform: scale(1); opacity: .75; } 70%, 100% { transform: scale(1.75); opacity: 0; } }
 @keyframes bob { 0%, 100% { transform: translateY(-1.5px); } 50% { transform: translateY(2px); } }
 
-/* conversion layer */
-
-.cta { left: 0; width: 1440px; top: 736px; display: flex; justify-content: center; gap: 12px; pointer-events: none; }
-
-/* trust signals: one centred line under the buttons (location, rating only when real, Instagram, live open chip) */
-.trust { left: 0; width: 1440px; top: 806px; display: flex; justify-content: center; align-items: center; gap: 12px 28px; font-size: 13px; line-height: 20px; letter-spacing: .04em; color: var(--text-hi); }
-.trust .stamp { font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
-.trust a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text-hi); transition: color .2s ease; }
-.trust a { position: relative; }
-.trust a::after { content: ""; position: absolute; inset: min(-12px, calc(10px - 22px / var(--s))) -10px; }   /* 44 css px tall tap area at any stage scale, no layout change */
-.trust a:hover { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
-.trust .stars { letter-spacing: .1em; color: var(--cream); }
-.trust b { color: var(--cream); font-weight: 700; }
-
-/* portrait composition (phones): COZ above the cup, CAF below */
-#bstack { display: contents; }
-#stage.tall .big { --cap: var(--F); left: 0; right: auto; width: 100%; justify-content: center; gap: calc(var(--cap) * var(--g) * var(--trk, 1)); }
-#stage.tall .coz { top: var(--cozTop); }
-#stage.tall .caf { top: var(--cafTop); }
-#stage.tall .badge { left: var(--badgeX); top: var(--badgeY); width: var(--bsz); height: var(--bsz); }
-#stage.tall .badge .star { font-size: 28px; }
-#stage.tall .badge text { font-size: 11px !important; letter-spacing: .15em !important; font-weight: 600 !important; }   /* the inline desktop size would render at ~5 px on a phone */
-#stage.tall .bl, #stage.tall .br, #stage.tall .cta, #stage.tall .trust { display: none; }   /* phones: the lettering, cup and one quiet tagline line under CAF */
-#stage.tall #bstack { display: flex; flex-direction: column; align-items: center; position: absolute; left: 16px; width: calc(var(--W) * 1px - 32px); bottom: calc(58px + var(--safeB) * 1px); }
-#stage.tall .kicker { position: relative; left: auto; top: auto; width: 100%; font-size: 11.5px; line-height: 16px; letter-spacing: .26em; color: var(--text-hi); }
-
-/* ticker: full-width chrome pinned to the bottom of the hero */
-#marq { position: absolute; left: 0; right: 0; bottom: 0; height: calc((46px + var(--safeB) * 1px) * var(--s)); padding-bottom: calc(var(--safeB) * 1px * var(--s)); background: var(--cream); color: var(--deep-moss); overflow: hidden; display: flex; align-items: center; font-size: calc(14px * var(--s)); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; visibility: hidden; }
+/* ticker: full-width cream chrome pinned to the bottom of the hero */
+#marq { position: absolute; left: 0; right: 0; bottom: 0; height: calc(46px + env(safe-area-inset-bottom, 0px)); padding-bottom: env(safe-area-inset-bottom, 0px); background: var(--cream); color: var(--deep-moss); overflow: hidden; display: flex; align-items: center; font-size: 14px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; opacity: 0; }
 .mq-open { display: none; }                                                   /* phones only: the opening hours lead the ticker */
-body.is-tall .mq-open { display: inline; }
-.track { display: flex; gap: calc(32px * var(--s)); width: max-content; animation: tick 25s linear infinite; }
+.track { display: flex; gap: 32px; width: max-content; animation: tick 25s linear infinite; }
 
-/* ============ canvas, grain ============ */
-#fx, #ghost { position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
-#ghost { opacity: 0; transition: opacity .45s ease; }
-#ghost.on { opacity: 1; transition: none; }
-#grain { position: fixed; inset: 0; z-index: 3; pointer-events: none; opacity: 0; background-repeat: repeat; background-size: 160px 160px; }
+/* phones, and anything taller than 4:5: the lettering is a little narrower, the tagline sits under it, and the side copy steps aside */
+@media (max-width: 767px), (max-aspect-ratio: 4/5) {
+  #hero { --hw: min(88vw, 520px); --hy: 78px; }
+  #kicker { font-size: 11.5px; letter-spacing: .26em; }
+  #bl, #br, #chip { display: none; }
+  .mq-open { display: inline; }
+}
+
+/* if the canvas could not start, the page still reads: finished text on a dark ground */
+.hero-static #kicker .w, .hero-static #badge, .hero-static #bl, .hero-static #br, .hero-static #chip, .hero-static #marq, .hero-static #nav, .hero-static #hr, .hero-static #wm .wl { opacity: 1 !important; }
 
 @media (prefers-reduced-motion: reduce) {
   .track, .cue .cb::after, .cue svg { animation: none; }

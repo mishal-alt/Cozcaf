@@ -1,7 +1,7 @@
 /* signatures */
 .signatures { background: var(--moss); }
 .signatures .wrap { padding-block: clamp(88px, 10vw, 152px) clamp(88px, 11vw, 160px); display: grid; gap: clamp(48px, 6vw, 80px); }
-.sig-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 32px; }
+.sig-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 424px); align-items: end; gap: 32px clamp(40px, 6vw, 96px); }
 .sig-head .eyebrow { color: var(--sage); margin-bottom: 24px; }
 /* The approved design was built in quirks mode, where a line that holds only this inline eyebrow ignores the text strut.
    A block-level box gives the same 24px gap under it in standards mode (the page needs a doctype). */
@@ -25,6 +25,7 @@
 .sig-card p { color: var(--soft); }
 
 @media (max-width: 900px) {
+  .sig-head { grid-template-columns: minmax(0, 1fr); }
   .sig-cards { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); gap: 16px; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scrollbar-width: none; }
   .sig-cards::-webkit-scrollbar { display: none; }
   .sig-card { flex: 0 0 min(78vw, 320px); scroll-snap-align: start; }

@@ -4,6 +4,14 @@ import Picture from './Picture.astro';
 import Clip from './Clip.astro';
 import { craft } from '../data/copy';
 import { headingHtml } from '../lib/split';
+import { site } from '../data/site';
+import { fmt12 } from '../lib/hours';
+
+const stats = [
+  [site.since.replace(/\D/g, ''), craft.stats.since],
+  [fmt12(site.hours.close), craft.stats.close],
+  ['7', craft.stats.days],
+] as const;
 ---
 <section class="craft on-light" id="story" aria-labelledby="craftH">
   <div class="wrap">
@@ -18,7 +26,8 @@ import { headingHtml } from '../lib/split';
       <p class="b-l rv" style="--d:.2s">{craft.lead}</p>
       <p class="b-m rv" style="--d:.3s">{craft.body}</p>
       <ul class="ticks">{craft.ticks.map((t, i) => <li class="rv" style={`--d:${['.35s', '.45s', '.55s'][i]}`}>{t}</li>)}</ul>
-      <a class="link rv" style="--d:.6s" href="#menu">{craft.link} <svg viewBox="0 0 28 12" aria-hidden="true"><use href="#arrow"/></svg></a>
+      <dl class="stats rv" style="--d:.6s">{stats.map(([v, l]) => <div><dt>{l}</dt><dd>{v}</dd></div>)}</dl>
+      <a class="link rv" style="--d:.7s" href="#menu">{craft.link} <svg viewBox="0 0 28 12" aria-hidden="true"><use href="#arrow"/></svg></a>
     </div>
   </div>
 </section>

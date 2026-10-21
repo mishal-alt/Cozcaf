@@ -8,7 +8,7 @@
 .visit-head em { color: var(--muted); }
 .chip.chip-light { border-color: rgba(46,56,39,.4); color: var(--deep-moss); font-size: 14px; padding: 6px 16px; }
 .chip-light .dot { background: #2E7D32; }
-.chip-light[data-open="false"] > .dot { background: #9A5B12; animation: none; }
+.chip-light[data-open="false"] > .dot, .chip-light[data-soon="true"] > .dot { background: #9A5B12; animation: none; }
 
 .visit-media { grid-area: media; position: relative; align-self: stretch; min-height: 0; overflow: hidden; border-radius: var(--r-card); background: var(--deep-moss); }
 .visit-media picture, .visit-media img { position: absolute; inset: 0; width: 100%; height: 100%; }

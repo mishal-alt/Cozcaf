@@ -24,6 +24,13 @@
 .dish-ph .tag { position: absolute; left: 14px; bottom: 14px; }
 .tag { padding: 6px 12px; border-radius: 999px; background: var(--moss); color: var(--cream); font: 700 11px/1 var(--font-body); letter-spacing: .18em; text-transform: uppercase; }
 .dish-body { display: grid; gap: 8px; min-width: 0; }
+.dish-title { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+/* the Indian veg / non-veg symbols, beside the dish name */
+.diet { display: inline-flex; align-items: center; gap: 6px; flex: none; margin-top: .3em; }
+.dm { display: block; width: 15px; height: 15px; }
+.dm.veg { color: #2E7D32; }
+.dm.nonveg { color: #8A3B12; }
+.dm-spicy { font: 700 10.5px/1 var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: #8A3B12; }
 .dish-body p { color: var(--muted); font-size: 15px; line-height: 1.6; }
 .menu-foot { display: grid; justify-items: center; gap: 24px; text-align: center; }
 .menu-note { font: 600 13px/1.5 var(--font-body); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
@@ -45,6 +52,8 @@
   .dish-ph .tag { left: 8px; bottom: 8px; font-size: 10.5px; letter-spacing: .1em; padding: 5px 9px; }
   .dish:hover .dish-ph { transform: none; box-shadow: none; }
   .dish-body p { font-size: 14px; line-height: 1.55; }
+  .menu-foot, .menu-actions { width: 100%; }
+  .menu-actions .btn { flex: 1 1 100%; }
 }
 
 @media (max-width: 520px) {

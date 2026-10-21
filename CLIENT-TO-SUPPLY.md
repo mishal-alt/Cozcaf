@@ -30,3 +30,12 @@ All of them are filled in `src/data/site.ts` unless noted.
 
 The photos in `public/img` are the prototype's. Please supply real, licensed photos of the cafe (bar, food, drinks, exterior, gift boxes), ideally 2000 px on the long side. They are resized and converted to AVIF / WebP / JPEG; keep the same names to replace one.
 The social share image `public/og.jpg` (1200 x 630) should be reviewed too.
+
+## To make it feel more premium (please ask the client)
+
+- **Veg / non-veg marks:** the menu shows them only where the PDF is clear (chicken dishes, "Veg or Non-Veg" dishes). Please confirm the coffees, faloodas, fruit salad and Classic Spaghetti so every dish can carry its mark (`diet` in `src/data/menu.ts`).
+- **Prices** (or at least "from ₹…") for the menu, if the client wants them shown.
+- **Google rating + 2–3 short real reviews** for a reviews strip (never invented).
+- **A high-resolution evening photo of the cafe under the fairy lights** (2000 px+) for the Visit section, which says "Evenings under the fairy lights".
+- **A real photoshoot of the three signatures** (Rose Latte, Piccolo, Alfredo) to match the rest of the real photos.
+- **A photo of the take-home beans / gift boxes** (mentioned in Our Craft) so they can get their own card.

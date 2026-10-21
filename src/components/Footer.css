@@ -18,6 +18,7 @@
 .foot-cols a:hover { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
 .foot-cols address { font-style: normal; font-size: 15px; line-height: 1.7; color: rgba(244,239,230,.9); }
 .foot-cols p { margin: 8px 0 0; font-size: 15px; line-height: 1.7; color: rgba(244,239,230,.9); }
+.foot-chip { margin-top: 4px; font-size: 13px; border-color: rgba(244,239,230,.35); }
 .bigmark { position: absolute; z-index: 0; left: 50%; top: 58%; width: min(74%, 1040px); height: auto; aspect-ratio: 354 / 63; transform: translate(-50%, -50%); color: var(--moss); fill: currentColor; opacity: .38; pointer-events: none; }
 .foot-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 24px; font-size: 14px; font-weight: 500; color: rgba(244,239,230,.78); }
 .to-top { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 600; color: var(--cream); transition: color var(--t); }

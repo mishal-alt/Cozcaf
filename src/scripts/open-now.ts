@@ -13,6 +13,7 @@ export function initOpenNow(): void {
       const text = chip.querySelector('[data-open-text]');
       if (text && text.textContent !== st.text) text.textContent = st.text;
       chip.dataset.open = st.open ? 'true' : 'false';
+      chip.dataset.soon = st.soon ? 'true' : 'false';
     }
   };
   update();

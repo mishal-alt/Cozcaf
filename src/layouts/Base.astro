@@ -13,7 +13,6 @@ import { site } from '../data/site';
 import { has } from '../lib/links';
 import { fmt12 } from '../lib/hours';
 import { noscript } from '../data/copy';
-import { CONFIG } from '../hero/config';
 
 import barlow800 from '../assets/fonts/barlow-condensed-800-latin.woff2?url';
 import barlow700 from '../assets/fonts/barlow-condensed-700-latin.woff2?url';
@@ -22,13 +21,11 @@ import jakarta500 from '../assets/fonts/plus-jakarta-sans-500-latin.woff2?url';
 import jakarta600 from '../assets/fonts/plus-jakarta-sans-600-latin.woff2?url';
 import jakarta700 from '../assets/fonts/plus-jakarta-sans-700-latin.woff2?url';
 
-import cup from '../assets/hero/cup.webp?url';
-import body from '../assets/hero/body.webp?url';
-import lid from '../assets/hero/lid.webp?url';
-import bean from '../assets/hero/bean.webp?url';
-import ink from '../assets/hero/ink.png?url';
-import halo from '../assets/hero/halo.png?url';
-import sdf from '../assets/hero/sdf.png?url';
+import plate from '../assets/hero/plate.webp?url';
+import chicken from '../assets/hero/chicken.webp?url';
+import pasta from '../assets/hero/pasta.webp?url';
+import fries from '../assets/hero/fries.webp?url';
+import coffee from '../assets/hero/coffee.webp?url';
 
 const abs = (path: string): string => new URL(path, site.url + '/').href;
 const canonical = abs('/');
@@ -78,13 +75,11 @@ if (has.rating) jsonLd.aggregateRating = { '@type': 'AggregateRating', ratingVal
     <link rel="preload" as="font" type="font/woff2" href={jakarta500} crossorigin />
     <link rel="preload" as="font" type="font/woff2" href={jakarta600} crossorigin />
     <link rel="preload" as="font" type="font/woff2" href={jakarta700} crossorigin />
-    <link rel="preload" as="image" href={cup} type="image/webp" />
-    <link rel="preload" as="image" href={body} type="image/webp" />
-    <link rel="preload" as="image" href={lid} type="image/webp" />
-    <link rel="preload" as="image" href={bean} type="image/webp" />
-    <link rel="preload" as="image" href={ink} />
-    <link rel="preload" as="image" href={halo} />
-    <link rel="preload" as="image" href={sdf} />
+    <link rel="preload" as="image" href={plate} type="image/webp" />
+    <link rel="preload" as="image" href={chicken} type="image/webp" />
+    <link rel="preload" as="image" href={coffee} type="image/webp" />
+    <link rel="preload" as="image" href={pasta} type="image/webp" />
+    <link rel="preload" as="image" href={fries} type="image/webp" />
     <meta name="description" content={site.description} />
     <meta name="theme-color" content={site.themeColor} />
     <link rel="canonical" href={canonical} />
@@ -112,12 +107,12 @@ if (has.rating) jsonLd.aggregateRating = { '@type': 'AggregateRating', ratingVal
       (function(){try{var r=document.documentElement;if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver' in window)r.classList.add('js-rv');r.classList.add('js');if('scrollRestoration' in history)history.scrollRestoration='manual';scrollTo(0,0);}catch(e){}})();
     </script>
   </head>
-  <body class={CONFIG.production ? 'prod' : undefined}>
+  <body>
     <a class="skip-link" href="#content">Skip to content</a>
 
     <noscript>
       <style>
-        #loader, #hero, #hdr, #hdrBg, #ui, #fx, #ghost, #grain { display: none !important; }
+        #loader, #hero, #hdr { display: none !important; }
         #spacer { height: 0 !important; }
         #menu { display: none !important; }
         .nojs { display: block !important; background: #3B4833; color: #F4EFE6; padding: 56px 24px; text-align: center; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }

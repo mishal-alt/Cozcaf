@@ -27,7 +27,9 @@ const slug = (n: string) => n.toLowerCase().replace(/[^a-z0-9]+/g, '-');
           {c.items.map((it, i) => (
             <article class="dish" style={`--i:${i}`}>
               <div class="dish-ph"><svg class="dish-logo" viewBox="127 310 354 63" aria-hidden="true"><use href="#p-icon"/><use href="#p-word"/></svg><picture class="dish-img"><source type="image/avif" srcset={`/menu/${slug(it.name)}-1024.avif 1024w, /menu/${slug(it.name)}-2048.avif 2048w`} sizes="(max-width: 680px) 112px, (max-width: 1100px) 45vw, 22vw" /><source type="image/webp" srcset={`/menu/${slug(it.name)}-1024.webp 1024w, /menu/${slug(it.name)}-2048.webp 2048w`} sizes="(max-width: 680px) 112px, (max-width: 1100px) 45vw, 22vw" /><img src={`/menu/${slug(it.name)}-1024.webp`} alt={it.name} loading="lazy" decoding="async" /></picture>{it.tag && <span class="tag">{it.tag}</span>}</div>
-              <div class="dish-body"><h3 class="h-s">{it.name}</h3><p>{it.desc}</p></div>
+              <div class="dish-body"><div class="dish-title"><h3 class="h-s">{it.name}</h3>{it.diet.length > 0 && <span class="diet">{it.diet.map((d) => d === 'Spicy'
+                ? <span class="dm-spicy">{menuIntro.diet.Spicy}</span>
+                : <svg class={`dm ${d === 'Veg' ? 'veg' : 'nonveg'}`} viewBox="0 0 16 16" role="img" aria-label={menuIntro.diet[d]}><title>{menuIntro.diet[d]}</title><rect x=".75" y=".75" width="14.5" height="14.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>{d === 'Veg' ? <circle cx="8" cy="8" r="3.8" fill="currentColor"/> : <path d="M8 3.6l4.4 7.8H3.6z" fill="currentColor"/>}</svg>)}</span>}</div><p>{it.desc}</p></div>
             </article>
           ))}
         </div>
@@ -36,8 +38,11 @@ const slug = (n: string) => n.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     <div class="menu-foot rv">
       <p class="menu-note">{menuIntro.note}</p>
       <div class="menu-actions">
-        {has.wa && <a class="btn primary" href={waHref('order')} target="_blank" rel="noopener">{menuIntro.whatsapp}</a>}
+        {has.wa
+          ? <a class="btn primary" href={waHref('order')} target="_blank" rel="noopener">{menuIntro.whatsapp}</a>
+          : has.maps && <a class="btn primary" href={site.mapsUrl} target="_blank" rel="noopener">{menuIntro.directions}</a>}
         {has.pdf && <a class="btn ghost" href={site.menuPdfUrl} target="_blank" rel="noopener">{menuIntro.pdf}</a>}
+        {!has.wa && !has.pdf && has.ig && <a class="btn ghost" href={site.instagramUrl} target="_blank" rel="noopener">{menuIntro.instagram}</a>}
       </div>
     </div>
   </div>

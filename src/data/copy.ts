@@ -43,6 +43,8 @@ export const craft = {
   lead: 'Our story begins with the bean. We choose characterful coffees with care and pack them in our signature boxes. They are the same beans you taste in every cup we pour.',
   body: 'Behind the bar, every shot is dialled in by hand, milk is steamed to a silky microfoam, and each cup is finished with art worth pausing for.',
   ticks: ['Carefully chosen beans', 'Hand-poured latte art', 'Take-home beans & gift boxes'],
+  /** labels for the fact strip; the values come from src/data/site.ts */
+  stats: { since: 'Brewing since', close: 'Open daily till', days: 'Days a week' },
   link: 'See the menu',
   caption: 'The bar · hand-crafted daily',
   reel: { name: 'craft-reel', label: 'Behind the COZCAF bar: milk being steamed, a barista at work and an iced coffee being poured' },
@@ -88,6 +90,10 @@ export const menuIntro = {
   note: 'Our full menu is best discovered in person.',
   whatsapp: 'Order on WhatsApp',
   pdf: 'Download full menu (PDF)',
+  /** shown while there is no WhatsApp number, so the section never ends on a dead end */
+  directions: 'Get directions',
+  instagram: 'More on Instagram',
+  diet: { Veg: 'Vegetarian', NonVeg: 'Non-vegetarian', Spicy: 'Spicy' },
 } as const;
 
 export const philosophy = {
@@ -118,10 +124,15 @@ export const gallery = {
   eyebrow: 'Moments',
   heading: ['Follow the ', { em: 'ritual' }],
   aside: 'Plates to share, cups to go and long evenings with friends. Tag us to be featured.',
+  /** in reading order; on wide screens the first tile spans two columns and the second two rows */
   tiles: [
-    { photo: { name: 'g-blackcup', alt: 'A latte in a black COZCAF cup and saucer on a glossy counter' }, delay: '' },
-    { photo: { name: 'g-takeaway', alt: 'A gloved hand holding a COZCAF takeaway cup in front of the espresso machine' }, delay: '.1s' },
-    { photo: { name: 'g-balance', alt: 'A leaf latte art cup next to the COZCAF sign: balance a coin on the lemon for a free coffee' }, delay: '.2s' },
+    { name: 'night', alt: 'The COZCAF storefront at dusk, its sign lit up under strings of fairy lights' },
+    { name: 'bar', alt: 'The COZCAF bar with the illuminated logo, wooden shelves of coffee and an espresso machine' },
+    { name: 'g-blackcup', alt: 'A latte in a black COZCAF cup and saucer on a glossy counter' },
+    { name: 'g-takeaway', alt: 'A gloved hand holding a COZCAF takeaway cup in front of the espresso machine' },
+    { name: 'caramel', alt: 'Two hands holding a blue cup of coffee finished with a caramel spider-web pattern' },
+    { name: 'cake', alt: 'A latte in a black COZCAF cup beside a slice of layered cake, with the cake counter behind' },
+    { name: 'g-balance', alt: 'A leaf latte art cup next to the COZCAF sign: balance a coin on the lemon for a free coffee' },
   ],
 } as const;
 
@@ -134,9 +145,11 @@ export const footer = {
   exploreHeading: 'Explore',
   visitHeading: 'Visit',
   explore: [
+    { href: '#story', label: 'Our story' },
+    { href: '#signatures', label: 'Signatures' },
     { href: '#menu', label: 'Menu' },
-    { href: '#gallery', label: 'Gallery' },
     { href: '#visit', label: 'Visit' },
+    { href: '#gallery', label: 'Gallery' },
   ],
   copyright: 'COZCAF · Made with care in Kodappali',
   toTop: 'Back to top',

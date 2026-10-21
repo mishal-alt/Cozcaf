@@ -3,7 +3,6 @@ import Base from '../layouts/Base.astro';
 import Loader from '../components/Loader.astro';
 import Icons from '../components/Icons.astro';
 import Header from '../components/Header.astro';
-import IntroControls from '../components/IntroControls.astro';
 import Hero from '../components/Hero.astro';
 import Ticker from '../components/Ticker.astro';
 import Craft from '../components/Craft.astro';
@@ -14,13 +13,11 @@ import Visit from '../components/Visit.astro';
 import Gallery from '../components/Gallery.astro';
 import Footer from '../components/Footer.astro';
 import Lightbox from '../components/Lightbox.astro';
-import Overlays from '../components/Overlays.astro';
 ---
 <Base>
   <Loader />
   <Icons />
   <Header />
-  <IntroControls />
   <Hero />
   <div id="page">
     <div id="spacer"></div>
@@ -38,7 +35,6 @@ import Overlays from '../components/Overlays.astro';
     </div>
   </div>
   <Lightbox />
-  <Overlays />
   <script>
     import '../scripts/main';
   </script>

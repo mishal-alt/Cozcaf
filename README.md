@@ -24,7 +24,7 @@ Everything editable is typed data, no HTML to touch:
 | `src/data/site.ts` | phone, WhatsApp, Instagram, address, hours, Maps link, PDF menu, rating, domain, SEO text |
 | `src/data/menu.ts` | the four menu categories and their dishes |
 | `src/data/copy.ts` | every other line of page copy and the photo alt texts |
-| `src/hero/config.ts` | the hero's one typed timing / physics / quality / layout object |
+| `src/hero/scene.ts` | the opening scene: where each dish sits, its timing, the light and the steam |
 
 If a value is empty (WhatsApp, phone, PDF, email, parking, rating, map embed), the element that depends on it is **not rendered at all**.
 Fill it in, rebuild, and it appears everywhere it is used, including the structured data.
@@ -52,7 +52,6 @@ reference/      the approved prototype, unzipped (used only by the comparison ha
 ## Verifying against the prototype
 
 ```sh
-npm run compare    # builds the test variant, then diffs hero frames, every scroll position and the interactions
 npm run smoke      # no horizontal scroll 360-1920, no console errors, alt text, one h1, 44px touch targets
 npm run build && npm run lighthouse -- --runs=3
 ```

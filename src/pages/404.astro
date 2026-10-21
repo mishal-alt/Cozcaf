@@ -1,0 +1,45 @@
+---
+import '../styles/fonts.css';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/type.css';
+import '../styles/buttons.css';
+import { ICON_PATH, WORD_PATH } from '../components/logo-paths';
+import { site } from '../data/site';
+import { has } from '../lib/links';
+---
+<!doctype html>
+<html lang={site.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <title>Page not found | {site.name}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content={site.themeColor} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  </head>
+  <body>
+    <main class="nf">
+      <svg class="nf-mark" viewBox="127 310 354 63" role="img" aria-label={site.name}><path fill-rule="evenodd" d={ICON_PATH} /><path fill-rule="evenodd" d={WORD_PATH} /></svg>
+      <p class="nf-code">404</p>
+      <h1 class="d-m">This cup is <em>empty</em></h1>
+      <p class="nf-lead">The page you were looking for isn't on the menu. The coffee, the food and the fairy lights are all still here.</p>
+      <div class="nf-btns">
+        <a class="btn primary" href="/">Back to the cafe</a>
+        {has.maps && <a class="btn ghost" href={site.mapsUrl} target="_blank" rel="noopener">Get directions</a>}
+      </div>
+    </main>
+  </body>
+</html>
+
+<style>
+  .nf { min-height: 100svh; display: grid; place-content: center; justify-items: center; gap: 24px; padding: 48px 24px; text-align: center; background: radial-gradient(ellipse 70% 60% at 50% 40%, var(--moss) 0%, var(--deep-moss) 100%); }
+  .nf-mark { width: min(220px, 56vw); height: auto; fill: var(--letter); margin-bottom: 16px; }
+  .nf-code { margin: 0; font: 600 13px/1 var(--font-body); letter-spacing: .3em; color: #BFC9A6; }
+  .nf h1 { margin: 0; font-size: clamp(44px, 9vw, 88px); line-height: .95; }
+  .nf em { font-style: normal; color: #BFC9A6; }
+  .nf-lead { margin: 0; max-width: 440px; font-size: 16px; line-height: 1.6; color: var(--text-md); }
+  .nf-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 8px; }
+</style>

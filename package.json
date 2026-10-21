@@ -9,11 +9,9 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "build:test": "PUBLIC_HERO_TEST=1 astro build --outDir dist-test",
     "preview": "astro preview",
     "check": "astro check",
     "lighthouse": "node tools/lighthouse.mjs",
-    "compare": "npm run build:test && node tools/compare/hero.mjs && node tools/compare/page.mjs && node tools/compare/interactions.mjs",
     "smoke": "node tools/compare/smoke.mjs",
     "images": "node tools/gen-images.mjs"
   },

@@ -21,8 +21,8 @@ initClips();
 const year = document.getElementById('yr');
 if (year) year.textContent = String(new Date().getFullYear());
 
-/* The hero engine is a separate chunk. It starts after the first frame has painted (the loader is plain HTML/CSS),
-   and does its heavy set-up in small slices behind the loader, so the page stays responsive. */
+/* The opening page is a separate chunk. It starts after the first frame has painted (the loader is plain HTML/CSS),
+   loads the dishes behind the loader, and then plays. */
 const startHero = (): void => {
   import('../hero')
     .then((m) => m.bootHero())

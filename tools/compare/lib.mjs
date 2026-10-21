@@ -1,10 +1,9 @@
-// Shared helpers for the comparison harness: tiny static servers, a browser, and exact PNG diffing.
+// Shared helpers for the checks in this folder: a tiny static server (optionally brotli, like the host), a browser, and a fresh page.
 import { createServer } from 'node:http';
 import { brotliCompressSync, constants } from 'node:zlib';
 import { readFile, stat } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 import { chromium } from 'playwright-core';
-import { PNG } from 'pngjs';
 
 export const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.avif': 'image/avif', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.json': 'application/json', '.xml': 'application/xml', '.txt': 'text/plain' };
@@ -57,38 +56,3 @@ export async function open(browser, url, { width, height, dpr = 1, reducedMotion
   await page.goto(url, { waitUntil: 'load' });
   return { ctx, page, errors };
 }
-
-/** wait until the hero has booted and handed off from the loader */
-export async function waitReady(page) {
-  await page.waitForFunction(() => !document.getElementById('loader') && typeof window.__seek === 'function', null, { timeout: 30000 });
-}
-
-/** stop every CSS animation / transition so only the deterministic hero frame is compared */
-export const freezeCss = (page) => page.addStyleTag({ content: '*,*::before,*::after{animation:none!important;transition:none!important;caret-color:transparent!important}' });
-
-/** exact comparison of two PNG buffers: count of differing pixels, max channel delta, and a diff image */
-export function diffPng(a, b) {
-  const A = PNG.sync.read(a), B = PNG.sync.read(b);
-  if (A.width !== B.width || A.height !== B.height) return { size: `${A.width}x${A.height} vs ${B.width}x${B.height}`, diff: -1, max: 255, png: null };
-  const out = new PNG({ width: A.width, height: A.height });
-  let diff = 0, max = 0;
-  for (let i = 0; i < A.data.length; i += 4) {
-    const d = Math.max(Math.abs(A.data[i] - B.data[i]), Math.abs(A.data[i + 1] - B.data[i + 1]), Math.abs(A.data[i + 2] - B.data[i + 2]), Math.abs(A.data[i + 3] - B.data[i + 3]));
-    if (d > 0) { diff++; if (d > max) max = d; out.data[i] = 255; out.data[i + 1] = 0; out.data[i + 2] = 0; out.data[i + 3] = 255; }
-    else { out.data[i] = A.data[i] >> 2; out.data[i + 1] = A.data[i + 1] >> 2; out.data[i + 2] = A.data[i + 2] >> 2; out.data[i + 3] = 255; }
-  }
-  return { diff, max, png: PNG.sync.write(out), total: A.width * A.height };
-}
-
-/** The prototype keeps an empty <li>/<p> around every hidden link (WhatsApp, phone, email), which adds a stray gap while those are unset.
-    The build renders nothing for them, so drop the wrappers from the prototype before comparing. */
-export const dropGhostWrappers = (page) =>
-  page.evaluate(() => {
-    document.querySelectorAll('li, p').forEach((el) => {
-      const onlyHidden = [...el.childNodes].every((n) => (n.nodeType === 3 ? !n.textContent.trim() : n.hidden));
-      if (el.children.length && onlyHidden) el.remove();
-    });
-  });
-
-/** stop CSS animations only (marquee, pulses); transitions keep running so interaction behaviour is still real */
-export const freezeAnim = (page) => page.addStyleTag({ content: '*,*::before,*::after{animation:none!important}' });

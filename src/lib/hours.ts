@@ -24,18 +24,24 @@ export function nowMinutes(tz: string, now: Date = new Date()): number {
 
 export interface OpenState {
   open: boolean;
+  /** open, but closing within SOON_MIN minutes */
+  soon: boolean;
   text: string;
   range: string;
 }
+
+const SOON_MIN = 45;
 
 export function openState(h: OpeningHours, now: Date = new Date()): OpenState {
   const o = toMin(h.open);
   const c = toMin(h.close);
   const n = nowMinutes(h.tz, now);
   const open = o < c ? n >= o && n < c : n >= o || n < c;
+  const soon = open && (c - n + 1440) % 1440 <= SOON_MIN;
   return {
     open,
-    text: open ? 'Open now · until ' + fmt12(h.close) : 'Closed · opens ' + fmt12(h.open),
+    soon,
+    text: (soon ? 'Closing soon · until ' : open ? 'Open now · until ' : 'Closed · opens ') + fmt12(open ? h.close : h.open),
     range: fmt12(h.open) + ' – ' + fmt12(h.close),
   };
 }

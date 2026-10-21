@@ -65,7 +65,6 @@ export function initMobileNav(): void {
 
   addEventListener('pointerdown', (e) => {
     const target = e.target as Element;
-    if (target.closest('#ui')) return; // the intro controls never dismiss the sheet
     if (s.classList.contains('open') && !target.closest('#sheet, #burger')) closeSheet(false);
   });
 
@@ -74,7 +73,7 @@ export function initMobileNav(): void {
     if (s.classList.contains('open') && getComputedStyle(b).display === 'none') closeSheet(false);
   });
 
-  // Esc closes the sheet first; marking the event handled keeps the intro's Skip from also firing
+  // Esc closes the sheet
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && s.classList.contains('open')) {
       e.preventDefault();

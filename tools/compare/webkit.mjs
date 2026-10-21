@@ -14,8 +14,6 @@ for (const [name, opts] of [['desktop', { viewport: { width: 1440, height: 900 }
   await page.goto('http://127.0.0.1:4705/', { waitUntil: 'load' });
   await page.waitForFunction(() => !document.getElementById('loader'), null, { timeout: 30000 });
   await page.waitForTimeout(800);
-  const skipVisible = false;
-  await page.keyboard.press('Escape');
   await page.waitForTimeout(600);
   await page.screenshot({ path: new URL(`./out/${which.name()}-${name}.png`, import.meta.url).pathname });
   await page.evaluate(() => document.getElementById('menu').scrollIntoView());
@@ -28,7 +26,7 @@ for (const [name, opts] of [['desktop', { viewport: { width: 1440, height: 900 }
   await page.click('.g-tile[data-i="2"]');
   await page.waitForTimeout(600);
   const lb = await page.evaluate(() => ({ open: !document.getElementById('lb').hidden, count: document.getElementById('lb-count').textContent }));
-  console.log(`${which.name()} ${name}: skipVisible=${skipVisible} dessertsTab=${dishes.length} lightbox=${JSON.stringify(lb)} errors=${errors.length ? errors.join(' | ') : 'none'}`);
+  console.log(`${which.name()} ${name}: dessertsTab=${dishes.length} lightbox=${JSON.stringify(lb)} errors=${errors.length ? errors.join(' | ') : 'none'}`);
   await ctx.close();
 }
 await browser.close(); server.close();

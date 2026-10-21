@@ -1,9 +1,10 @@
 /**
  * The menu, a short teaser of the client's menu PDF (the four top-priced dishes per tab). Prices are intentionally not stored or shown (as in the
  * approved design); size / portion variants are collapsed into a single dish.
- * Dietary marks are only shown when added: diet: ['V'] (vegetarian), ['VG'] (vegan), ['Spicy'].
+ * Dietary marks are only shown when added: diet: ['Veg'] (the green veg symbol), ['NonVeg'] (the brown non-veg symbol), ['Spicy'].
+ * A dish served both ways gets both marks. Only dishes the client's PDF makes clear are marked; the rest wait for the client.
  */
-export type Diet = 'V' | 'VG' | 'Spicy';
+export type Diet = 'Veg' | 'NonVeg' | 'Spicy';
 
 export interface MenuItem {
   name: string;
@@ -45,20 +46,20 @@ export const menu = {
       id: 'snacks',
       label: 'Snacks & Sides',
       items: [
-        { name: 'Peri Peri Loaded Fries', tag: '', diet: [], desc: 'Spicy peri peri chicken over golden fries with a fiery kick.' },
-        { name: 'Cheesy Chicken Loaded Fries', tag: '', diet: [], desc: 'Crispy fries topped with succulent chicken, rich cheese and indulgent layers.' },
-        { name: 'Salad', tag: '', diet: [], desc: 'Fresh, crunchy and healthy. Veg or Non-Veg.' },
-        { name: 'Chicken Strips', tag: '', diet: [], desc: 'Premium chicken strips, crunchy outside, juicy inside.' },
+        { name: 'Peri Peri Loaded Fries', tag: '', diet: ['NonVeg', 'Spicy'], desc: 'Spicy peri peri chicken over golden fries with a fiery kick.' },
+        { name: 'Cheesy Chicken Loaded Fries', tag: '', diet: ['NonVeg'], desc: 'Crispy fries topped with succulent chicken, rich cheese and indulgent layers.' },
+        { name: 'Salad', tag: '', diet: ['Veg', 'NonVeg'], desc: 'Fresh, crunchy and healthy. Veg or Non-Veg.' },
+        { name: 'Chicken Strips', tag: '', diet: ['NonVeg'], desc: 'Premium chicken strips, crunchy outside, juicy inside.' },
       ],
     },
     {
       id: 'mains',
       label: 'Mains',
       items: [
-        { name: 'Fried Chicken', tag: '', diet: [], desc: 'Crispy, golden fried chicken served with kuboos, French fries, mayo and ketchup.' },
+        { name: 'Fried Chicken', tag: '', diet: ['NonVeg'], desc: 'Crispy, golden fried chicken served with kuboos, French fries, mayo and ketchup.' },
         { name: 'Classic Spaghetti', tag: '', diet: [], desc: 'Traditional spaghetti tossed in a timeless Italian-style sauce.' },
-        { name: 'Spicy Arrabbiata Pasta', tag: '', diet: [], desc: 'Classic arrabbiata sauce with rich spice. Veg or Non-Veg.' },
-        { name: 'Alfredo Pasta', tag: 'Signature', diet: [], desc: 'Rich, creamy white sauce with Italian herbs. Veg or Non-Veg.' },
+        { name: 'Spicy Arrabbiata Pasta', tag: '', diet: ['Veg', 'NonVeg', 'Spicy'], desc: 'Classic arrabbiata sauce with rich spice. Veg or Non-Veg.' },
+        { name: 'Alfredo Pasta', tag: 'Signature', diet: ['Veg', 'NonVeg'], desc: 'Rich, creamy white sauce with Italian herbs. Veg or Non-Veg.' },
       ],
     },
   ],

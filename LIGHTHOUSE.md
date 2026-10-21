@@ -14,6 +14,8 @@ Safari engine (WebKit) smoke test passes on desktop and phone.
 
 What mattered for the score: the loader, fonts and critical CSS are plain HTML; the hero engine is its own 37 KB chunk started after first paint and does its set-up in small slices behind the loader; the intro controls no longer shift; and the badge text no longer needs a first-paint layout of the whole stage.
 
+Opening page redesign (live canvas scene, about 310 KB of dish images): Desktop 99 to 100, Mobile 74 to 87 (LCP about 3.7 s, TBT 110 ms typical). The old cup scene scored Mobile 90 on the same machine; the remaining gap is the larger first load.
+
 Reproduce:
 
 ```sh
