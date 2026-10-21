@@ -165,7 +165,7 @@ export const CONFIG: HeroConfig = {
     end: 5.6,
   },
   shortDuration: 1.5,
-  returnVisit: 'short',
+  returnVisit: 'full',
   skipAppearsAt: 0.5,
   sessionKey: 'cozcaf.intro.seen',
   fontTimeout: 3000,
