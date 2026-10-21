@@ -45,7 +45,7 @@ export const craft = {
   ticks: ['Carefully chosen beans', 'Hand-poured latte art', 'Take-home beans & gift boxes'],
   link: 'See the menu',
   caption: 'The bar · hand-crafted daily',
-  big: { name: 'bar', alt: 'The COZCAF bar with the illuminated logo, wooden shelves of coffee and an espresso machine' },
+  reel: { name: 'craft-reel', label: 'Behind the COZCAF bar: milk being steamed, a barista at work and an iced coffee being poured' },
   small: { name: 'beans', alt: 'Freshly roasted coffee beans spilling from a wooden scoop onto a worn table' },
 } as const;
 
@@ -94,21 +94,24 @@ export const philosophy = {
   srHeading: 'Our philosophy',
   quote: '“Some moments are meant to be slow. We simply pour the coffee.”',
   eyebrow: 'The COZCAF Philosophy',
+  clips: [
+    { name: 'espresso-shot', label: 'An espresso shot pulling into a small glass beneath the machine' },
+    { name: 'iced-latte', label: 'A layered iced latte with ice cubes, ready to serve', zoom: 1.7, origin: '8% 100%' },
+  ],
 } as const;
 
 export const visit = {
   eyebrow: 'Visit Us',
   heading: ['Evenings under ', { em: 'the fairy lights' }],
-  photo: { name: 'night', alt: 'The COZCAF storefront at dusk, its sign lit up under strings of fairy lights' },
+  photo: { name: 'visit-evening', alt: 'A COZCAF latte with leaf latte art beside a white-chocolate cookie, lit by a single beam of evening light' },
   directions: 'Get directions',
   reserve: 'Reserve a table',
   bookWhatsapp: 'Book on WhatsApp',
   walkIns: 'Walk-ins welcome',
-  onInstagram: 'on Instagram',
   mapLabel: 'Open COZCAF on Google Maps',
   mapGo: 'Open in Google Maps',
   mapEmbedTitle: 'Map showing where COZCAF is in Kodappali, Parappanangadi',
-  headings: { find: 'Find us', hours: 'Opening hours', call: 'Call us', reservations: 'Reservations', follow: 'Follow' },
+  headings: { find: 'Find us', hours: 'Hours', reservations: 'Reservations' },
 } as const;
 
 export const gallery = {
@@ -116,9 +119,9 @@ export const gallery = {
   heading: ['Follow the ', { em: 'ritual' }],
   aside: 'Plates to share, cups to go and long evenings with friends. Tag us to be featured.',
   tiles: [
-    { photo: { name: 'g-latte', alt: 'A latte with tulip latte art in a black cup on a wooden table' }, delay: '' },
-    { photo: { name: 'g-exterior', alt: 'A hand holding a COZCAF takeaway cup in front of the olive-green café' }, delay: '.1s' },
-    { photo: { name: 'g-cup', alt: 'A COZCAF takeaway cup with a black lid, outdoors' }, delay: '.2s' },
+    { photo: { name: 'g-blackcup', alt: 'A latte in a black COZCAF cup and saucer on a glossy counter' }, delay: '' },
+    { photo: { name: 'g-takeaway', alt: 'A gloved hand holding a COZCAF takeaway cup in front of the espresso machine' }, delay: '.1s' },
+    { photo: { name: 'g-balance', alt: 'A leaf latte art cup next to the COZCAF sign: balance a coin on the lemon for a free coffee' }, delay: '.2s' },
   ],
 } as const;
 

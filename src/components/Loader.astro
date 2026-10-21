@@ -1,8 +1,4 @@
 ---
 import './Loader.css';
-import { site } from '../data/site';
 ---
-<div id="loader" role="status" aria-label={`Loading ${site.name}`}>
-  <svg class="lbean" viewBox="0 0 48 64" aria-hidden="true"><defs><radialGradient id="lg" cx=".35" cy=".28" r=".85"><stop offset="0" stop-color="#8a5a37"/><stop offset=".55" stop-color="#4f2c15"/><stop offset="1" stop-color="#24120a"/></radialGradient></defs><g transform="rotate(-18 24 32)"><ellipse cx="24" cy="32" rx="17" ry="27" fill="url(#lg)"/><path d="M24 6.5C16.5 20 31.5 30 24 40S28.5 53 24 58" fill="none" stroke="#1a0d05" stroke-width="2.6" stroke-linecap="round"/></g></svg>
-  <p class="lword" aria-hidden="true">{site.name}</p>
-</div>
+<div id="loader" aria-hidden="true"></div>

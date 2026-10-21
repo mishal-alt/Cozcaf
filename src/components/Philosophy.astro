@@ -1,13 +1,20 @@
 ---
 import './Philosophy.css';
+import Clip from './Clip.astro';
 import { philosophy } from '../data/copy';
 import { headingHtml } from '../lib/split';
+
+const [left, right] = philosophy.clips;
 ---
 <section class="philosophy on-dark" aria-labelledby="philH">
   <div class="wrap">
     <h2 class="sr" id="philH">{philosophy.srHeading}</h2>
-    <svg class="mark rv" viewBox="127 310 48 63" aria-hidden="true"><use href="#p-icon"/></svg>
-    <blockquote class="qwrap"><p class="quote split" style="--d:.1s" set:html={headingHtml([philosophy.quote])}></p></blockquote>
-    <span class="eyebrow both rv" style="--d:.5s">{philosophy.eyebrow}</span>
+    <div class="clip-card left rv-img" style="--d:.2s"><Clip {...left} /></div>
+    <div class="phil-center">
+      <svg class="mark rv" viewBox="127 310 48 63" aria-hidden="true"><use href="#p-icon"/></svg>
+      <blockquote class="qwrap"><p class="quote split" style="--d:.1s" set:html={headingHtml([philosophy.quote])}></p></blockquote>
+      <span class="eyebrow both rv" style="--d:.5s">{philosophy.eyebrow}</span>
+    </div>
+    <div class="clip-card right rv-img" style="--d:.4s"><Clip {...right} /></div>
   </div>
 </section>

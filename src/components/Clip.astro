@@ -1,0 +1,14 @@
+---
+interface Props {
+  /** file name in public/video, without extension: <name>.mp4 plus a <name>.webp poster */
+  name: string;
+  /** what the clip shows, read out by screen readers */
+  label: string;
+  /** crop in on part of the frame: scale factor and the point (CSS transform-origin) that stays put */
+  zoom?: number;
+  origin?: string;
+}
+
+const { name, label, zoom, origin = '50% 50%' } = Astro.props;
+---
+<video class="clip" muted loop playsinline preload="none" poster={`/video/${name}.webp`} data-clip style={zoom ? `transform:scale(${zoom});transform-origin:${origin}` : undefined} role="img" aria-label={label}><source src={`/video/${name}.mp4`} type="video/mp4"></video>

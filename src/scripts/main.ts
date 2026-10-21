@@ -1,3 +1,4 @@
+import { initClips } from './clips';
 import { initLightbox } from './lightbox';
 import { initMenuTabs } from './menu-tabs';
 import { initMobileNav } from './mobile-nav';
@@ -15,6 +16,7 @@ initNavActive();
 initMenuTabs();
 initScrollerFocus();
 initLightbox();
+initClips();
 
 const year = document.getElementById('yr');
 if (year) year.textContent = String(new Date().getFullYear());

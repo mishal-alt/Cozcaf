@@ -1,6 +1,19 @@
-/* quote */
+/* quote, with a short silent clip on either side */
 .philosophy { background: var(--deep-moss); text-align: center; }
-.philosophy .wrap { display: grid; justify-items: center; gap: 32px; padding-block: clamp(88px, 10vw, 144px); }
+.philosophy .wrap { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: clamp(24px, 4vw, 64px); padding-block: clamp(88px, 10vw, 144px); }
+.phil-center { display: grid; justify-items: center; gap: 32px; }
 .philosophy .mark { color: var(--cream); width: 32px; }
 .philosophy .eyebrow { color: var(--sage); }
 .philosophy .quote { max-width: 16ch; }
+.clip-card { width: clamp(150px, 17vw, 250px); aspect-ratio: 3 / 4; overflow: hidden; border-radius: var(--r-card); background: var(--moss); }
+.clip-card video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.clip-card.left { justify-self: start; transform: translateY(-28px); }
+.clip-card.right { justify-self: end; transform: translateY(40px); }
+
+@media (max-width: 900px) {
+  .philosophy .wrap { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "center center" "left right"; gap: 40px 16px; padding-block: 72px 80px; }
+  .phil-center { grid-area: center; }
+  .clip-card { width: 100%; max-width: 240px; aspect-ratio: 4 / 5; }
+  .clip-card.left { grid-area: left; justify-self: end; transform: none; }
+  .clip-card.right { grid-area: right; justify-self: start; transform: translateY(24px); }
+}

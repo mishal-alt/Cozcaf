@@ -4,44 +4,40 @@ import Picture from './Picture.astro';
 import { visit } from '../data/copy';
 import { site } from '../data/site';
 import { has, telHref, waHref } from '../lib/links';
+import { headingHtml } from '../lib/split';
 import { openState } from '../lib/hours';
 
 const state = openState(site.hours);
 const H = visit.headings;
 ---
 <section class="visit on-light" id="visit" aria-labelledby="visitH">
-  <div class="visit-bg rv-img zoom"><div class="px" data-px="0.1"><Picture name={visit.photo.name} alt={visit.photo.alt} sizes="100vw" /></div></div>
   <div class="wrap">
-    <div class="visit-stack">
-      <div class="visit-card rv" style="--d:.45s">
-        <span class="eyebrow">{visit.eyebrow}</span>
-        <h2 class="d-l" id="visitH" set:html={visit.heading.map((s) => (typeof s === 'string' ? s : `<em>${s.em}</em>`)).join('')}></h2>
-        <span class="chip chip-light" data-open-chip data-open="true" data-opens={site.hours.open} data-closes={site.hours.close} data-tz={site.hours.tz}><i class="dot" aria-hidden="true"></i><span data-open-text>Open daily &middot; {state.range}</span></span>
-        <div class="info">
-          <div><h3>{H.find}</h3><p><span>{site.landmark}</span><br><span>{site.locality}</span></p>{has.parking && <p class="parking"><span>{site.parking}</span></p>}</div>
-          <div><h3>{H.hours}</h3><p><span>{site.hours.label}</span><br><span>{state.range}</span></p></div>
-          {has.phone && <div><h3>{H.call}</h3><p><a class="tel" href={telHref}>{site.phone}</a></p></div>}
-          <div><h3>{H.reservations}</h3><p>{has.wa ? <a class="inline" href={waHref('reserve')} target="_blank" rel="noopener">{visit.bookWhatsapp}</a> : <span>{visit.walkIns}</span>}</p></div>
-          {has.ig && <div><h3>{H.follow}</h3><p><a class="inline" href={site.instagramUrl} target="_blank" rel="noopener"><span>{site.instagramHandle}</span> {visit.onInstagram}</a></p></div>}
-        </div>
-        <div class="ctas">
-          {has.maps && <a class="btn primary" href={site.mapsUrl} target="_blank" rel="noopener">{visit.directions}</a>}
-          {has.wa && <a class="btn ghost" href={waHref('reserve')} target="_blank" rel="noopener">{visit.reserve}</a>}
-        </div>
+    <div class="visit-head">
+      <span class="eyebrow rv">{visit.eyebrow}</span>
+      <h2 class="d-l split" id="visitH" style="--d:.1s" set:html={headingHtml(visit.heading)}></h2>
+      <span class="chip chip-light rv" style="--d:.25s" data-open-chip data-open="true" data-opens={site.hours.open} data-closes={site.hours.close} data-tz={site.hours.tz}><i class="dot" aria-hidden="true"></i><span data-open-text>Open daily &middot; {state.range}</span></span>
+    </div>
+    <div class="visit-media rv-img zoom">
+      {has.embed
+        ? <div class="map-embed"><iframe src={site.mapEmbedUrl} title={visit.mapEmbedTitle} loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+        : <Picture name={visit.photo.name} alt={visit.photo.alt} sizes="(max-width: 900px) 100vw, 600px" />}
+      {has.maps && (
+        <a class="visit-pin" href={site.mapsUrl} target="_blank" rel="noopener" aria-label={visit.mapLabel}>
+          <svg class="pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.5s-7-6.2-7-11.5a7 7 0 0 1 14 0c0 5.3-7 11.5-7 11.5z" fill="currentColor"/><circle cx="12" cy="10" r="2.6" fill="#2E3827"/></svg>
+          <span class="pin-text"><span class="pin-name">{site.name}</span><span class="pin-go">{visit.mapGo}</span></span>
+          <svg class="arrow" viewBox="0 0 28 12" aria-hidden="true"><use href="#arrow"/></svg>
+        </a>
+      )}
+    </div>
+    <div class="visit-facts rv" style="--d:.35s">
+      <div class="facts">
+        <div><h3>{H.find}</h3><p><span>{site.landmark}</span>, <span>{site.locality}</span>{has.parking && <><br><span>{site.parking}</span></>}</p></div>
+        <div><h3>{H.hours}</h3><p><span>{site.hours.label}</span>, <span>{state.range}</span></p></div>
+        <div><h3>{H.reservations}</h3><p>{has.phone && <><a class="tel" href={telHref}>{site.phone}</a><br></>}{has.wa ? <a class="inline" href={waHref('reserve')} target="_blank" rel="noopener">{visit.bookWhatsapp}</a> : <span>{visit.walkIns}</span>}</p></div>
       </div>
-      <div class="map-card rv" style="--d:.6s">
-        {has.embed && <div class="map-embed"><iframe src={site.mapEmbedUrl} title={visit.mapEmbedTitle} loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>}
-        {has.maps && (
-          <a class="map-link" href={site.mapsUrl} target="_blank" rel="noopener" aria-label={visit.mapLabel}>
-            <svg class="map-art" viewBox="0 0 560 240" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
-              <g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".2"><circle cx="410" cy="110" r="38"/><circle cx="410" cy="110" r="78"/><circle cx="410" cy="110" r="124"/><circle cx="410" cy="110" r="176"/><circle cx="410" cy="110" r="232"/><circle cx="410" cy="110" r="292"/></g>
-              <path d="M-10 214 C 90 200, 130 150, 220 150 S 340 120, 396 112" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="1 9" opacity=".7"/>
-              <g transform="translate(410 110)"><circle class="pulse" r="22" fill="currentColor" opacity=".16"/><path d="M0 -26 C -14 -26 -22 -16 -22 -6 C -22 10 0 28 0 28 C 0 28 22 10 22 -6 C 22 -16 14 -26 0 -26 Z" fill="currentColor"/><circle cy="-7" r="8" fill="#2E3827"/></g>
-            </svg>
-            <span class="map-label"><span class="map-name">{site.name}</span><span class="map-addr"><span>{site.landmark}</span>, <span>{site.locality}</span></span></span>
-            <span class="map-go">{visit.mapGo} <svg viewBox="0 0 28 12" aria-hidden="true"><use href="#arrow"/></svg></span>
-          </a>
-        )}
+      <div class="ctas">
+        {has.maps && <a class="btn primary" href={site.mapsUrl} target="_blank" rel="noopener">{visit.directions}</a>}
+        {has.wa && <a class="btn ghost" href={waHref('reserve')} target="_blank" rel="noopener">{visit.reserve}</a>}
       </div>
     </div>
   </div>

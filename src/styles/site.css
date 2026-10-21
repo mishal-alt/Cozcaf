@@ -33,5 +33,4 @@
 /* focus rings: always the opposite tone of the band they sit on */
 #site .on-light :focus-visible, #site.on-light :focus-visible { outline: 2px solid var(--moss); outline-offset: 4px; }
 #site .on-dark :focus-visible { outline: 2px solid var(--cream); outline-offset: 4px; }
-#site .visit-card :focus-visible { outline: 2px solid var(--moss); outline-offset: 4px; }
-#site .map-card :focus-visible { outline: 2px solid var(--cream); outline-offset: -6px; }
+#site .visit-pin:focus-visible { outline: 2px solid var(--cream); outline-offset: 3px; }

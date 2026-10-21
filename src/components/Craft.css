@@ -2,8 +2,8 @@
 .craft { background: var(--cream-2); }
 .craft .wrap { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(48px, 8vw, 112px); align-items: center; padding-block: clamp(88px, 10vw, 152px); }
 .collage { position: relative; padding-bottom: 120px; padding-right: 22%; }
-.collage .big { aspect-ratio: 460 / 620; overflow: hidden; border-radius: var(--r-card); }
-.collage .big img, .collage .small img { width: 100%; height: 100%; object-fit: cover; }
+.collage .big { aspect-ratio: 460 / 620; background: var(--deep-moss); overflow: hidden; border-radius: var(--r-card); }
+.collage .big img, .collage .big video, .collage .small img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .collage .small-wrap { position: absolute; right: 0; bottom: 0; width: 52%; will-change: transform; }
 .collage .small { aspect-ratio: 330 / 400; overflow: hidden; border: 8px solid var(--cream-2); border-radius: var(--r-card); }
 /* the caption sits under the big photo and stops 24px short of the small one, so the two never touch */
