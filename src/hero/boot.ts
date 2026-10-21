@@ -3,7 +3,7 @@
    ====================================================================== */
 import { loadImages } from './assets';
 import { $, resetView, ctx } from './canvas';
-import { startIntro, updateUi } from './clock';
+import { startIntro } from './clock';
 import { CONFIG, T } from './config';
 import { reduced, TEST } from './env';
 import { initInput, setProd } from './input';
@@ -80,7 +80,7 @@ export async function bootHero(): Promise<void> {
 /** handles for the frame-for-frame comparison against the approved prototype (PUBLIC_HERO_TEST=1 builds only) */
 function installTestHandles(): void {
   const seek = (t: number, dock?: number): void => {
-    clock.frozen = true; cancelAnimationFrame(clock.raf); clock.raf = 0; clock.tl = t; clock.phase = t >= T.end ? 'live' : 'intro'; clock.mode = 'full'; dyn.dockE = dock || 0; updateUi(); render(t);
+    clock.frozen = true; cancelAnimationFrame(clock.raf); clock.raf = 0; clock.tl = t; clock.phase = t >= T.end ? 'live' : 'intro'; clock.mode = 'full'; dyn.dockE = dock || 0; render(t);
   };
   Object.assign(window, {
     __seek: seek,

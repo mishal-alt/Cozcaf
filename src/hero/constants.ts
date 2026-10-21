@@ -43,4 +43,4 @@ export const BEAN = { NF: 32, cols: 8, fw: 160, fh: 208, len: 192 };
 
 /** the big lettering is the real logo lettering (vector), so its proportions are constants, in units of the capital height:
     letter widths, natural letter gaps, extra tracking used on phones */
-export const BIG = { wCOZ: [0.514, 0.543, 0.528], wCAF: [0.514, 0.648, 0.453], gCOZ: 0.468, gCAF: 0.401, trkTall: 1.5 };
+export const BIG = { wCOZ: [0.514, 0.543, 0.528], wCAF: [0.514, 0.648, 0.453], gCOZ: 0.468, gCAF: 0.401, trkTall: 1 };

@@ -27,7 +27,6 @@ interface Els {
   glow: Cached;
   hdrBg: Cached;
   ui: Cached;
-  skip: Cached;
   dock: Cached;
   words: Cached[];
 }
@@ -39,7 +38,7 @@ export function bindEls(): void {
   Object.assign(el, {
     logo: c('logoLink'), nav: c('nav'), hr: c('hr'), kicker: c('kicker'), coz: c('coz'), caf: c('caf'), badge: c('badge'), bsvg: c('bsvg'),
     bl: [c('bl1'), c('bl2'), c('bl3')], br: c('br'), trust: c('trust'), btnM: c('ctaMenu'), btnV: c('ctaVisit'),
-    marq: c('marq'), glow: c('glow'), hdrBg: c('hdrBg'), ui: c('ui'), skip: c('skip'), dock: c('dock'), words: [],
+    marq: c('marq'), glow: c('glow'), hdrBg: c('hdrBg'), ui: c('ui'), dock: c('dock'), words: [],
   });
 }
 

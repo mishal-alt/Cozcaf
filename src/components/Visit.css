@@ -43,12 +43,12 @@
 
 @media (max-width: 520px) {
   .facts > div { grid-template-columns: 100px minmax(0, 1fr); gap: 10px; padding-block: clamp(8px, 1.6vh, 12px); }
-  .facts h3 { font-size: 11px; letter-spacing: .12em; }
+  .facts h3 { font-size: 12px; letter-spacing: .1em; }
   .facts p { font-size: 15px; line-height: 1.5; }
   .visit-facts .ctas { width: 100%; }
   .visit-facts .ctas .btn { flex: 1 1 100%; }
   .visit-media img { object-position: 50% 40%; }
-  .visit-pin { left: auto; right: 12px; bottom: 12px; gap: 10px; padding: 10px 14px; }
+  .visit-pin { left: auto; right: 12px; bottom: 12px; gap: 10px; padding: 10px 14px; min-height: 44px; }
   .pin-text { display: none; }
 }
 

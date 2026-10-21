@@ -5,11 +5,10 @@ import { $, cv } from './canvas';
 import { CONFIG, T } from './config';
 import { reduced } from './env';
 import { clamp } from './math';
-import { el } from './page';
 import { taps } from './pose';
 import { render } from './render';
 import { sfxReset } from './sound';
-import { V, clock, dyn } from './state';
+import { clock, dyn } from './state';
 import type { ClockMode } from './types';
 
 export function startIntro(mode: ClockMode): void {
@@ -39,12 +38,5 @@ export function skip(): void {
   render(clock.tl);
   ghost.classList.remove('on');
   setTimeout(() => document.body.classList.remove('skipping'), 700);
-  updateUi();
 }
 
-let skipShown = false;
-/** the Skip button shows only while a full intro plays; on phones it hands the row over to the buttons */
-export function updateUi(): void {
-  const show = clock.phase === 'intro' && clock.mode !== 'short' && clock.tl >= CONFIG.skipAppearsAt && !(V.tall && clock.tl >= T.cta[0] - .12);
-  if (show !== skipShown) { skipShown = show; el.skip.classList.toggle('show', show); }
-}

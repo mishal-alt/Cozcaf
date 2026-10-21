@@ -32,6 +32,13 @@
   .foot-cta { gap: 16px; }
 }
 
+/* phones and tablets: the wordmark closes the page on its own row, never behind the link columns */
+@media (max-width: 900px) {
+  .footer { display: flex; flex-direction: column; }
+  .footer .wrap { order: 1; padding-block: 0 8px; }
+  .bigmark { order: 2; position: static; align-self: center; transform: none; width: min(86%, 520px); margin: 8px 0 clamp(40px, 9vw, 64px); opacity: .5; }
+}
+
 @media (max-width: 520px) {
   .foot-cols { gap: 32px 56px; }
 }

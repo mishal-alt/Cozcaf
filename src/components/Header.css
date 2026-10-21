@@ -25,7 +25,33 @@
 #hdr.tall #hr { gap: 8px; }
 #hdr.tall .rnd { width: max(44px, calc(44px / var(--s))); height: max(44px, calc(44px / var(--s))); }
 #hdr.tall .wa { display: none; }
-#sheet { position: absolute; right: 16px; top: calc(var(--hh) * 1px - 2px); width: 220px; padding: 8px; background: var(--deep-moss); border: 1px solid rgba(244,239,230,.2); border-radius: 18px; box-shadow: 0 18px 40px rgba(0,0,0,.35); display: flex; flex-direction: column; }
-#sheet a { display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 12px; text-decoration: none; font-size: 14px; font-weight: 500; }
-#sheet a { transition: background .2s ease; }
-#sheet a:hover, #sheet a:focus-visible { background: rgba(244,239,230,.1); }
+/* phone menu: a full-screen sheet under the header buttons (the burger turns into the close X) */
+#hdrIn { z-index: 2; }
+#sheet[hidden] { display: none; }
+#sheet:focus { outline: none; }
+#sheet { position: fixed; inset: 0; z-index: 1; pointer-events: auto; overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column; justify-content: space-between; gap: 32px; padding: calc(84px + env(safe-area-inset-top)) 24px calc(28px + env(safe-area-inset-bottom)); background: var(--deep-moss); clip-path: circle(0 at var(--ox, 88%) var(--oy, 36px)); transition: clip-path .45s cubic-bezier(.77,0,.18,1); }
+#sheet.open { clip-path: circle(150vmax at var(--ox, 88%) var(--oy, 36px)); transition-duration: .8s; }
+.sh-links { display: flex; flex-direction: column; }
+.sh-links a { display: flex; align-items: baseline; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--hair, rgba(244,239,230,.18)); font: 800 clamp(44px, 14vw, 64px)/1 var(--font-display); letter-spacing: .01em; text-transform: uppercase; text-decoration: none; color: var(--cream); }
+.sh-links a:first-child { border-top: 1px solid var(--hair, rgba(244,239,230,.18)); }
+.sh-links a:active, .sh-links a:focus-visible { color: var(--sage, #BFC9A6); }
+.sh-links .n { flex: none; min-width: 26px; font: 600 12px/1 var(--font-body); letter-spacing: .2em; color: var(--sage, #BFC9A6); opacity: 0; transition: opacity .2s; }
+.sh-links .mk { display: block; overflow: hidden; padding-block: 2px; }
+.sh-links .t { display: block; transform: translateY(110%); transition: transform .3s ease; }
+.sh-foot { display: grid; gap: 20px; opacity: 0; transform: translateY(16px); transition: opacity .25s, transform .25s; }
+.sh-foot .btn { width: 100%; }
+.sh-meta { margin: 0; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; font-size: 13px; letter-spacing: .06em; color: rgba(244,239,230,.78); }
+.sh-meta a { display: inline-flex; align-items: center; min-height: 44px; color: var(--cream); text-decoration: none; font-weight: 600; }
+.sh-meta span { align-self: center; }
+/* opening: the circle grows out of the burger, then each word rises out of its own line, then the footer settles in */
+#sheet.open .sh-links .t { transform: none; transition: transform .85s var(--ease-out) calc(.28s + var(--i, 0) * .08s); }
+#sheet.open .sh-links .n { opacity: 1; transition: opacity .5s ease calc(.5s + var(--i, 0) * .08s); }
+#sheet.open .sh-foot { opacity: 1; transform: none; transition: opacity .6s ease .62s, transform .7s var(--ease-out) .62s; }
+#burger path { transform-box: fill-box; transform-origin: center; transition: transform .3s var(--ease-out); }
+#burger[aria-expanded="true"] .l1 { transform: translateY(4px) rotate(45deg); }
+#burger[aria-expanded="true"] .l2 { transform: translateY(-4px) rotate(-45deg); }
+html.nav-open { overflow: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  #sheet, .sh-links .t, .sh-links .n, .sh-foot { transition: none !important; }
+  #burger path { transition: none; }
+}

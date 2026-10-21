@@ -20,6 +20,15 @@
   .g-grid { gap: 12px; }
 }
 
+/* phones: one wide frame, then a pair, so the photos are big enough to enjoy instead of three thumbnails */
+@media (max-width: 600px) {
+  .g-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .g-grid li:first-child { grid-column: 1 / -1; }
+  .g-grid li:first-child .g-tile { aspect-ratio: 4 / 3; }
+  .g-grid li:nth-child(3) { margin-top: 20px; }
+  .g-grid li:not(:first-child) .g-tile { aspect-ratio: 4 / 5; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .g-tile:hover { --z: 1; }
 }

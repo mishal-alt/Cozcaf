@@ -42,7 +42,7 @@
   .dish { grid-template-columns: 112px minmax(0, 1fr); gap: 16px; align-items: center; padding-block: 16px; border-bottom: 1px solid rgba(35,43,30,.12); }
   .dish:first-child { padding-top: 0; }
   .dish-ph { border-radius: 16px; }
-  .dish-ph .tag { left: 8px; bottom: 8px; font-size: 9px; letter-spacing: .12em; padding: 4px 8px; }
+  .dish-ph .tag { left: 8px; bottom: 8px; font-size: 10.5px; letter-spacing: .1em; padding: 5px 9px; }
   .dish:hover .dish-ph { transform: none; box-shadow: none; }
   .dish-body p { font-size: 14px; line-height: 1.55; }
 }

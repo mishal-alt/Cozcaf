@@ -3,7 +3,7 @@
    ====================================================================== */
 import { closeSheet } from '../scripts/mobile-nav';
 import { $ } from './canvas';
-import { advance, startIntro, updateUi } from './clock';
+import { advance, startIntro } from './clock';
 import { FX, Q } from './config';
 import { COARSE, TEST, reduced } from './env';
 import { applyLayout } from './layout';
@@ -30,7 +30,7 @@ export function frame(now: number): void {
     emaDt = emaDt ? emaDt * .95 + raw * .05 : raw; slowN = emaDt > 1 / 24 ? slowN + 1 : 0;
     if (slowN > 50 && V.dpr > 1.01) { dyn.dprCap = Math.max(1, V.dpr - .25); sizeCanvas(); slowN = 0; emaDt = 0; }
   }
-  advance(dt); updatePointer(dt); updateDock(); updateUi();
+  advance(dt); updatePointer(dt); updateDock();
   if (dyn.dockE > .995) {                                   // scrolled past the hero: draw the docked cup once, then stop the loop
     if (dyn.docked) { cancelAnimationFrame(clock.raf); clock.raf = 0; return; }
     dyn.docked = true;

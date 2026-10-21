@@ -58,7 +58,8 @@ body.skipping .anim { transition: opacity .45s ease, transform .45s ease !import
 #stage.tall .coz { top: var(--cozTop); }
 #stage.tall .caf { top: var(--cafTop); }
 #stage.tall .badge { left: var(--badgeX); top: var(--badgeY); width: var(--bsz); height: var(--bsz); }
-#stage.tall .badge .star { font-size: 24px; }
+#stage.tall .badge .star { font-size: 28px; }
+#stage.tall .badge text { font-size: 11px !important; letter-spacing: .15em !important; font-weight: 600 !important; }   /* the inline desktop size would render at ~5 px on a phone */
 #stage.tall .bl, #stage.tall .br, #stage.tall .cta, #stage.tall .trust { display: none; }   /* phones: the lettering, cup and one quiet tagline line under CAF */
 #stage.tall #bstack { display: flex; flex-direction: column; align-items: center; position: absolute; left: 16px; width: calc(var(--W) * 1px - 32px); bottom: calc(58px + var(--safeB) * 1px); }
 #stage.tall .kicker { position: relative; left: auto; top: auto; width: 100%; font-size: 11.5px; line-height: 16px; letter-spacing: .26em; color: var(--text-hi); }

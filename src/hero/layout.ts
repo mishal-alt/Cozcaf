@@ -51,17 +51,9 @@ export function applyLayout(): void {
   const hin = $('hdrIn'); hin.style.width = V.W + 'px'; hin.style.transform = `translate(${V.ox}px,0) scale(${V.s})`;
 
   // dock target = centre of the header's cup button, in stage coordinates
-  placeUi();
   const cr = $('dock').getBoundingClientRect();
   V.dock = { x: (cr.left + cr.width / 2 - V.ox) / V.s, y: (cr.top + cr.height / 2 - V.oy) / V.s, scale: ((FX.dockSize / V.s) / V.DRAW_H) };
   derive();
-}
-
-/* portrait phones: the Skip button borrows the strip of space above the ticker while the intro plays */
-function placeUi(): void {
-  const r = document.documentElement.style;
-  if (V.tall) { r.setProperty('--ctaBottom', `calc(58px + ${parseFloat(getComputedStyle($('probe')).paddingBottom) || 0}px)`); r.setProperty('--ctaH', '46px'); }
-  else { r.removeProperty('--ctaBottom'); r.removeProperty('--ctaH'); }
 }
 
 /* portrait: stack COZ above the cup and CAF below it */
@@ -72,7 +64,7 @@ function solveTall(bm: BigMetrics): void {
   const bs = $('bstack').offsetHeight;                          // design px
   const marqH = 46 + safeB;                                     // the cream ticker strip pinned to the bottom edge
   const cafBase = H - marqH - 12 - bs - 22;                     // where CAF's baseline sits (22 px clear above the kicker)
-  let top = hh + 18;                                            // top of COZ's capitals (18 px clear below the header)
+  let top = hh + 26;                                            // top of COZ's capitals (26 px clear below the header)
   const cupMax = Math.min(H * .56, W * 1.5), cupMin = 250;
   let cupH = clamp(H * (H < 760 ? .43 : .50), cupMin, cupMax);   // short phones: a slightly smaller cup leaves the lettering room
   const VIS = .91, TOP = .08;                                   // the cup artwork fills 91 % of its height, 8 % blank above
@@ -97,9 +89,9 @@ function solveTall(bm: BigMetrics): void {
   st.setProperty('--F', F + 'px'); st.setProperty('--trk', String(BIG.trkTall));
   st.setProperty('--cozTop', lineTop(top) + 'px');
   st.setProperty('--cafTop', lineTop(cafCapTop) + 'px');
-  const bsz = 84;
+  const bsz = 96;                                               // big enough that the ring text renders at ~7.5 px
   st.setProperty('--bsz', bsz + 'px');
-  st.setProperty('--badgeX', (W - m - bsz + 6) + 'px');
-  st.setProperty('--badgeY', (cupY0 + cupH * .30) + 'px');
+  st.setProperty('--badgeX', (W - m - bsz + 10) + 'px');
+  st.setProperty('--badgeY', (cupY0 + cupH * .36) + 'px');
   st.setProperty('--glowD', (cupH * 1.9) + 'px');
 }

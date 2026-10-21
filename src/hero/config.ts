@@ -125,8 +125,6 @@ export interface HeroConfig {
   shortDuration: number;
   /** what a reload / return visit in the same session shows */
   returnVisit: 'short' | 'instant' | 'full';
-  /** the Skip button fades in at this time (s) */
-  skipAppearsAt: number;
   sessionKey: string;
   /** ms to wait for web fonts before starting with fallbacks */
   fontTimeout: number;
@@ -134,7 +132,7 @@ export interface HeroConfig {
   fx: FxConfig;
   quality: QualityConfig;
   layout: LayoutConfig;
-  /** true = client-ready: Replay is hidden and Skip only shows while the intro plays. Press P on the page to toggle (pitch mode shows Replay). */
+  /** true = client-ready: Replay is hidden. Press P on the page to toggle (pitch mode shows Replay). */
   production: boolean;
 }
 
@@ -166,7 +164,6 @@ export const CONFIG: HeroConfig = {
   },
   shortDuration: 1.5,
   returnVisit: 'full',
-  skipAppearsAt: 0.5,
   sessionKey: 'cozcaf.intro.seen',
   fontTimeout: 3000,
 

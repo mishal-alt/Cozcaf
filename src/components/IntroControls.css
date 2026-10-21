@@ -3,14 +3,9 @@
 #ui button { height: 32px; min-width: 32px; padding: 0; display: grid; place-items: center; background: rgba(46,56,39,.6); color: var(--cream); border: 1px solid rgba(244,239,230,.3); border-radius: 999px; cursor: pointer; font: 600 12px/1 var(--font-body); letter-spacing: .03em; opacity: .78; transition: background .2s ease, opacity .2s ease, border-color .2s ease; }
 #ui button:hover, #ui button:focus-visible { background: var(--deep-moss); opacity: 1; border-color: rgba(244,239,230,.6); }
 #replay { font-size: 17px !important; }
-#skip { padding: 0 14px !important; gap: 4px; grid-auto-flow: column; opacity: 0; visibility: hidden; }
-#skip.show { opacity: .78; visibility: visible; }
-#skip.show:hover, #skip.show:focus-visible { opacity: 1; }
 #snd[aria-pressed="true"] { background: var(--cream); color: var(--moss); }
 body.prod #replay { display: none; }                 /* production mode: no Replay (press P for pitch mode) */
 @media (pointer: coarse), (max-width: 760px) { #ui button { height: 44px; min-width: 44px; } #snd { display: none; } }   /* phones: no sound toggle, big touch targets */
 body.is-tall #snd, body.is-tall #replay { display: none; }
-body.is-tall #ui { left: 0; right: 0; justify-content: center; bottom: var(--ctaBottom, 120px); height: var(--ctaH, 46px); align-items: center; pointer-events: none; }
-body.is-tall #ui button { pointer-events: auto; }                  /* portrait layouts: the bottom edge belongs to the buttons and the open chip */
 #toast { position: fixed; z-index: 6; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 46px * var(--s) + 14px); transform: translate(-50%, 8px); padding: 8px 16px; background: var(--deep-moss); border: 1px solid rgba(244,239,230,.3); border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: .03em; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; white-space: nowrap; }
 #toast.on { opacity: 1; transform: translate(-50%, 0); }

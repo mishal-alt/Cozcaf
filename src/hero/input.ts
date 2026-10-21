@@ -18,7 +18,7 @@ function toast(msg: string): void {
   toastT = window.setTimeout(() => toastEl.classList.remove('on'), 1800);
 }
 
-/** production mode: Replay is hidden and Skip appears only while the intro plays. P toggles it for pitching. */
+/** production mode: Replay is hidden. P toggles it for pitching. */
 export function setProd(on: boolean): void { document.body.classList.toggle('prod', on); }
 
 /** tap the cup: a fresh puff of steam and a tiny bounce */
@@ -44,7 +44,6 @@ export function initInput(): void {
     tilt.x = clamp(e.gamma / 28, -1, 1); tilt.y = clamp((e.beta - 50) / 28, -1, 1); tilt.on = true;
   }, { passive: true });
 
-  $('skip').addEventListener('click', (e) => { e.stopPropagation(); skip(); });
   $('replay').addEventListener('click', (e) => { e.stopPropagation(); replay(); });
   addEventListener('pointerdown', (e) => {
     if ((e.target as Element).closest('#ui')) return;
