@@ -6,8 +6,7 @@ import { site } from '../data/site';
 import { has } from '../lib/links';
 import { headingHtml } from '../lib/split';
 
-// the wide first tile and the tall second one ask for more pixels than the squares
-const sizes = ['(max-width:600px) 92vw, 62vw', '(max-width:600px) 46vw, 31vw', '(max-width:600px) 46vw, 31vw'];
+const sizes = '(max-width:600px) 92vw, (max-width:900px) 31vw, 31vw';
 ---
 <section class="gallery on-dark" id="gallery" aria-labelledby="galH">
   <div class="wrap">
@@ -23,7 +22,7 @@ const sizes = ['(max-width:600px) 92vw, 62vw', '(max-width:600px) 46vw, 31vw', '
     </div>
     <ul class="g-grid">
       {gallery.tiles.map((t, i) => (
-        <li><button class="g-tile rv-img zoom" type="button" data-i={i} style={i % 3 ? `--d:${(i % 3) / 10}s` : undefined} aria-label={`Open photo: ${t.alt}`}><Picture name={t.name} alt={t.alt} sizes={sizes[Math.min(i, 2)] ?? ''} /></button></li>
+        <li><button class="g-tile rv-img zoom" type="button" data-i={i} style={t.delay ? `--d:${t.delay}` : undefined} aria-label={`Open photo: ${t.photo.alt}`}><Picture name={t.photo.name} alt={t.photo.alt} sizes={sizes} /></button></li>
       ))}
     </ul>
   </div>

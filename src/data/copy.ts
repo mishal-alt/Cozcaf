@@ -124,15 +124,10 @@ export const gallery = {
   eyebrow: 'Moments',
   heading: ['Follow the ', { em: 'ritual' }],
   aside: 'Plates to share, cups to go and long evenings with friends. Tag us to be featured.',
-  /** in reading order; on wide screens the first tile spans two columns and the second two rows */
   tiles: [
-    { name: 'night', alt: 'The COZCAF storefront at dusk, its sign lit up under strings of fairy lights' },
-    { name: 'bar', alt: 'The COZCAF bar with the illuminated logo, wooden shelves of coffee and an espresso machine' },
-    { name: 'g-blackcup', alt: 'A latte in a black COZCAF cup and saucer on a glossy counter' },
-    { name: 'g-takeaway', alt: 'A gloved hand holding a COZCAF takeaway cup in front of the espresso machine' },
-    { name: 'caramel', alt: 'Two hands holding a blue cup of coffee finished with a caramel spider-web pattern' },
-    { name: 'cake', alt: 'A latte in a black COZCAF cup beside a slice of layered cake, with the cake counter behind' },
-    { name: 'g-balance', alt: 'A leaf latte art cup next to the COZCAF sign: balance a coin on the lemon for a free coffee' },
+    { photo: { name: 'g-blackcup', alt: 'A latte in a black COZCAF cup and saucer on a glossy counter' }, delay: '' },
+    { photo: { name: 'g-takeaway', alt: 'A gloved hand holding a COZCAF takeaway cup in front of the espresso machine' }, delay: '.1s' },
+    { photo: { name: 'g-balance', alt: 'A leaf latte art cup next to the COZCAF sign: balance a coin on the lemon for a free coffee' }, delay: '.2s' },
   ],
 } as const;
 

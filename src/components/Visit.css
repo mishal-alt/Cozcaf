@@ -3,7 +3,7 @@
 .visit { background: var(--cream); display: grid; min-height: calc(100svh - var(--hh) * var(--s) * 1px); }
 #site .visit .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "head media" "facts media"; column-gap: clamp(40px, 6vw, 96px); row-gap: clamp(24px, 4vh, 48px); align-content: center; align-items: start; padding-block: clamp(32px, 6vh, 72px); }
 .visit-head { grid-area: head; align-self: end; display: grid; gap: clamp(14px, 2.4vh, 24px); justify-items: start; }
-.visit-head .d-l { font-size: clamp(40px, min(5.6vw, 9.5vh), 96px); }
+.visit-head .d-l { font-size: clamp(40px, min(4.4vw, 8vh), 68px); }
 .visit-head .eyebrow { color: var(--muted); }
 .visit-head em { color: var(--muted); }
 .chip.chip-light { border-color: rgba(46,56,39,.4); color: var(--deep-moss); font-size: 14px; padding: 6px 16px; }

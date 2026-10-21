@@ -3,10 +3,10 @@
 #site .eyebrow::before, #site .eyebrow.both::after { content: ""; width: 40px; height: 1px; background: currentColor; opacity: .6; flex: none; transform-origin: left; }
 #site .eyebrow.both::after { transform-origin: right; }
 .d-l, .d-m, .quote, .h-s { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; text-wrap: balance; }
-.d-l { font-size: clamp(52px, 7.4vw, 112px); line-height: .92; letter-spacing: .005em; }
-.d-m { font-size: clamp(40px, 5.4vw, 80px); line-height: .95; letter-spacing: .005em; }
-.quote { font-size: clamp(40px, 5.8vw, 92px); line-height: .94; letter-spacing: .005em; }
-.h-s { font-size: clamp(26px, 2.2vw, 32px); line-height: 1.05; letter-spacing: .02em; }
+.d-l { font-size: clamp(52px, 4.6vw, 72px); line-height: .92; letter-spacing: .005em; }
+.d-m { font-size: clamp(40px, 3.8vw, 60px); line-height: .95; letter-spacing: .005em; }
+.quote { font-size: clamp(40px, 4vw, 64px); line-height: .94; letter-spacing: .005em; }
+.h-s { font-size: clamp(24px, 1.8vw, 28px); line-height: 1.05; letter-spacing: .02em; }
 .b-l { font-size: clamp(16px, 1.35vw, 19px); line-height: 1.7; }
 .b-m { font-size: 16px; line-height: 1.7; }
 .num { font: 800 16px/1 var(--font-display); letter-spacing: .14em; }
