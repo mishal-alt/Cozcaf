@@ -57,20 +57,20 @@ export function applyLayout(): void {
   derive();
 }
 
-/* portrait phones: the Skip button borrows the (still empty) button row while the intro plays, so it never sits on the trust line */
+/* portrait phones: the Skip button borrows the strip of space above the ticker while the intro plays */
 function placeUi(): void {
   const r = document.documentElement.style;
-  if (V.tall) { const c = ($('ctaMenu').parentElement as HTMLElement).getBoundingClientRect(); r.setProperty('--ctaBottom', Math.max(0, innerHeight - c.bottom) + 'px'); r.setProperty('--ctaH', c.height + 'px'); }
+  if (V.tall) { r.setProperty('--ctaBottom', `calc(58px + ${parseFloat(getComputedStyle($('probe')).paddingBottom) || 0}px)`); r.setProperty('--ctaH', '46px'); }
   else { r.removeProperty('--ctaBottom'); r.removeProperty('--ctaH'); }
 }
 
-/* portrait: stack COZ above the cup and CAF below it, kicker + CTAs + trust under it */
+/* portrait: stack COZ above the cup and CAF below it */
 function solveTall(bm: BigMetrics): void {
   const W = V.W, H = V.H, m = 16, hh = V.hdrH;
   const safeB = (parseFloat(getComputedStyle($('probe')).paddingBottom) || 0) / V.s;
   document.documentElement.style.setProperty('--safeB', String(safeB));
   const bs = $('bstack').offsetHeight;                          // design px
-  const marqH = 46 + safeB;
+  const marqH = 46 + safeB;                                     // the cream ticker strip pinned to the bottom edge
   const cafBase = H - marqH - 12 - bs - 22;                     // where CAF's baseline sits (22 px clear above the kicker)
   let top = hh + 18;                                            // top of COZ's capitals (18 px clear below the header)
   const cupMax = Math.min(H * .56, W * 1.5), cupMin = 250;

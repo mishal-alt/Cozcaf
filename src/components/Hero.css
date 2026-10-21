@@ -52,24 +52,19 @@ body.skipping .anim { transition: opacity .45s ease, transform .45s ease !import
 .trust .stars { letter-spacing: .1em; color: var(--cream); }
 .trust b { color: var(--cream); font-weight: 700; }
 
-/* portrait composition (phones): COZ above the cup, CAF below, kicker + CTAs + trust under it */
+/* portrait composition (phones): COZ above the cup, CAF below */
 #bstack { display: contents; }
 #stage.tall .big { --cap: var(--F); left: 0; right: auto; width: 100%; justify-content: center; gap: calc(var(--cap) * var(--g) * var(--trk, 1)); }
 #stage.tall .coz { top: var(--cozTop); }
 #stage.tall .caf { top: var(--cafTop); }
 #stage.tall .badge { left: var(--badgeX); top: var(--badgeY); width: var(--bsz); height: var(--bsz); }
 #stage.tall .badge .star { font-size: 24px; }
-#stage.tall .bl, #stage.tall .br { display: none; }
-#stage.tall #bstack { display: flex; flex-direction: column; align-items: center; gap: 12px; position: absolute; left: 16px; width: calc(var(--W) * 1px - 32px); bottom: calc(58px + var(--safeB) * 1px); }
-#stage.tall #bstack > * { position: relative; left: auto; top: auto; width: 100%; }
-#stage.tall .kicker { font-size: 11px; line-height: 14px; letter-spacing: .2em; }
-#stage.tall .cta { gap: 10px; }
-#stage.tall .btn { flex: 1; height: max(46px, calc(44px / var(--s))); padding: 0 12px; }
-#stage.tall .trust { flex-wrap: wrap; justify-content: center; gap: 4px 16px; font-size: 13px; }
-#stage.tall .trust .stamp { flex: 1 0 100%; text-align: center; font-size: 13px; letter-spacing: .06em; line-height: 18px; }
+#stage.tall .bl, #stage.tall .br, #stage.tall #bstack { display: none; }                                      /* phones: nothing under the lettering, the cup and COZCAF carry the screen */
 
 /* ticker: full-width chrome pinned to the bottom of the hero */
 #marq { position: absolute; left: 0; right: 0; bottom: 0; height: calc((46px + var(--safeB) * 1px) * var(--s)); padding-bottom: calc(var(--safeB) * 1px * var(--s)); background: var(--cream); color: var(--deep-moss); overflow: hidden; display: flex; align-items: center; font-size: calc(14px * var(--s)); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; visibility: hidden; }
+.mq-open { display: none; }                                                   /* phones only: the opening hours lead the ticker */
+body.is-tall .mq-open { display: inline; }
 .track { display: flex; gap: calc(32px * var(--s)); width: max-content; animation: tick 25s linear infinite; }
 
 /* ============ canvas, grain ============ */
