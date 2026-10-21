@@ -1,6 +1,6 @@
 /* footer */
-.footer { background: var(--ink); color: var(--cream); }
-.footer .wrap { display: grid; gap: clamp(48px, 6vw, 72px); padding-block: 0 32px; }
+.footer { position: relative; overflow: hidden; background: var(--ink); color: var(--cream); }
+.footer .wrap { position: relative; z-index: 1; display: grid; gap: clamp(48px, 6vw, 72px); padding-block: 0 32px; }
 .foot-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 56px; padding-top: clamp(56px, 6vw, 72px); border-top: 1px solid var(--hair); }
 .foot-cta { display: grid; gap: 24px; flex: 1 1 320px; max-width: 520px; min-width: 0; justify-items: start; }
 .foot-cta em { color: var(--sage); }
@@ -18,12 +18,19 @@
 .foot-cols a:hover { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
 .foot-cols address { font-style: normal; font-size: 15px; line-height: 1.7; color: rgba(244,239,230,.9); }
 .foot-cols p { margin: 8px 0 0; font-size: 15px; line-height: 1.7; color: rgba(244,239,230,.9); }
-.bigmark { display: block; color: var(--moss); fill: currentColor; width: 100%; height: auto; aspect-ratio: 354 / 63; }
+.bigmark { position: absolute; z-index: 0; left: 50%; top: 58%; width: min(74%, 1040px); height: auto; aspect-ratio: 354 / 63; transform: translate(-50%, -50%); color: var(--moss); fill: currentColor; opacity: .38; pointer-events: none; }
 .foot-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 24px; font-size: 14px; font-weight: 500; color: rgba(244,239,230,.78); }
 .to-top { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 600; color: var(--cream); transition: color var(--t); }
 .to-top svg { width: 12px; height: 12px; transition: transform var(--t) var(--ease-out); }
 .to-top:hover { color: #fff; }
 .to-top:hover svg { transform: translateY(-3px); }
+
+/* desktop: the whole footer reads in one screen. Same content; tighter spacing and a slimmer wordmark. */
+@media (min-width: 901px) {
+  .footer .wrap { gap: clamp(20px, 2.4vw, 32px); padding-block: 0 20px; }
+  .foot-top { padding-top: clamp(32px, 3.2vw, 44px); gap: 40px; }
+  .foot-cta { gap: 16px; }
+}
 
 @media (max-width: 520px) {
   .foot-cols { gap: 32px 56px; }

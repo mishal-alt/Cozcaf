@@ -15,4 +15,4 @@ The remaining differences:
 7. **Motion mode, tiny antialiasing noise.** With scroll reveals running, a few elements that finish a transform transition (e.g. the footer ghost button) can differ by up to 7/255 on a few hundred rounded-edge pixels. The set changes from run to run, so it is compositing history, not layout or colour.
 8. **Placeholders:** canonical / Open Graph URLs use `https://cozcaf.example` until the real domain is set; the four unused `menu-*` photo sets from the zip are not shipped.
 
-Kept as in the prototype on purpose: single-key shortcuts `R` (replay) and `P` (pitch mode), the sound toggle, Skip / Replay behaviour, 32 px Skip and sound buttons on fine-pointer desktops (44 px on touch and at 760 px and below), and menu prices stored but not displayed.
+Kept as in the prototype on purpose: single-key shortcuts `R` (replay) and `P` (pitch mode), the sound toggle, Skip / Replay behaviour, 32 px Skip and sound buttons on fine-pointer desktops (44 px on touch and at 760 px and below), and no menu prices (dishes only).

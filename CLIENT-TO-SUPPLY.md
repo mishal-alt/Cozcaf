@@ -19,8 +19,8 @@ All of them are filled in `src/data/site.ts` unless noted.
 - **Opening hours:** currently every day 8 AM to 11 PM (this drives the live "Open now / Closed" chip and the structured data).
 - **Instagram:** `@coz_caf` (`https://www.instagram.com/coz_caf/`), taken from the shared design.
 - **Established year:** "Est. 2021" in the hero line.
-- **Menu prices:** every price in `src/data/menu.ts` is a placeholder. The page does not print prices (as in the approved design); send the real list, and dietary marks (V / VG / Spicy) if wanted.
-- **Menu wording:** the dish names and descriptions are placeholders written for the layout.
+- **Menu:** dishes in `src/data/menu.ts` come from the client PDF. Prices are not stored or shown (as in the approved design); dietary marks (V / VG / Spicy) can be added if wanted.
+- **Menu wording:** dish names follow the PDF; descriptions the PDF lacked were written for the layout, so ask the client to review them.
 
 ## Optional
 

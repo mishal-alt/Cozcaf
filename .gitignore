@@ -7,3 +7,6 @@ tools/compare/out/
 .DS_Store
 cozcaf-design.zip
 tools/compare/out/
+
+# client source photos (large originals); the site ships the optimised copies in public/menu and public/img
+public/COZ Menu Images/

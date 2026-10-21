@@ -7,6 +7,8 @@ import { site } from '../data/site';
 import { headingHtml } from '../lib/split';
 
 const first = menu.categories[0]?.id;
+// dish photos live in public/menu/<name-as-slug>-{1024,2048}.{avif,webp}
+const slug = (n: string) => n.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 ---
 <section class="menu on-light" id="menu" aria-labelledby="menuH">
   <div class="wrap">
@@ -24,7 +26,7 @@ const first = menu.categories[0]?.id;
         <div class="menu-cols" data-cat={c.id} hidden={c.id !== first}>
           {c.items.map((it, i) => (
             <article class="dish" style={`--i:${i}`}>
-              <div class="dish-ph"><svg class="dish-mark" viewBox="127 310 48 63" aria-hidden="true"><use href="#p-icon"/></svg><svg class="dish-logo" viewBox="127 310 354 63" aria-hidden="true"><use href="#p-icon"/><use href="#p-word"/></svg>{it.tag && <span class="tag">{it.tag}</span>}</div>
+              <div class="dish-ph"><svg class="dish-logo" viewBox="127 310 354 63" aria-hidden="true"><use href="#p-icon"/><use href="#p-word"/></svg><picture class="dish-img"><source type="image/avif" srcset={`/menu/${slug(it.name)}-1024.avif 1024w, /menu/${slug(it.name)}-2048.avif 2048w`} sizes="(max-width: 680px) 112px, (max-width: 1100px) 45vw, 22vw" /><source type="image/webp" srcset={`/menu/${slug(it.name)}-1024.webp 1024w, /menu/${slug(it.name)}-2048.webp 2048w`} sizes="(max-width: 680px) 112px, (max-width: 1100px) 45vw, 22vw" /><img src={`/menu/${slug(it.name)}-1024.webp`} alt={it.name} loading="lazy" decoding="async" /></picture>{it.tag && <span class="tag">{it.tag}</span>}</div>
               <div class="dish-body"><h3 class="h-s">{it.name}</h3><p>{it.desc}</p></div>
             </article>
           ))}

@@ -1,4 +1,4 @@
-/* menu: a typeset price list, one photo per category (no empty tiles) */
+/* menu: a typeset dish list, one photo per category (no empty tiles) */
 .menu { background: var(--cream); }
 .menu .wrap { padding-block: clamp(88px, 10vw, 152px) clamp(88px, 11vw, 160px); display: grid; justify-items: center; gap: clamp(32px, 4.5vw, 56px); }
 .menu-head { display: grid; justify-items: center; gap: 24px; text-align: center; }
@@ -17,7 +17,10 @@
 .dish-ph { position: relative; aspect-ratio: 1; overflow: hidden; border-radius: 22px; background: radial-gradient(ellipse 80% 75% at 50% 42%, #F7F3EA 0%, #ECE5D6 55%, #DED5C1 100%); box-shadow: 0 1px 0 rgba(35,43,30,.06); transition: transform .8s var(--ease-out), box-shadow .8s var(--ease-out); }
 .dish:hover .dish-ph { transform: translateY(-6px); box-shadow: 0 24px 40px -24px rgba(35,43,30,.45); }
 .dish-logo { position: absolute; left: 50%; top: 8%; width: 32%; height: auto; aspect-ratio: 354 / 63; transform: translateX(-50%); fill: var(--moss); }
-.dish-mark { position: absolute; left: 50%; top: 50%; width: 18%; height: auto; aspect-ratio: 48 / 63; transform: translate(-50%, -42%); fill: var(--moss); opacity: .14; }
+/* the dish cards are baked to one standard size and baseline (tools/menu-images.mjs); the logo sits above */
+#site .dish-img { position: absolute; inset: 0; width: auto; height: auto; display: block; }
+.dish-img img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: 50% 50%; transform-origin: 50% 91%; transition: transform .8s var(--ease-out); filter: drop-shadow(0 12px 14px rgba(35,43,30,.22)); }
+.dish:hover .dish-img img { transform: scale(1.04); }
 .dish-ph .tag { position: absolute; left: 14px; bottom: 14px; }
 .tag { padding: 6px 12px; border-radius: 999px; background: var(--moss); color: var(--cream); font: 700 11px/1 var(--font-body); letter-spacing: .18em; text-transform: uppercase; }
 .dish-body { display: grid; gap: 8px; min-width: 0; }

@@ -10,6 +10,7 @@ const state = openState(site.hours);
 const year = new Date().getFullYear();
 ---
 <footer class="footer on-dark" aria-labelledby="footH">
+  <svg class="bigmark rv-wipe" viewBox="127 310 354 63" aria-hidden="true"><use href="#p-icon"/><use href="#p-word"/></svg>
   <div class="wrap">
     <div class="foot-top">
       <div class="foot-cta">
@@ -30,7 +31,6 @@ const year = new Date().getFullYear();
         <div><h3>{footer.visitHeading}</h3><address><span>{site.landmark}</span><br><span>{site.locality}</span></address><p class="hrs"><span>{site.hours.label}</span>, <span>{state.range}</span></p>{has.phone && <p><a class="tel" href={telHref}>{site.phone}</a></p>}{has.email && <p><a class="mail" href={mailHref}>{site.email}</a></p>}</div>
       </div>
     </div>
-    <svg class="bigmark rv-wipe" viewBox="127 310 354 63" aria-hidden="true"><use href="#p-icon"/><use href="#p-word"/></svg>
     <div class="foot-bottom"><span>&copy; <span id="yr">{year}</span> {footer.copyright}</span><a class="to-top" href="#page">{footer.toTop} <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 10V2M2.5 5.5 6 2l3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
   </div>
 </footer>

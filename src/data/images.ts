@@ -14,9 +14,12 @@ export const images = {
   "g-food": { widths: [390], heights: [390] },
   "g-latte": { widths: [480,840], heights: [480,840] },
   "night": { widths: [480,960], heights: [310,620] },
-  "pillar-comfort": { widths: [496], heights: [620] },
-  "pillar-craft": { widths: [480,720], heights: [600,900] },
-  "pillar-origin": { widths: [480,700], heights: [600,875] },
+  "sig-alfredo": { widths: [480,960,1200], heights: [600,1200,1500] },
+  "sig-piccolo": { widths: [480,960,1200], heights: [600,1200,1500] },
+  "sig-rose-latte": { widths: [480,960,1200], heights: [600,1200,1500] },
+  "pillar-comfort": { widths: [480,960], heights: [640,1280] },
+  "pillar-craft": { widths: [480,960], heights: [640,1280] },
+  "pillar-origin": { widths: [480,960], heights: [640,1280] },
 } as const satisfies Record<string, ImageSet>;
 
 export type ImageName = keyof typeof images;
