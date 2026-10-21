@@ -11,4 +11,4 @@ interface Props {
 
 const { name, label, zoom, origin = '50% 50%' } = Astro.props;
 ---
-<video class="clip" muted loop playsinline preload="none" poster={`/video/${name}.webp`} data-clip style={zoom ? `transform:scale(${zoom});transform-origin:${origin}` : undefined} role="img" aria-label={label}><source src={`/video/${name}.mp4`} type="video/mp4"></video>
+<video class="clip" muted loop playsinline preload="metadata" poster={`/video/${name}.webp`} data-clip style={zoom ? `transform:scale(${zoom});transform-origin:${origin}` : undefined} role="img" aria-label={label}><source src={`/video/${name}.mp4`} type="video/mp4"></video>

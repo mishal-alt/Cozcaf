@@ -88,7 +88,8 @@ export async function createScene(cv: HTMLCanvasElement, imgs: Images, isTall: (
     if (again) { again = false; await layout(); }
   }
 
-  const cam = (t: number): { push: number; pan: number; bob: number } => ({ push: 1 + 0.034 * smooth(clamp(t / 5)) + 0.008 * Math.sin(TAU * t / 12), pan: Math.sin(TAU * t / 12 + 0.6) * 0.012 * W, bob: Math.sin(TAU * t / 6) * 0.0025 * H });
+  /** one slow settle-in, then the camera holds still: dishes never swell and shrink */
+  const cam = (t: number): { push: number; pan: number; bob: number } => ({ push: 1 + 0.02 * smooth(clamp(t / 5)), pan: Math.sin(TAU * t / 16 + 0.6) * 0.005 * W, bob: 0 });
 
   function drawAbout(img: HTMLCanvasElement, w: number, h: number, cx: number, cy: number, s: number, alpha: number, op?: GlobalCompositeOperation): void {
     ctx.save(); ctx.globalAlpha = alpha; if (op) ctx.globalCompositeOperation = op;

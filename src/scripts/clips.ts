@@ -18,7 +18,10 @@ export function initClips(): void {
         else v.pause();
       }
     },
-    { rootMargin: '200px 0px', threshold: 0.15 },
+    { rootMargin: '500px 0px', threshold: 0.05 },
   );
   clips.forEach((v) => io.observe(v));
+  // autoplay refused (battery saver, some in-app browsers): the poster stays, and the first touch or scroll tries again
+  const retry = (): void => clips.forEach((v) => { if (v.paused && v.getBoundingClientRect().top < innerHeight && v.getBoundingClientRect().bottom > 0) v.play().catch(() => {}); });
+  for (const ev of ['touchstart', 'pointerdown', 'scroll'] as const) addEventListener(ev, retry, { once: true, passive: true });
 }
