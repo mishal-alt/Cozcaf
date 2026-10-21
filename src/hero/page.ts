@@ -42,30 +42,31 @@ export function initPage(): PageEls {
     return s;
   });
 
-  let tx0 = 0, ty0 = 0, k0 = 1, vh = innerHeight, docked = false, menu = false;
+  let tx0 = 0, ty0 = 0, ty1 = 0, kd = 1, vh = innerHeight, docked = false, menu = false;
 
-  /** where the lettering rests in the header, and the transform that lifts it to the big centred heading */
+  /** The lettering is drawn at the size of the big heading and scaled DOWN into the header: scaling a small drawing up would blur it. */
   function measure(): void {
     const W = innerWidth, tall = TALL.matches;
     vh = innerHeight;
     const hw = tall ? Math.min(W * 0.88, 520) : Math.min(W * 0.46, 660), hy = tall ? 78 : 96;
     document.documentElement.style.setProperty('--hw', hw + 'px');
     document.documentElement.style.setProperty('--hy', hy + 'px');
-    const was = wm.style.transform;
-    wm.style.transform = 'none';
-    const r = wm.getBoundingClientRect(), u = r.height / VB_H;
-    wm.style.transform = was;
-    k0 = hw / (LET_W * u);
-    tx0 = (W - hw) / 2 - r.left - k0 * (LET_X - VB_X) * u;
-    ty0 = hy - r.top - k0 * (LET_Y - VB_Y) * u;
+    const ub = hw / LET_W, wb = 354 * ub, hb = VB_H * ub;                            // px per unit, and the lockup's big size
+    wm.setAttribute('width', String(wb)); wm.setAttribute('height', String(hb));
+    wm.style.width = wb + 'px'; wm.style.height = hb + 'px';
+    const r = link.getBoundingClientRect(), logoH = parseFloat(getComputedStyle(document.getElementById('hdr') as HTMLElement).getPropertyValue('--logo-h')) || 22;
+    kd = logoH / hb;
+    tx0 = (W - hw) / 2 - r.left - (LET_X - VB_X) * ub;
+    ty0 = hy - r.top - (LET_Y - VB_Y) * ub;
+    ty1 = (r.height - logoH) / 2;
   }
 
   /** the first scroll: the lettering glides up and shrinks into the header while the page slides over the scene */
   function scroll(): number {
     const sp = clamp(scrollY / (vh * DOCK_RANGE));
     const e = menu ? 1 : reduced ? (sp > 0.5 ? 1 : 0) : easeInOut(sp);                  // with the menu sheet open the lettering is always in the header
-    wm.style.transform = `translate3d(${lerp(tx0, 0, e).toFixed(2)}px,${lerp(ty0, 0, e).toFixed(2)}px,0) scale(${lerp(k0, 1, e).toFixed(4)})`;
-    icon.style.opacity = String(menu ? 1 : smooth(clamp((sp - 0.55) / 0.3)));                   // the bean mark appears as the word settles
+    wm.style.transform = `translate3d(${lerp(tx0, 0, e).toFixed(2)}px,${lerp(ty0, ty1, e).toFixed(2)}px,0) scale(${lerp(1, kd, e).toFixed(5)})`;
+    icon.style.opacity = String(menu ? 1 : smooth(clamp((sp - 0.55) / 0.3)));           // the bean mark appears as the word settles
     wm.style.filter = e > 0.98 ? 'none' : '';
     hero.style.opacity = String(1 - clamp((sp - 0.15) / 0.6));
     hdrBg.style.opacity = String(clamp((sp - 0.5) / 0.35));
