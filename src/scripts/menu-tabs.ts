@@ -46,6 +46,7 @@ export function initMenuTabs(): void {
     }
     panel?.setAttribute('aria-labelledby', t.id);
     moveInd(true);
+    t.scrollIntoView({ inline: 'center', block: 'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });   // on phones the row of pills scrolls to the chosen one
     clearTimeout(swapTimer);
     const cat = t.dataset.cat ?? '';
     if (!animate) {

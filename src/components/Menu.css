@@ -45,19 +45,29 @@
 }
 
 @media (max-width: 680px) {
-  .menu-cols { grid-template-columns: 1fr; gap: 0; }
-  .dish { grid-template-columns: 112px minmax(0, 1fr); gap: 16px; align-items: center; padding-block: 16px; border-bottom: 1px solid rgba(35,43,30,.12); }
-  .dish:first-child { padding-top: 0; }
-  .dish-ph { border-radius: 16px; }
-  .dish-ph .tag { left: 8px; bottom: 8px; font-size: 10.5px; letter-spacing: .1em; padding: 5px 9px; }
+  /* phones keep the desktop card: photo above, name and line below, two to a row */
+  /* the two cards in a row share their rows (photo, title, text), so names and lines sit level whatever the length */
+  .menu-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 14px; }
+  .dish { grid-row: span 3; grid-template-rows: subgrid; row-gap: 12px; padding-bottom: 32px; }
+  .dish-body { display: contents; }
+  .dish-title { align-self: start; }
+  .dish-body p { align-self: start; }
+  .dish-ph { border-radius: 18px; }
+  .dish-ph .tag { left: 10px; bottom: 10px; font-size: 10px; letter-spacing: .12em; padding: 5px 9px; }
   .dish:hover .dish-ph { transform: none; box-shadow: none; }
-  .dish-body p { font-size: 14px; line-height: 1.55; }
+  .dish-title { flex-wrap: wrap; gap: 4px 8px; }
+  .dish-title .h-s { font-size: clamp(19px, 5.4vw, 23px); line-height: 1.05; }
+  .dish-body p { font-size: 13px; line-height: 1.5; }
   .menu-foot, .menu-actions { width: 100%; }
   .menu-actions .btn { flex: 1 1 100%; }
 }
 
-@media (max-width: 520px) {
-  .tabs { display: grid; grid-template-columns: repeat(2, auto); justify-content: center; justify-items: start; gap: 0 40px; }
+@media (max-width: 680px) {
+  /* phones: all four tabs in one row, equal width; only the chosen tab carries a line, and it slides to the next one */
+  .tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; width: 100%; }
+  .tab { min-height: 56px; padding: 6px 2px; justify-content: center; text-align: center; font-size: 10.5px; line-height: 1.25; letter-spacing: .06em; text-wrap: balance; transition: color .35s ease, transform .35s var(--ease-out); }
+  .tab:active { transform: scale(.96); }
+  .tab-ind { height: 3px; border-radius: 3px; transition: transform .55s cubic-bezier(.34,1.3,.5,1), width .45s var(--ease-io); }
 }
 
 @media (prefers-reduced-motion: reduce) {
