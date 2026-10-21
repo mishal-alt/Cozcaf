@@ -1,0 +1,21 @@
+# Read by Cloudflare Pages and Netlify (Vercel uses vercel.json).
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+
+# the page itself: always revalidate, so content edits go live at once
+/
+  Cache-Control: public, max-age=0, must-revalidate
+
+# hashed build output (fonts, hero textures, scripts): never changes under the same name
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# photos keep their names when replaced, so a day, then revalidate in the background
+/img/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/favicon.svg
+  Cache-Control: public, max-age=86400

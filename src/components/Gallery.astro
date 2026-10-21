@@ -1,0 +1,29 @@
+---
+import './Gallery.css';
+import Picture from './Picture.astro';
+import { gallery } from '../data/copy';
+import { site } from '../data/site';
+import { has } from '../lib/links';
+import { headingHtml } from '../lib/split';
+
+const sizes = '(max-width:900px) 46vw, 31vw';
+---
+<section class="gallery on-dark" id="gallery" aria-labelledby="galH">
+  <div class="wrap">
+    <div class="g-intro">
+      <div class="g-copy">
+        <span class="eyebrow rv">{gallery.eyebrow}</span>
+        <h2 class="d-l split" id="galH" style="--d:.1s" set:html={headingHtml(gallery.heading)}></h2>
+      </div>
+      <div class="g-side rv" style="--d:.25s">
+        <p class="b-m">{gallery.aside}</p>
+        {has.ig && <a class="link" href={site.instagramUrl} target="_blank" rel="noopener"><span>{site.instagramHandle}</span> on Instagram <svg viewBox="0 0 28 12" aria-hidden="true"><use href="#arrow"/></svg></a>}
+      </div>
+    </div>
+    <ul class="g-grid">
+      {gallery.tiles.map((t, i) => (
+        <li><button class="g-tile rv-img zoom" type="button" data-i={i} style={t.delay ? `--d:${t.delay}` : undefined} aria-label={`Open photo: ${t.photo.alt}`}><Picture name={t.photo.name} alt={t.photo.alt} sizes={sizes} /></button></li>
+      ))}
+    </ul>
+  </div>
+</section>

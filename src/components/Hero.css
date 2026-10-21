@@ -1,0 +1,83 @@
+/* ============ hero layer (fixed, sits under the page that scrolls over it) ============ */
+#hero { position: fixed; inset: 0; z-index: 0; overflow: hidden; background: var(--moss); }
+#stage { position: absolute; left: 0; top: 0; width: 1440px; height: 900px; transform-origin: 0 0; }
+#stage .abs { position: absolute; }
+
+body.skipping .anim { transition: opacity .45s ease, transform .45s ease !important; }
+
+#glow { border-radius: 50%; pointer-events: none; opacity: 0; will-change: opacity, transform;
+  background: radial-gradient(closest-side, rgba(255,192,122,.60), rgba(255,170,100,.26) 42%, rgba(255,160,90,0) 100%); }
+
+.kicker { left: 0; width: 1440px; top: 122px; margin: 0; text-align: center; font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: .25em; text-transform: uppercase; color: var(--text-md); }
+.kicker .w { display: inline-block; opacity: 0; transform: translateY(8px); }
+/* The giant COZ / CAF are the real COZCAF logo lettering (the same vector letters as the wordmark and the cup print),
+   one SVG per letter, so they stay razor sharp at any size. --cap is the capital height; --g is the logo's own letter gap. */
+#stage .big { --cap: 184px; --g: .468; top: 336px; display: flex; align-items: flex-start; height: var(--cap); gap: calc(var(--cap) * var(--g)); fill: var(--letter); white-space: nowrap; filter: drop-shadow(0 4px 24px rgba(0,0,0,.12)); }
+#stage .big svg { display: block; height: 100%; width: auto; flex: none; }
+#stage .coz { right: 884px; }
+#stage .caf { --g: .401; left: 896px; }
+.badge {
+  left: 932px; top: 184px; width: 128px; height: 128px; border-radius: 50%;
+  border: 1px solid var(--line); background: rgba(59,72,51,.4);
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,.25), 0 8px 10px -6px rgba(0,0,0,.25);
+  display: grid; place-items: center;
+}
+.badge svg { position: absolute; inset: 0; width: 100%; height: 100%; padding: 4px; overflow: visible; will-change: transform; }
+.badge .star { font-size: 37.5px; font-weight: 300; line-height: 1; color: var(--cream); }
+
+.bl { left: 80px; top: 730px; font-size: 16px; line-height: 24px; letter-spacing: -.025em; color: var(--text-hi); }
+.bl span { display: block; }
+.br { right: 80px; top: 716px; text-align: right; }
+.br .a { font-size: 14px; line-height: 20px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--cream); }
+.cue { margin-top: 14px; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-size: 12px; line-height: 16px; letter-spacing: .05em; text-transform: uppercase; color: var(--text-md); }
+.cue:hover { color: #fff; }
+.cue .cb { position: relative; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; }
+.cue .cb::after { content: ""; position: absolute; inset: -1px; border-radius: 50%; border: 1px solid var(--line); animation: ring 2.6s ease-out infinite; }
+.cue svg { animation: bob 2.6s ease-in-out infinite; }
+@keyframes ring { 0% { transform: scale(1); opacity: .75; } 70%, 100% { transform: scale(1.75); opacity: 0; } }
+@keyframes bob { 0%, 100% { transform: translateY(-1.5px); } 50% { transform: translateY(2px); } }
+
+/* conversion layer */
+
+.cta { left: 0; width: 1440px; top: 736px; display: flex; justify-content: center; gap: 12px; pointer-events: none; }
+
+/* trust signals: one centred line under the buttons (location, rating only when real, Instagram, live open chip) */
+.trust { left: 0; width: 1440px; top: 806px; display: flex; justify-content: center; align-items: center; gap: 12px 28px; font-size: 13px; line-height: 20px; letter-spacing: .04em; color: var(--text-hi); }
+.trust .stamp { font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.trust a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text-hi); transition: color .2s ease; }
+.trust a { position: relative; }
+.trust a::after { content: ""; position: absolute; inset: min(-12px, calc(10px - 22px / var(--s))) -10px; }   /* 44 css px tall tap area at any stage scale, no layout change */
+.trust a:hover { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
+.trust .stars { letter-spacing: .1em; color: var(--cream); }
+.trust b { color: var(--cream); font-weight: 700; }
+
+/* portrait composition (phones): COZ above the cup, CAF below, kicker + CTAs + trust under it */
+#bstack { display: contents; }
+#stage.tall .big { --cap: var(--F); left: 0; right: auto; width: 100%; justify-content: center; gap: calc(var(--cap) * var(--g) * var(--trk, 1)); }
+#stage.tall .coz { top: var(--cozTop); }
+#stage.tall .caf { top: var(--cafTop); }
+#stage.tall .badge { left: var(--badgeX); top: var(--badgeY); width: var(--bsz); height: var(--bsz); }
+#stage.tall .badge .star { font-size: 24px; }
+#stage.tall .bl, #stage.tall .br { display: none; }
+#stage.tall #bstack { display: flex; flex-direction: column; align-items: center; gap: 12px; position: absolute; left: 16px; width: calc(var(--W) * 1px - 32px); bottom: calc(58px + var(--safeB) * 1px); }
+#stage.tall #bstack > * { position: relative; left: auto; top: auto; width: 100%; }
+#stage.tall .kicker { font-size: 11px; line-height: 14px; letter-spacing: .2em; }
+#stage.tall .cta { gap: 10px; }
+#stage.tall .btn { flex: 1; height: max(46px, calc(44px / var(--s))); padding: 0 12px; }
+#stage.tall .trust { flex-wrap: wrap; justify-content: center; gap: 4px 16px; font-size: 13px; }
+#stage.tall .trust .stamp { flex: 1 0 100%; text-align: center; font-size: 13px; letter-spacing: .06em; line-height: 18px; }
+
+/* ticker: full-width chrome pinned to the bottom of the hero */
+#marq { position: absolute; left: 0; right: 0; bottom: 0; height: calc((46px + var(--safeB) * 1px) * var(--s)); padding-bottom: calc(var(--safeB) * 1px * var(--s)); background: var(--cream); color: var(--deep-moss); overflow: hidden; display: flex; align-items: center; font-size: calc(14px * var(--s)); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; visibility: hidden; }
+.track { display: flex; gap: calc(32px * var(--s)); width: max-content; animation: tick 25s linear infinite; }
+
+/* ============ canvas, grain ============ */
+#fx, #ghost { position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+#ghost { opacity: 0; transition: opacity .45s ease; }
+#ghost.on { opacity: 1; transition: none; }
+#grain { position: fixed; inset: 0; z-index: 3; pointer-events: none; opacity: 0; background-repeat: repeat; background-size: 160px 160px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .track, .cue .cb::after, .cue svg { animation: none; }
+}

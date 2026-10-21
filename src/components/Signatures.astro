@@ -1,0 +1,36 @@
+---
+import './Signatures.css';
+import Picture from './Picture.astro';
+import { signatures } from '../data/copy';
+import { headingHtml } from '../lib/split';
+
+const sizes = '(max-width:900px) 78vw, 30vw';
+const phDelay = [undefined, '--d:.15s', '--d:.3s'] as const;
+const bodyDelay = ['--d:.3s', '--d:.45s', '--d:.6s'] as const;
+---
+<section class="signatures on-dark" id="signatures" aria-labelledby="sigH">
+  <div class="wrap">
+    <div class="sig-head">
+      <div>
+        <span class="eyebrow rv">{signatures.eyebrow}</span>
+        <h2 class="d-l split" id="sigH" style="--d:.1s" set:html={headingHtml(signatures.heading)}></h2>
+      </div>
+      <div class="sig-aside rv" style="--d:.25s">
+        <p class="b-m">{signatures.aside}</p>
+        <a class="link" href="#menu">{signatures.link} <svg viewBox="0 0 28 12" aria-hidden="true"><use href="#arrow"/></svg></a>
+      </div>
+    </div>
+    <div class="sig-cards" id="sig-cards" role="group" aria-label={signatures.groupLabel}>
+      {signatures.cards.map((c, i) => (
+        <article class="sig-card">
+          <div class="ph rv-img zoom" style={phDelay[i]}><Picture name={c.photo.name} alt={c.photo.alt} sizes={sizes} /></div>
+          <div class="body rv" style={bodyDelay[i]}>
+            <div class="card-meta"><span class="num">{c.num}</span><hr><span>{c.kind}</span></div>
+            <h3 class="h-s">{c.title}</h3>
+            <p class="b-m">{c.text}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,51 @@
+---
+import './Hero.css';
+import { CAF_LETTERS, COZ_LETTERS } from './logo-paths';
+import { hero } from '../data/copy';
+import { has } from '../lib/links';
+import { openState } from '../lib/hours';
+import { site } from '../data/site';
+
+const marquee = hero.marquee.join(' • ') + ' •';
+const state = openState(site.hours);
+---
+<section id="hero" aria-label={`${site.name}, a cozy specialty coffee cafe`}>
+  <div id="stage">
+    <div class="abs" id="glow" aria-hidden="true"></div>
+    <h1 class="sr">{site.h1}</h1>
+    <div class="abs big coz anim" id="coz" aria-hidden="true">{COZ_LETTERS.map((l) => <svg viewBox={l.viewBox} style={`aspect-ratio:${l.aspect}`} aria-hidden="true" focusable="false"><path fill-rule="evenodd" d={l.d}/></svg>)}</div>
+    <div class="abs big caf anim" id="caf" aria-hidden="true">{CAF_LETTERS.map((l) => <svg viewBox={l.viewBox} style={`aspect-ratio:${l.aspect}`} aria-hidden="true" focusable="false"><path fill-rule="evenodd" d={l.d}/></svg>)}</div>
+
+    <div class="abs badge anim" id="badge">
+      <svg viewBox="0 0 140 140" id="bsvg" aria-hidden="true">
+        <path id="bpath" d="M 70,70 m -50,0 a 50,50 0 1,1 100,0 a 50,50 0 1,1 -100,0" fill="none" stroke="transparent"/>
+        <text style="font-size:9px;letter-spacing:.24em;text-transform:uppercase;fill:#F4EFE6;font-weight:500;font-family:var(--font-body)"><textPath href="#bpath" startOffset="0%">{hero.badge}</textPath></text>
+      </svg>
+      <div class="star" aria-hidden="true">&#10033;</div>
+    </div>
+
+    <div class="abs bl"><span class="anim" id="bl1">{hero.lines[0]}</span><span class="anim" id="bl2">{hero.lines[1]}</span><span class="anim" id="bl3">{hero.lines[2]}</span></div>
+    <div class="abs br anim" id="br"><div class="a">{hero.right[0]}<br>{hero.right[1]}</div>
+      <a class="cue" href="#story" id="cue"><span>{hero.cue}</span><span class="cb" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F4EFE6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></a></div>
+
+    <div id="bstack">
+      <p class="abs kicker" id="kicker">{site.tagline}</p>
+      <div class="abs cta" id="cta">
+        <a class="btn primary anim" id="ctaMenu" href="#menu">{hero.ctaMenu}</a>
+        <a class="btn ghost anim" id="ctaVisit" href="#visit">{hero.ctaVisit} <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
+      </div>
+      <div class="abs trust anim" id="trust">
+        <span class="stamp" id="stamp">{site.locality} &bull; <span>{site.since}</span></span>
+        {has.rating && (
+          <a id="tRate" href={site.rating.url} target="_blank" rel="noopener" aria-label={`Rated ${site.rating.value} out of 5 on Google from ${site.rating.count} reviews. Opens Google Maps reviews.`}><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span> <b>{site.rating.value}</b> <span>on Google &middot; {site.rating.count} reviews</span></a>
+        )}
+        {has.ig && (
+          <a id="tIg" href={site.instagramUrl} target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg><span>{site.instagramHandle}</span></a>
+        )}
+        <span class="chip" data-open-chip data-open="true" data-opens={site.hours.open} data-closes={site.hours.close} data-tz={site.hours.tz}><i class="dot" aria-hidden="true"></i><span data-open-text>Open daily &middot; {state.range}</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div id="marq" aria-hidden="true"><div class="track"><span class="mq">{marquee}</span><span class="mq">{marquee}</span></div></div>
+</section>

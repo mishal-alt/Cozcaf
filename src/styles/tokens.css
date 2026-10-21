@@ -1,0 +1,17 @@
+/* Design tokens: the brand's own moss + cream. Everything else reads these. */
+
+:root {
+  --moss: #3B4833;
+  --deep-moss: #2E3827;
+  --cream: #F4EFE6;
+  --letter: #F4EEDB;
+  --coffee: #4A2A14;
+  --text-hi: rgba(244,239,230,.94);
+  --text-md: rgba(244,239,230,.9);        /* small text on moss: >= 7:1 */
+  --line: rgba(244,239,230,.4);
+  --open: #A9D8A0;
+  --font-display: 'Barlow Condensed', 'Oswald', 'Arial Narrow', 'Helvetica Neue', Impact, sans-serif;   /* condensed, squared caps: the same family of shapes as the COZCAF logo */
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --s: 1; --hh: 88; --W: 1440; --safeB: 0;
+  color-scheme: dark;
+}

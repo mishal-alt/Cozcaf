@@ -1,0 +1,42 @@
+---
+import './Menu.css';
+import { menu } from '../data/menu';
+import { menuIntro } from '../data/copy';
+import { has, waHref } from '../lib/links';
+import { site } from '../data/site';
+import { headingHtml } from '../lib/split';
+
+const first = menu.categories[0]?.id;
+---
+<section class="menu on-light" id="menu" aria-labelledby="menuH">
+  <div class="wrap">
+    <div class="menu-head">
+      <span class="eyebrow both rv">{menuIntro.eyebrow}</span>
+      <h2 class="d-l split" id="menuH" style="--d:.1s" set:html={headingHtml(menuIntro.heading)}></h2>
+      <p class="b-m rv" style="--d:.25s">{menuIntro.lead}</p>
+    </div>
+    <div class="tabs rv" style="--d:.3s" role="tablist" aria-label={menuIntro.tabsLabel}>
+      {menu.categories.map((c) => <button class="tab" role="tab" id={`tab-${c.id}`} aria-controls="panel" aria-selected={c.id === first ? 'true' : 'false'} tabindex={c.id === first ? 0 : -1} data-cat={c.id}>{c.label}</button>)}
+      <span class="tab-ind" id="tab-ind" aria-hidden="true"></span>
+    </div>
+    <div class="panel rv" style="--d:.4s" id="panel" role="tabpanel" aria-labelledby={`tab-${first}`} tabindex="0">
+      {menu.categories.map((c) => (
+        <div class="menu-cols" data-cat={c.id} hidden={c.id !== first}>
+          {c.items.map((it, i) => (
+            <article class="dish" style={`--i:${i}`}>
+              <div class="dish-ph"><svg class="dish-mark" viewBox="127 310 48 63" aria-hidden="true"><use href="#p-icon"/></svg><svg class="dish-logo" viewBox="127 310 354 63" aria-hidden="true"><use href="#p-icon"/><use href="#p-word"/></svg>{it.tag && <span class="tag">{it.tag}</span>}</div>
+              <div class="dish-body"><h3 class="h-s">{it.name}</h3><p>{it.desc}</p></div>
+            </article>
+          ))}
+        </div>
+      ))}
+    </div>
+    <div class="menu-foot rv">
+      <p class="menu-note">{menuIntro.note}</p>
+      <div class="menu-actions">
+        {has.wa && <a class="btn primary" href={waHref('order')} target="_blank" rel="noopener">{menuIntro.whatsapp}</a>}
+        {has.pdf && <a class="btn ghost" href={site.menuPdfUrl} target="_blank" rel="noopener">{menuIntro.pdf}</a>}
+      </div>
+    </div>
+  </div>
+</section>

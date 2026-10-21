@@ -1,0 +1,26 @@
+/* lightbox: a soft dark veil over the page; sits outside #site, so it carries its own tokens */
+.lb { position: fixed; inset: 0; z-index: 8; display: grid; place-items: center; padding: 72px 16px; opacity: 0; transition: opacity .24s ease; --cream: #F4EFE6; }
+.lb.on { opacity: 1; }
+.lb-backdrop { position: absolute; inset: 0; background: rgba(26,32,22,.93); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.lb-fig { position: relative; margin: 0; display: grid; gap: 16px; justify-items: center; max-width: min(100%, 960px); }
+.lb-fig img { display: block; width: auto; height: auto; max-width: 100%; max-height: calc(100vh - 184px); max-height: calc(100svh - 184px); border-radius: 24px; object-fit: contain; background: #2E3827; }
+.lb-fig figcaption { max-width: 60ch; text-align: center; font-size: 14px; line-height: 1.6; color: rgba(244,239,230,.86); }
+.lb-btn { position: absolute; width: 48px; height: 48px; padding: 0; border-radius: 50%; border: 1px solid rgba(244,239,230,.4); background: rgba(46,56,39,.8); color: var(--cream); display: grid; place-items: center; cursor: pointer; transition: background .2s ease, border-color .2s ease; }
+.lb-btn:hover { background: #3B4833; border-color: var(--cream); }
+.lb-btn svg { width: 22px; height: 22px; }
+.lb-close { top: max(16px, env(safe-area-inset-top, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); }
+.lb-prev, .lb-next { top: 50%; margin-top: -24px; }
+.lb-prev { left: max(16px, env(safe-area-inset-left, 0px)); }
+.lb-next { right: max(16px, env(safe-area-inset-right, 0px)); }
+.lb-count { position: absolute; left: 0; right: 0; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); margin: 0; text-align: center; font: 600 13px/1 var(--font-body); letter-spacing: .16em; color: rgba(244,239,230,.86); }
+html.lb-open { overflow: hidden; }
+
+@media (max-width: 520px) {
+  .lb-prev, .lb-next { top: auto; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); margin-top: 0; }
+  .lb { padding: 72px 16px 88px; }
+  .lb-fig img { max-height: calc(100svh - 232px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lb { transition: none; }
+}

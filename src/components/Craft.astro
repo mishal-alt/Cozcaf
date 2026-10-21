@@ -1,0 +1,23 @@
+---
+import './Craft.css';
+import Picture from './Picture.astro';
+import { craft } from '../data/copy';
+import { headingHtml } from '../lib/split';
+---
+<section class="craft on-light" aria-labelledby="craftH">
+  <div class="wrap">
+    <figure class="collage">
+      <div class="big rv-img zoom"><Picture name={craft.big.name} alt={craft.big.alt} sizes="(max-width:900px) 72vw, 34vw" /></div>
+      <div class="small-wrap" data-px="-0.07"><div class="small rv-img zoom" style="--d:.35s"><Picture name={craft.small.name} alt={craft.small.alt} sizes="(max-width:900px) 40vw, 18vw" /></div></div>
+      <figcaption class="rv" style="--d:.5s">{craft.caption}</figcaption>
+    </figure>
+    <div class="craft-copy">
+      <span class="eyebrow rv">{craft.eyebrow}</span>
+      <h2 class="d-l split" id="craftH" style="--d:.1s" set:html={headingHtml(craft.heading)}></h2>
+      <p class="b-l rv" style="--d:.2s">{craft.lead}</p>
+      <p class="b-m rv" style="--d:.3s">{craft.body}</p>
+      <ul class="ticks">{craft.ticks.map((t, i) => <li class="rv" style={`--d:${['.35s', '.45s', '.55s'][i]}`}>{t}</li>)}</ul>
+      <a class="link rv" style="--d:.6s" href="#menu">{craft.link} <svg viewBox="0 0 28 12" aria-hidden="true"><use href="#arrow"/></svg></a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,19 @@
+---
+import { images, type ImageName } from '../data/images';
+
+interface Props {
+  name: ImageName;
+  alt: string;
+  sizes: string;
+  /** above-the-fold images should pass "eager" */
+  loading?: 'lazy' | 'eager';
+}
+
+const { name, alt, sizes, loading = 'lazy' } = Astro.props;
+const set = images[name];
+const widths: readonly number[] = set.widths;
+const heights: readonly number[] = set.heights;
+const last = widths.length - 1;
+const srcset = (ext: string): string => widths.map((w) => `/img/${name}-${w}.${ext} ${w}w`).join(', ');
+---
+<picture><source type="image/avif" srcset={srcset('avif')} sizes={sizes}><source type="image/webp" srcset={srcset('webp')} sizes={sizes}><img src={`/img/${name}-${widths[last]}.jpg`} srcset={srcset('jpg')} sizes={sizes} width={widths[last]} height={heights[last]} alt={alt} loading={loading} decoding="async"></picture>

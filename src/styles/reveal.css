@@ -1,0 +1,16 @@
+/* scroll reveals (only when script and motion are available) */
+
+/* ===== scroll reveals (only when script and motion are available) ===== */
+html.js-rv .rv { opacity: 0; transform: translateY(32px); transition: opacity 1.1s var(--ease-out) var(--d, 0s), transform 1.3s var(--ease-out) var(--d, 0s); }
+html.js-rv .rv.in { opacity: 1; transform: none; }
+html.js-rv .eyebrow.rv::before, html.js-rv .eyebrow.rv.both::after { transform: scaleX(0); transition: transform 1.2s var(--ease-io) calc(var(--d, 0s) + .25s); }
+html.js-rv .eyebrow.rv.in::before, html.js-rv .eyebrow.rv.in.both::after { transform: none; }
+html.js-rv .rv-img { clip-path: inset(100% 0 0 0); transition: clip-path 1.4s var(--ease-io) var(--d, 0s); }
+html.js-rv .rv-img.in { clip-path: inset(0 0 0 0); }
+html.js-rv .rv-img.in img { animation: imgIn 1.8s var(--ease-out) var(--d, 0s) backwards; }
+@keyframes imgIn { from { transform: scale(1.24); } }
+html.js-rv .split .w { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 .1em .08em 0; margin: 0 -.1em -.08em 0; }
+html.js-rv .split .wi { display: inline-block; transform: translateY(112%); transition: transform 1.2s var(--ease-out); transition-delay: calc(var(--d, 0s) + var(--wi) * .045s); }
+html.js-rv .split.in .wi { transform: none; }
+html.js-rv .rv-wipe { clip-path: inset(0 100% 0 0); transition: clip-path 2s var(--ease-io); }
+html.js-rv .rv-wipe.in { clip-path: inset(0 0 0 0); }

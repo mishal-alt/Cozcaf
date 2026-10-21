@@ -1,0 +1,59 @@
+/* visit */
+.visit { background: var(--ink); min-height: 720px; display: grid; }
+.visit-bg { position: absolute; inset: 0; overflow: hidden; }
+.visit-bg .px { position: absolute; inset: -10% 0; will-change: transform; }
+.visit-bg img { width: 100%; height: 100%; object-fit: cover; object-position: 30% 40%; }
+.visit-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(35,43,30,.05) 0%, rgba(35,43,30,.3) 45%, rgba(35,43,30,.82) 100%); }
+/* #site .visit .wrap outranks the generic #site .wrap, so the phone layout below can really go edge to edge */
+#site .visit .wrap { position: relative; display: flex; justify-content: flex-end; align-items: center; width: 100%; padding-block: 96px; }
+.visit-stack { display: grid; gap: 16px; width: 100%; max-width: 560px; }
+.visit-card { background: var(--cream); color: var(--deep-moss); border-radius: var(--r-card); padding: clamp(32px, 4.5vw, 56px); display: grid; gap: 32px; justify-items: start; }
+.visit-card .eyebrow { color: var(--muted); }
+.visit-card em { color: var(--muted); }
+.chip.chip-light { border-color: rgba(46,56,39,.4); color: var(--deep-moss); font-size: 14px; padding: 6px 16px; }
+.chip-light .dot { background: #2E7D32; }
+.chip-light[data-open="false"] > .dot { background: #9A5B12; animation: none; }
+.info { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 32px; width: 100%; }
+.info h3 { margin: 0 0 8px; font: 700 13px/1.2 var(--font-body); letter-spacing: .2em; text-transform: uppercase; color: var(--coffee-d); }
+.info p { font-weight: 500; font-size: 16px; line-height: 1.6; }
+.info .inline, .info .tel { gap: .3em; font-weight: 700; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; transition: color var(--t); }
+.info .inline:hover, .info .tel:hover { color: var(--moss); }
+.visit-card .ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+.map-card { position: relative; overflow: hidden; border-radius: var(--r-card); background: var(--deep-moss); color: var(--cream); }
+.map-embed { aspect-ratio: 16 / 9; background: var(--deep-moss); }
+.map-embed iframe { display: block; width: 100%; height: 100%; border: 0; }
+.map-link { position: relative; display: grid; gap: 8px; align-content: end; min-height: 192px; padding: 24px 32px; color: var(--cream); transition: background var(--t); }
+.map-link:hover { background: rgba(244,239,230,.06); }
+.map-art { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--sage); pointer-events: none; }
+.map-art .pulse { transform-box: fill-box; transform-origin: center; animation: pulse 3.2s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { transform: scale(.85); } 50% { transform: scale(1.35); } }
+.map-label { position: relative; display: grid; gap: 4px; }
+.map-name { font: 800 32px/1 var(--font-display); letter-spacing: .03em; text-transform: uppercase; }
+.map-addr { font-size: 15px; line-height: 1.5; color: var(--soft); max-width: 34ch; }
+.map-go { position: relative; display: inline-flex; align-items: center; gap: 16px; margin-top: 8px; font: 700 13px/1 var(--font-body); letter-spacing: .14em; text-transform: uppercase; }
+.map-go svg { width: 28px; height: 12px; flex: none; transition: transform var(--t) var(--ease-out); }
+.map-link:hover .map-go svg { transform: translateX(8px); }
+
+@media (max-width: 900px) {
+  .visit { min-height: 0; }
+  .visit-bg { position: relative; height: 320px; }
+  .visit-bg::after { background: linear-gradient(180deg, rgba(35,43,30,0) 50%, rgba(35,43,30,.5) 100%); }
+  #site .visit .wrap { padding: 0; display: block; max-width: none; }
+  .visit-stack { max-width: none; gap: 0; }
+  .visit-card { border-radius: 0; padding: 56px var(--gutter) 56px; }
+  .map-card { border-radius: 0; }
+  .map-link { padding-inline: var(--gutter); }
+  .info .inline, .info .tel { min-height: 48px; }
+  .info .inline, .info .tel { display: inline-flex; align-items: center; }
+}
+
+@media (max-width: 520px) {
+  .info { grid-template-columns: 1fr; }
+  .visit-card .ctas .btn { flex: 1 1 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-go svg { transition: none; }
+  .map-link:hover .map-go svg { transform: none; }
+  .map-art .pulse { animation: none; }
+}

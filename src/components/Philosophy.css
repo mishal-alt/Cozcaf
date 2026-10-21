@@ -1,0 +1,6 @@
+/* quote */
+.philosophy { background: var(--deep-moss); text-align: center; }
+.philosophy .wrap { display: grid; justify-items: center; gap: 32px; padding-block: clamp(88px, 10vw, 144px); }
+.philosophy .mark { color: var(--cream); width: 32px; }
+.philosophy .eyebrow { color: var(--sage); }
+.philosophy .quote { max-width: 16ch; }

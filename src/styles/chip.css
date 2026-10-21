@@ -1,0 +1,10 @@
+/* the live Open / Closed chip (hero trust line and the visit card) */
+
+.chip { display: inline-flex; align-items: center; gap: 8px; padding: 3px 13px; border: 1px solid rgba(244,239,230,.55); border-radius: 999px; line-height: 20px; font-weight: 600; color: var(--cream); }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--open); animation: live 2.4s ease-out infinite; flex: none; }
+[data-open="false"] > .dot { background: #E9BF72; animation: none; }
+@keyframes live { 0% { box-shadow: 0 0 0 0 rgba(169,216,160,.6); } 80%, 100% { box-shadow: 0 0 0 7px rgba(169,216,160,0); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .dot { animation: none; }
+}

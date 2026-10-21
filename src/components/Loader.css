@@ -1,0 +1,10 @@
+/* ============ loader ============ */
+#loader { position: fixed; inset: 0; z-index: 9; background: var(--moss); display: grid; place-content: center; justify-items: center; gap: 20px; transition: opacity .38s ease; }
+.lword { margin: 0; font: 800 clamp(56px, 14vw, 120px)/1 var(--font-display); letter-spacing: .3em; padding-left: .3em; text-transform: uppercase; color: var(--cream); opacity: .92; }
+#loader.out { opacity: 0; pointer-events: none; }
+.lbean { width: 46px; height: auto; animation: lp 1.1s ease-in-out infinite; filter: drop-shadow(0 10px 14px rgba(0,0,0,.35)); }
+@keyframes lp { 0%, 100% { transform: scale(.88) rotate(-6deg); opacity: .7; } 50% { transform: scale(1.08) rotate(6deg); opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .lbean { animation: none; }
+}

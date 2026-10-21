@@ -1,0 +1,36 @@
+/* signatures */
+.signatures { background: var(--moss); }
+.signatures .wrap { padding-block: clamp(88px, 10vw, 152px) clamp(88px, 11vw, 160px); display: grid; gap: clamp(48px, 6vw, 80px); }
+.sig-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 32px; }
+.sig-head .eyebrow { color: var(--sage); margin-bottom: 24px; }
+/* The approved design was built in quirks mode, where a line that holds only this inline eyebrow ignores the text strut.
+   A block-level box gives the same 24px gap under it in standards mode (the page needs a doctype). */
+#site .sig-head .eyebrow { display: flex; width: fit-content; }
+.sig-head em { color: var(--sage); }
+.sig-head .sig-aside { max-width: 424px; display: grid; gap: 16px; justify-items: start; color: var(--soft); }
+.sig-head .link { color: var(--cream); }
+.sig-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; align-items: start; }
+.sig-card { display: grid; gap: 24px; }
+.sig-card:nth-child(2) { margin-top: 72px; }
+.sig-card .ph { overflow: hidden; aspect-ratio: 4 / 5; border-radius: var(--r-card); }
+
+.sig-card .ph img { width: 100%; height: 100%; object-fit: cover; }
+.sig-card:hover { --z: 1.05; }
+
+.sig-card .body { display: grid; gap: 16px; }
+.card-meta { display: flex; align-items: center; gap: 16px; }
+.card-meta .num { color: var(--sage); }
+.card-meta hr { flex: 1; border: 0; height: 1px; background: var(--hair); margin: 0; }
+.card-meta span:last-child { font: 600 13px/1 var(--font-body); letter-spacing: .22em; text-transform: uppercase; color: var(--soft); }
+.sig-card p { color: var(--soft); }
+
+@media (max-width: 900px) {
+  .sig-cards { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); gap: 16px; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scrollbar-width: none; }
+  .sig-cards::-webkit-scrollbar { display: none; }
+  .sig-card { flex: 0 0 min(78vw, 320px); scroll-snap-align: start; }
+  .sig-card:nth-child(2) { margin-top: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sig-card:hover { --z: 1; }
+}

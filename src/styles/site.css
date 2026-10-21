@@ -1,0 +1,37 @@
+/* ============ the rest of the site: slides up over the hero ============
+   Same two colours as the hero (moss + cream). One display voice everywhere: Barlow Condensed 800, the same squared, condensed
+   capitals as the COZCAF logo, with Plus Jakarta Sans for text. Spacing runs on an 8px scale, cards are 24px, pills are 999px.
+   Bands alternate cream / moss so the page keeps the rhythm of the first screen. */
+#page { position: relative; z-index: 1; pointer-events: none; }
+#spacer { height: 100vh; height: 100svh; }
+#site {
+  --gutter: clamp(24px, 6.6vw, 96px); --max: 1440px;
+  --cream-2: #ECE5D6; --cream-3: #E1D8C4; --ink: #232B1E;
+  --sage: #BFC9A6;              /* accent on moss */
+  --muted: #566149;             /* secondary text on cream (AA) */
+  --coffee-d: #7A4A24;          /* small accents on cream */
+  --soft: rgba(244,239,230,.78);/* secondary text on moss (AA) */
+  --hair: rgba(244,239,230,.18);
+  --rule: rgba(35,43,30,.16);
+  --r-card: 24px; --r-pill: 999px;
+  --ease-out: cubic-bezier(.19,1,.22,1); --ease-io: cubic-bezier(.77,0,.18,1);
+  --t: .22s;                    /* every hover / press transition */
+  pointer-events: auto; position: relative; overflow: hidden; overflow: clip;
+  border-radius: var(--r-card) var(--r-card) 0 0; box-shadow: 0 -24px 64px rgba(0,0,0,.28);
+  background: var(--cream); color: var(--deep-moss);
+}
+#site section { position: relative; scroll-margin-top: calc(var(--hh) * var(--s) * 1px); }
+#site img { display: block; max-width: 100%; }
+#site picture { display: block; width: 100%; height: 100%; }
+#site .wrap { max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+#site :where(a) { text-decoration: none; }
+#site em { font-style: normal; }
+#content { outline: none; }
+:where(#site h2, #site h3, #site p, #site figure, #site ul, #site blockquote, #site address) { margin: 0; }
+.on-light { color: var(--deep-moss); }
+.on-dark { color: var(--cream); }
+/* focus rings: always the opposite tone of the band they sit on */
+#site .on-light :focus-visible, #site.on-light :focus-visible { outline: 2px solid var(--moss); outline-offset: 4px; }
+#site .on-dark :focus-visible { outline: 2px solid var(--cream); outline-offset: 4px; }
+#site .visit-card :focus-visible { outline: 2px solid var(--moss); outline-offset: 4px; }
+#site .map-card :focus-visible { outline: 2px solid var(--cream); outline-offset: -6px; }

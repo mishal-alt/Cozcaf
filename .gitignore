@@ -1,0 +1,9 @@
+node_modules/
+dist/
+dist-test/
+.astro/
+reference/
+tools/compare/out/
+.DS_Store
+cozcaf-design.zip
+tools/compare/out/

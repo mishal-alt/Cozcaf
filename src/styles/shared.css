@@ -1,0 +1,10 @@
+/* hover zoom on photos */
+.zoom img { transform: scale(var(--z, 1)); transition: transform var(--t) ease-out; }
+
+@media (hover: none) {
+  .zoom img { transition: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zoom img { transition: none; }
+}

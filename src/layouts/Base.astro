@@ -1,0 +1,138 @@
+---
+import '../styles/fonts.css';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/type.css';
+import '../styles/buttons.css';
+import '../styles/chip.css';
+import '../styles/shared.css';
+import '../styles/reveal.css';
+import '../styles/site.css';
+
+import { site } from '../data/site';
+import { has } from '../lib/links';
+import { noscript } from '../data/copy';
+import { CONFIG } from '../hero/config';
+
+import barlow800 from '../assets/fonts/barlow-condensed-800-latin.woff2?url';
+import barlow700 from '../assets/fonts/barlow-condensed-700-latin.woff2?url';
+import jakarta400 from '../assets/fonts/plus-jakarta-sans-400-latin.woff2?url';
+import jakarta500 from '../assets/fonts/plus-jakarta-sans-500-latin.woff2?url';
+import jakarta600 from '../assets/fonts/plus-jakarta-sans-600-latin.woff2?url';
+import jakarta700 from '../assets/fonts/plus-jakarta-sans-700-latin.woff2?url';
+
+import cup from '../assets/hero/cup.webp?url';
+import body from '../assets/hero/body.webp?url';
+import lid from '../assets/hero/lid.webp?url';
+import bean from '../assets/hero/bean.webp?url';
+import ink from '../assets/hero/ink.png?url';
+import halo from '../assets/hero/halo.png?url';
+import sdf from '../assets/hero/sdf.png?url';
+
+const abs = (path: string): string => new URL(path, site.url + '/').href;
+const canonical = abs('/');
+const ogImage = abs(site.ogImage);
+
+// LocalBusiness structured data, built from src/data/site.ts. Optional facts appear only when they are real.
+const loc = site.locality.split(',').map((x) => x.trim());
+const jsonLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'CafeOrCoffeeShop',
+  name: site.name,
+  url: canonical,
+  description: 'A cozy specialty coffee cafe and kitchen in Kodappali, Parappanangadi.',
+  image: ogImage,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: [site.landmark, loc.length > 1 ? loc[0] : ''].filter(Boolean).join(', '),
+    addressLocality: loc[loc.length - 1],
+    addressRegion: site.region,
+    addressCountry: site.country,
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      opens: site.hours.open,
+      closes: site.hours.close,
+    },
+  ],
+};
+if (site.geo) jsonLd.geo = { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng };
+if (site.priceRange) jsonLd.priceRange = site.priceRange;
+if (has.pdf) jsonLd.hasMenu = site.menuPdfUrl;
+if (has.phone) jsonLd.telephone = site.phone;
+if (has.ig) jsonLd.sameAs = [site.instagramUrl];
+if (has.rating) jsonLd.aggregateRating = { '@type': 'AggregateRating', ratingValue: site.rating.value, reviewCount: site.rating.count };
+---
+<!doctype html>
+<html lang={site.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <title>{site.title}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <link rel="preload" as="font" type="font/woff2" href={barlow800} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={barlow700} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={jakarta400} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={jakarta500} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={jakarta600} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={jakarta700} crossorigin />
+    <link rel="preload" as="image" href={cup} type="image/webp" />
+    <link rel="preload" as="image" href={body} type="image/webp" />
+    <link rel="preload" as="image" href={lid} type="image/webp" />
+    <link rel="preload" as="image" href={bean} type="image/webp" />
+    <link rel="preload" as="image" href={ink} />
+    <link rel="preload" as="image" href={halo} />
+    <link rel="preload" as="image" href={sdf} />
+    <meta name="description" content={site.description} />
+    <meta name="theme-color" content={site.themeColor} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content={site.locale} />
+    <meta property="og:title" content={site.title} />
+    <meta property="og:description" content={`${site.tagline} Hand-poured latte art, coolers, comfort food and desserts in ${site.locality}.`} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content={String(site.ogImageWidth)} />
+    <meta property="og:image:height" content={String(site.ogImageHeight)} />
+    <meta property="og:image:alt" content={site.ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={site.title} />
+    <meta name="twitter:description" content={`${site.tagline} Hand-poured latte art, coolers, comfort food and desserts in ${site.locality}.`} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={site.ogImageAlt} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script is:inline>
+      /* reveal-on-scroll is only switched on when the browser can do it and motion is allowed; the page always starts at the top */
+      (function(){try{var r=document.documentElement;if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver' in window)r.classList.add('js-rv');r.classList.add('js');if('scrollRestoration' in history)history.scrollRestoration='manual';scrollTo(0,0);}catch(e){}})();
+    </script>
+  </head>
+  <body class={CONFIG.production ? 'prod' : undefined}>
+    <a class="skip-link" href="#content">Skip to content</a>
+
+    <noscript>
+      <style>
+        #loader, #hero, #hdr, #hdrBg, #ui, #fx, #ghost, #grain { display: none !important; }
+        #spacer { height: 0 !important; }
+        #menu { display: none !important; }
+        .nojs { display: block !important; background: #3B4833; color: #F4EFE6; padding: 56px 24px; text-align: center; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+        .nojs h1 { margin: 0 0 12px; font: 800 clamp(34px, 8vw, 56px)/1 'Barlow Condensed', 'Arial Narrow', sans-serif; letter-spacing: .04em; text-transform: uppercase; }
+        .nojs p { margin: 8px auto; max-width: 520px; line-height: 1.6; }
+        .nojs a { color: #F4EFE6; font-weight: 700; }
+      </style>
+      <div class="nojs">
+        <h1>{site.h1}</h1>
+        <p>{noscript.line1}</p>
+        <p>{site.landmark}, {site.locality}. Open daily {site.hours.open === '08:00' ? '8 AM' : site.hours.open} to {site.hours.close === '23:00' ? '11 PM' : site.hours.close}.</p>
+        <p>{has.maps && <a href={site.mapsUrl}>Get directions</a>}{has.maps && has.ig && <> &middot; </>}{has.ig && <a href={site.instagramUrl}>Instagram {site.instagramHandle}</a>}</p>
+        <p>{noscript.line3}</p>
+      </div>
+    </noscript>
+
+    <slot />
+  </body>
+</html>

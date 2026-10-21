@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import Loader from '../components/Loader.astro';
+import Icons from '../components/Icons.astro';
+import Header from '../components/Header.astro';
+import IntroControls from '../components/IntroControls.astro';
+import Hero from '../components/Hero.astro';
+import Ticker from '../components/Ticker.astro';
+import Story from '../components/Story.astro';
+import Craft from '../components/Craft.astro';
+import Signatures from '../components/Signatures.astro';
+import Menu from '../components/Menu.astro';
+import Philosophy from '../components/Philosophy.astro';
+import Visit from '../components/Visit.astro';
+import Gallery from '../components/Gallery.astro';
+import Footer from '../components/Footer.astro';
+import Lightbox from '../components/Lightbox.astro';
+import Overlays from '../components/Overlays.astro';
+---
+<Base>
+  <Loader />
+  <Icons />
+  <Header />
+  <IntroControls />
+  <Hero />
+  <div id="page">
+    <div id="spacer"></div>
+    <div id="site">
+      <Ticker />
+      <main id="content" tabindex="-1">
+        <Story />
+        <Craft />
+        <Signatures />
+        <Menu />
+        <Philosophy />
+        <Visit />
+        <Gallery />
+      </main>
+      <Footer />
+    </div>
+  </div>
+  <Lightbox />
+  <Overlays />
+  <script>
+    import '../scripts/main';
+  </script>
+</Base>

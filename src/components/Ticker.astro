@@ -1,0 +1,11 @@
+---
+import './Ticker.css';
+import { ticker } from '../data/copy';
+---
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    {[0, 1].map(() => (
+      <div class="ticker-group">{ticker.map((word) => <><span>{word}</span><svg viewBox="127 310 48 63"><use href="#p-icon"/></svg></>)}</div>
+    ))}
+  </div>
+</div>

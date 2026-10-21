@@ -1,0 +1,10 @@
+---
+// Fixed layers the hero engine draws into or fades: header backdrop, the two canvases, film grain, toast, safe-area probe.
+---
+<div id="hdrBg" aria-hidden="true"></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+<canvas id="ghost" aria-hidden="true"></canvas>
+<div id="grain" aria-hidden="true"></div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="probe" aria-hidden="true" style="position:fixed;left:0;top:0;width:0;height:0;visibility:hidden;padding-bottom:env(safe-area-inset-bottom,0px)"></div>

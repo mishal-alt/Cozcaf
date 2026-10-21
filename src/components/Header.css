@@ -1,0 +1,33 @@
+/* ============ header (fixed, above everything but the loader) ============ */
+#hdr { position: fixed; left: 0; right: 0; top: 0; z-index: 4; height: calc(var(--hh) * var(--s) * 1px); pointer-events: none; }
+#hdrBg { position: fixed; left: 0; right: 0; top: 0; z-index: 2; pointer-events: none; height: calc(var(--hh) * var(--s) * 1px); background: rgba(46,56,39,.94); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(244,239,230,.12); opacity: 0; }
+#hdrIn { position: absolute; left: 0; top: 0; height: calc(var(--hh) * 1px); transform-origin: 0 0; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 64px; width: 1440px; }
+#hdrIn > * { pointer-events: auto; }
+.logoLink { justify-self: start; display: block; line-height: 0; }
+.logoLink img { height: 19.5px; width: auto; display: block; }
+#nav { display: flex; gap: 34px; font-size: 13px; font-weight: 500; letter-spacing: .04em; }
+#nav a { position: relative; padding: 10px 2px; text-decoration: none; color: var(--text-hi); text-shadow: 0 0 10px rgba(46,56,39,.95), 0 0 3px rgba(46,56,39,.9); }
+#nav a::after { content: ""; position: absolute; left: 2px; right: 2px; bottom: 5px; height: 1px; background: var(--cream); transform: scaleX(0); transform-origin: 0 50%; transition: transform .25s ease; }
+#nav a:hover::after, #nav a:focus-visible::after, #nav a[aria-current="true"]::after { transform: scaleX(1); }
+#hr { justify-self: end; display: flex; align-items: center; gap: 12px; }
+.wa { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 16px 0 12px; background: rgba(59,72,51,.96); border: 1px solid rgba(244,239,230,.6); border-radius: 999px; font-size: 12.5px; font-weight: 600; letter-spacing: .02em; text-decoration: none; color: var(--cream); white-space: nowrap; transition: background .2s ease, border-color .2s ease; }
+.wa:hover { background: #4a5a40; border-color: var(--cream); }
+.wa .short { display: none; }
+.rnd { position: relative; width: 34px; height: 34px; padding: 0; border-radius: 50%; border: 1px solid rgba(244,239,230,.3); background: transparent; display: grid; place-items: center; color: var(--cream); cursor: pointer; text-decoration: none; transition: background .2s ease, border-color .2s ease; }
+.rnd:hover { background: rgba(244,239,230,.12); border-color: rgba(244,239,230,.6); }
+.dock .glyph { opacity: calc(1 - var(--dk, 0)); }
+#burger { display: none; }
+#hdr.tall #hdrIn { grid-template-columns: 1fr auto; padding: 0 16px; width: 390px; }
+#hdr.tall #nav { display: none; }
+#hdr.tall #burger { display: grid; }
+#hdr.tall .logoLink { display: flex; align-items: center; min-height: max(44px, calc(44px / var(--s))); min-width: 44px; }
+#hdr.tall .logoLink img { height: 16px; }
+#hdr.tall #hr { gap: 8px; }
+#hdr.tall .rnd { width: max(44px, calc(44px / var(--s))); height: max(44px, calc(44px / var(--s))); }
+#hdr.tall .wa { height: max(44px, calc(44px / var(--s))); padding: 0 16px 0 12px; font-size: 13px; gap: 6px; }
+#hdr.tall .wa .long { display: none; }
+#hdr.tall .wa .short { display: inline; }
+#sheet { position: absolute; right: 16px; top: calc(var(--hh) * 1px - 2px); width: 220px; padding: 8px; background: var(--deep-moss); border: 1px solid rgba(244,239,230,.2); border-radius: 18px; box-shadow: 0 18px 40px rgba(0,0,0,.35); display: flex; flex-direction: column; }
+#sheet a { display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 12px; text-decoration: none; font-size: 14px; font-weight: 500; }
+#sheet a { transition: background .2s ease; }
+#sheet a:hover, #sheet a:focus-visible { background: rgba(244,239,230,.1); }
