@@ -11,6 +11,7 @@ import '../styles/site.css';
 
 import { site } from '../data/site';
 import { has } from '../lib/links';
+import { fmt12 } from '../lib/hours';
 import { noscript } from '../data/copy';
 import { CONFIG } from '../hero/config';
 
@@ -127,7 +128,7 @@ if (has.rating) jsonLd.aggregateRating = { '@type': 'AggregateRating', ratingVal
       <div class="nojs">
         <h1>{site.h1}</h1>
         <p>{noscript.line1}</p>
-        <p>{site.landmark}, {site.locality}. Open daily {site.hours.open === '08:00' ? '8 AM' : site.hours.open} to {site.hours.close === '23:00' ? '11 PM' : site.hours.close}.</p>
+        <p>{site.landmark}, {site.locality}. Open daily {fmt12(site.hours.open)} to {fmt12(site.hours.close)}.</p>
         <p>{has.maps && <a href={site.mapsUrl}>Get directions</a>}{has.maps && has.ig && <> &middot; </>}{has.ig && <a href={site.instagramUrl}>Instagram {site.instagramHandle}</a>}</p>
         <p>{noscript.line3}</p>
       </div>

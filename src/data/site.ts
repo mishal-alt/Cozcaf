@@ -44,7 +44,7 @@ export interface SiteConfig {
   phone: string;
   /** TO SUPPLY (optional): shown in the footer when filled. */
   email: string;
-  /** CONFIRM: taken from the shared site design */
+  /** Confirmed by the client */
   instagramHandle: string;
   instagramUrl: string;
   /** Works as a Maps search today. TO SUPPLY: the exact Google Maps place link (Share, Copy link). */
@@ -84,7 +84,7 @@ export const site: SiteConfig = {
   locale: 'en_IN',
   title: 'COZCAF | Specialty coffee and kitchen in Kodappali, Parappanangadi',
   description:
-    'COZCAF is a cozy specialty coffee cafe and kitchen in Kodappali, Parappanangadi: hand-poured latte art, coolers, comfort food and desserts. Open daily 8 AM to 11 PM, opposite Jio Petrol Pump.',
+    'COZCAF is a cozy specialty coffee cafe and kitchen in Kodappali, Parappanangadi: hand-poured latte art, coolers, comfort food and desserts. Open daily 3 PM to 1 AM, opposite Jio Petrol Pump.',
   tagline: 'A little coffee. A lot of feeling.',
   h1: 'COZCAF, a cozy specialty coffee cafe in Parappanangadi',
   themeColor: '#3B4833',
@@ -94,8 +94,8 @@ export const site: SiteConfig = {
   whatsappReserveText: "Hi COZCAF, I'd like to reserve a table",
   phone: '',
   email: '',
-  instagramHandle: '@coz_caf',
-  instagramUrl: 'https://www.instagram.com/coz_caf/',
+  instagramHandle: '@coz__caf',
+  instagramUrl: 'https://www.instagram.com/coz__caf/',
   mapsUrl: 'https://www.google.com/maps/search/?api=1&query=COZCAF%20Kodappali%20Parappanangadi',
   mapEmbedUrl: '',
   menuPdfUrl: '',
@@ -106,7 +106,7 @@ export const site: SiteConfig = {
   region: 'Kerala',
   country: 'IN',
   parking: '',
-  hours: { open: '08:00', close: '23:00', tz: 'Asia/Kolkata', label: 'Monday – Sunday' },
+  hours: { open: '15:00', close: '01:00', tz: 'Asia/Kolkata', label: 'Monday – Sunday' },
   since: 'Est. 2021',
   priceRange: '',
   rating: { value: '', count: '', url: '' },
