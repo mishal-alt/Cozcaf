@@ -42,7 +42,7 @@ export function initPage(): PageEls {
     return s;
   });
 
-  let tx0 = 0, ty0 = 0, k0 = 1, vh = innerHeight, docked = false;
+  let tx0 = 0, ty0 = 0, k0 = 1, vh = innerHeight, docked = false, menu = false;
 
   /** where the lettering rests in the header, and the transform that lifts it to the big centred heading */
   function measure(): void {
@@ -63,9 +63,9 @@ export function initPage(): PageEls {
   /** the first scroll: the lettering glides up and shrinks into the header while the page slides over the scene */
   function scroll(): number {
     const sp = clamp(scrollY / (vh * DOCK_RANGE));
-    const e = reduced ? (sp > 0.5 ? 1 : 0) : easeInOut(sp);
+    const e = menu ? 1 : reduced ? (sp > 0.5 ? 1 : 0) : easeInOut(sp);                  // with the menu sheet open the lettering is always in the header
     wm.style.transform = `translate3d(${lerp(tx0, 0, e).toFixed(2)}px,${lerp(ty0, 0, e).toFixed(2)}px,0) scale(${lerp(k0, 1, e).toFixed(4)})`;
-    icon.style.opacity = String(smooth(clamp((sp - 0.55) / 0.3)));                   // the bean mark appears as the word settles
+    icon.style.opacity = String(menu ? 1 : smooth(clamp((sp - 0.55) / 0.3)));                   // the bean mark appears as the word settles
     wm.style.filter = e > 0.98 ? 'none' : '';
     hero.style.opacity = String(1 - clamp((sp - 0.15) / 0.6));
     hdrBg.style.opacity = String(clamp((sp - 0.5) / 0.35));
@@ -96,6 +96,17 @@ export function initPage(): PageEls {
     put(bl, ex, (1 - ex) * 14); put(br, ex, (1 - ex) * 14);
     chip.style.opacity = easeOutCubic(prog(t, 3.3, 4.1)).toFixed(3);
   }
+
+  // opening the menu sheet at the top of the page sends the lettering up into the header, the same glide as scrolling; closing it brings it back
+  new MutationObserver(() => {
+    const open = document.documentElement.classList.contains('nav-open');
+    if (open === menu) return;
+    menu = open;
+    const t = reduced ? '' : 'transform .7s cubic-bezier(.77,0,.18,1)';
+    wm.style.transition = t; icon.style.transition = reduced ? '' : 'opacity .5s ease';
+    scroll();
+    setTimeout(() => { wm.style.transition = ''; icon.style.transition = ''; }, 760);
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
   measure();
   return { chrome, measure, scroll };
