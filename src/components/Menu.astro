@@ -37,13 +37,10 @@ const slug = (n: string) => n.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     </div>
     <div class="menu-foot rv">
       <p class="menu-note">{menuIntro.note}</p>
-      <div class="menu-actions">
-        {has.wa
-          ? <a class="btn primary" href={waHref('order')} target="_blank" rel="noopener">{menuIntro.whatsapp}</a>
-          : has.maps && <a class="btn primary" href={site.mapsUrl} target="_blank" rel="noopener">{menuIntro.directions}</a>}
+      {(has.wa || has.pdf) && <div class="menu-actions">
+        {has.wa && <a class="btn primary" href={waHref('order')} target="_blank" rel="noopener">{menuIntro.whatsapp}</a>}
         {has.pdf && <a class="btn ghost" href={site.menuPdfUrl} target="_blank" rel="noopener">{menuIntro.pdf}</a>}
-        {!has.wa && !has.pdf && has.ig && <a class="btn ghost" href={site.instagramUrl} target="_blank" rel="noopener">{menuIntro.instagram}</a>}
-      </div>
+      </div>}
     </div>
   </div>
 </section>

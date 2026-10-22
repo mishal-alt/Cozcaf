@@ -16,7 +16,7 @@ All of them are filled in `src/data/site.ts` unless noted.
 
 ## Please confirm
 
-- **Opening hours:** every day 3 PM to 1 AM, confirmed by the client (this drives the live "Open now / Closed" chip and the structured data).
+- **Opening hours:** every day 1 PM to 1 AM, confirmed by the client (this drives the live "Open now / Closed" chip and the structured data).
 - **Instagram:** `@coz__caf` (`https://www.instagram.com/coz__caf/`), confirmed by the client.
 - **Established year:** "Est. 2021" in the hero line.
 - **Menu:** dishes in `src/data/menu.ts` come from the client PDF. Prices are not stored or shown (as in the approved design); dietary marks (V / VG / Spicy) can be added if wanted.

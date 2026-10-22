@@ -12,7 +12,7 @@
 .sig-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; align-items: start; }
 .sig-card { display: grid; gap: 24px; }
 .sig-card:nth-child(2) { margin-top: 72px; }
-.sig-card .ph { overflow: hidden; aspect-ratio: 4 / 5; border-radius: var(--r-card); }
+.sig-card .ph { --rr: var(--r-card); overflow: hidden; isolation: isolate; aspect-ratio: 4 / 5; border-radius: var(--r-card); }
 
 .sig-card .ph img { width: 100%; height: 100%; object-fit: cover; }
 .sig-card:hover { --z: 1.05; }
@@ -26,7 +26,7 @@
 
 @media (max-width: 900px) {
   .sig-head { grid-template-columns: minmax(0, 1fr); }
-  .sig-cards { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); gap: 16px; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scrollbar-width: none; }
+  .sig-cards { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); gap: 16px; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scrollbar-width: none; overflow-y: hidden; overscroll-behavior-x: contain; touch-action: pan-x pan-y; }
   .sig-cards::-webkit-scrollbar { display: none; }
   .sig-card { flex: 0 0 min(78vw, 320px); scroll-snap-align: start; }
   .sig-card:nth-child(2) { margin-top: 0; }

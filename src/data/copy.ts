@@ -90,9 +90,6 @@ export const menuIntro = {
   note: 'Our full menu is best discovered in person.',
   whatsapp: 'Order on WhatsApp',
   pdf: 'Download full menu (PDF)',
-  /** shown while there is no WhatsApp number, so the section never ends on a dead end */
-  directions: 'Get directions',
-  instagram: 'More on Instagram',
   diet: { Veg: 'Vegetarian', NonVeg: 'Non-vegetarian', Spicy: 'Spicy' },
 } as const;
 
