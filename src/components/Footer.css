@@ -49,6 +49,8 @@
 }
 
 @media (max-width: 520px) {
-  .foot-cols { gap: 32px 56px; }
+  .foot-cols { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 32px clamp(20px, 7vw, 40px); width: 100%; }
+  .foot-cols address, .foot-cols p { overflow-wrap: anywhere; }
+  .foot-chip { max-width: 100%; }
 }
 
