@@ -72,3 +72,11 @@
   .foot-bottom { padding-top: 16px; }
   .legal { font-size: 12px; line-height: 1.7; }
 }
+
+/* desktop: the COZCAF lettering is the backdrop of the whole footer; the content sits over it and the copyright line closes the page */
+@media (min-width: 901px) {
+  .footer { min-height: clamp(440px, 56vh, 600px); }
+  .footer .wrap:not(.foot-end) { padding-top: clamp(24px, 4vh, 48px); }
+  .footer .foot-end { margin-top: auto; position: relative; z-index: 1; }
+  .bigmark { position: absolute; z-index: 0; left: 50%; top: calc(50% - 24px); width: min(78%, 1120px); margin: 0; transform: translate(-50%, -50%); opacity: .5; }
+}
