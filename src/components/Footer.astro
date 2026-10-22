@@ -26,7 +26,6 @@ const year = new Date().getFullYear();
         </ul>}
       </div>
       <div class="foot-cols rv" style="--d:.3s">
-        <div><h3>{footer.exploreHeading}</h3><ul>{footer.explore.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul></div>
         <div><h3>{footer.visitHeading}</h3><address>{has.maps
           ? <a href={site.mapsUrl} target="_blank" rel="noopener"><span>{site.landmark}</span><br><span>{site.locality}</span></a>
           : <><span>{site.landmark}</span><br><span>{site.locality}</span></>}</address><p class="hrs"><span>{site.hours.label}</span>, <span>{state.range}</span></p><p><span class="chip foot-chip" data-open-chip data-open="true" data-opens={site.hours.open} data-closes={site.hours.close} data-tz={site.hours.tz}><i class="dot" aria-hidden="true"></i><span data-open-text>Open daily &middot; {state.range}</span></span></p>{has.phone && <p><a class="tel" href={telHref}>{site.phone}</a></p>}{has.email && <p><a class="mail" href={mailHref}>{site.email}</a></p>}</div>

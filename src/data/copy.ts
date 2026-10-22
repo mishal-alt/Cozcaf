@@ -133,20 +133,11 @@ export const footer = {
   lead: 'New pours, seasonal plates and quiet evenings, shared as they happen.',
   whatsapp: 'Message us on WhatsApp',
   socialsLabel: 'COZCAF on the web',
-  exploreHeading: 'Explore',
   visitHeading: 'Visit',
-  explore: [
-    { href: '#story', label: 'Our story' },
-    { href: '#signatures', label: 'Signatures' },
-    { href: '#menu', label: 'Menu' },
-    { href: '#visit', label: 'Visit' },
-    { href: '#gallery', label: 'Gallery' },
-  ],
   rights: 'All rights reserved.',
   developedBy: 'Developed by',
   developer: 'Zetron Tech',
   developerUrl: 'https://www.zetron.in/',
-  toTop: 'Back to top',
 } as const;
 
 export const noscript = {

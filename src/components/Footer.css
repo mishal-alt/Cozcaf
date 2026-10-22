@@ -1,6 +1,6 @@
 /* footer */
 .footer { position: relative; overflow: hidden; display: flex; flex-direction: column; background: var(--ink); color: var(--cream); }
-.footer .wrap { order: 1; position: relative; z-index: 1; display: grid; gap: clamp(48px, 6vw, 72px); padding-block: 0 32px; }
+.footer .wrap { order: 1; width: 100%; position: relative; z-index: 1; display: grid; gap: clamp(48px, 6vw, 72px); padding-block: 0 32px; }
 .foot-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 56px; padding-top: clamp(56px, 6vw, 72px); border-top: 1px solid var(--hair); }
 .foot-cta { display: grid; gap: 24px; flex: 1 1 320px; max-width: 520px; min-width: 0; justify-items: start; }
 .foot-cta em { color: var(--sage); }
@@ -38,7 +38,7 @@
 
 /* phones and tablets: the wordmark closes the page on its own row, never behind the link columns */
 @media (max-width: 900px) {
-  .footer .wrap { padding-block: 0 8px; }
+  .footer .wrap { padding-block: 0 24px; }
   .footer .foot-end { padding-block: 0 24px; }
   .bigmark { width: min(86%, 520px); margin-bottom: 28px; }
 }
@@ -49,7 +49,7 @@
 }
 
 @media (max-width: 520px) {
-  .foot-cols { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 32px clamp(20px, 7vw, 40px); width: 100%; }
+  .foot-cols { display: grid; grid-template-columns: minmax(0, 1fr); width: 100%; }
   .foot-cols address, .foot-cols p { overflow-wrap: anywhere; }
   .foot-chip { max-width: 100%; }
 }
