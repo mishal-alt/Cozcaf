@@ -4,7 +4,7 @@
    ====================================================================== */
 import { LOW_END } from './env';
 import { TAU, clamp, easeOutCubic, easeOutExpo, prog, rng, smooth } from './math';
-import { blurred, ctx2d, gradePlate, lit, makeSprites, mk, reflection, scaledTo, silhouette } from './sprites';
+import { blurred, ctx2d, gradePlate, lit, makeSprites, mk, reflection, scaledTo, sharpen } from './sprites';
 import type { Sprites } from './sprites';
 
 export interface Images { plate: HTMLImageElement; chicken: HTMLImageElement; pasta: HTMLImageElement; fries: HTMLImageElement; coffee: HTMLImageElement }
@@ -16,10 +16,13 @@ export interface Anchor { x: number; y: number; w: number; h: number; s: number;
 /** the finished composition is reached at about this time (s): reduced motion shows this frame */
 export const T_REST = 6.5;
 
+/** how far the camera eases in; the dishes are built at their final on-screen size, so at rest every pixel maps 1:1 to the screen */
+const PUSH = 0.02;
+
 const PLATE_W = 1536, PLATE_H = 2752, EDGE = 0.64;   // the set's size is defined at 1536 wide; the file is smaller and simply stretched (the wall and wood are soft)   // the set's size, and where the counter's back edge sits (fraction of its height)
 
 interface Spec { cx: number; foot: number; w?: number; h?: number; depth: number; z: number; app: [number, number]; rise: number; dx: number; emit: [number, number]; shadow: number; lift: number; glints: [number, number, number][] }
-interface Item extends Spec { key: Key; x: number; footY: number; wCss: number; hCss: number; a: HTMLCanvasElement; b: HTMLCanvasElement; sil: HTMLCanvasElement; refl: HTMLCanvasElement; hl?: HTMLCanvasElement }
+interface Item extends Spec { key: Key; x: number; footY: number; wCss: number; hCss: number; a: HTMLCanvasElement; b: HTMLCanvasElement; refl: HTMLCanvasElement; hl?: HTMLCanvasElement }
 interface Box { it: Item; x: number; y: number; s: number; u: number }
 interface Mote { x: number; y: number; z: number; sp: number; ph: number; f: number; s: number; tw: number }
 interface Bokeh { x: number; y: number; s: number; ph: number; a: number; v: number }
@@ -46,14 +49,13 @@ export async function createScene(cv: HTMLCanvasElement, imgs: Images, isTall: (
   let plate = { x: 0, y: 0, w: 0, h: 0 };
   let grainPat: CanvasPattern | string | null = null;
   let items: Item[] = [], motes: Mote[] = [], bokeh: Bokeh[] = [], near: Bokeh[] = [], steam: Puff[][] = [], bloom: HTMLCanvasElement | null = null;
-  const haze = !LOW_END;   // heat shimmer reads the canvas back, which a modest phone does not enjoy
 
   let building = false, again = false;
   async function layout(): Promise<void> {
     if (building) { again = true; return; }                  // a resize arrived mid-build: go again once this one is done
     building = true;
     // everything is worked out on the side and swapped in at the end, so a frame drawn mid-build never mixes old and new sizes
-    const nD = Math.min(window.devicePixelRatio || 1, LOW_END ? 1.25 : 2, dprCap), nW = innerWidth, nH = innerHeight, nLand = !isTall();
+    const nD = Math.min(window.devicePixelRatio || 1, 2, dprCap), nW = innerWidth, nH = innerHeight, nLand = !isTall();
     const sc = Math.max(nW / PLATE_W, nH / PLATE_H) * (nLand ? 1.04 : 1), pw = PLATE_W * sc, ph = PLATE_H * sc;
     const nPlate = { x: -(pw - nW) * (nLand ? 0.5 : 0.62), y: nLand ? nH * 0.6 - EDGE * ph : 0, w: pw, h: ph };
     const L: Record<Key, { cx: number; foot: number; w?: number; h?: number }> = nLand
@@ -69,10 +71,11 @@ export async function createScene(cv: HTMLCanvasElement, imgs: Images, isTall: (
     for (const key of ['chicken', 'pasta', 'fries', 'coffee'] as const) {
       const s = spec[key], img = imgs[key], asp = img.naturalWidth / img.naturalHeight;
       const wCss = s.w ? s.w * nW : (s.h ?? 0) * nH * asp, hCss = wCss / asp;
-      const a = lit(scaledTo(img, Math.round(wCss * nD), Math.round(hCss * nD)), s.lift);
+      const fin = 1 + PUSH * s.z, pw = Math.round(wCss * nD * fin), ph = Math.round(hCss * nD * fin);   // the size it will rest at
+      const a = lit(sharpen(scaledTo(img, pw, ph), pw / img.naturalWidth), s.lift);
       await tick();
       const small = scaledTo(a, Math.max(8, a.width / 2), Math.max(8, a.height / 2));   // the blurry helpers are soft anyway: build them at half size
-      built.push({ key, ...s, x: s.cx * nW, footY: s.foot * nH, wCss, hCss, a, b: blurred(small, 4), sil: silhouette(small, 3), refl: reflection(small, 0.2) });
+      built.push({ key, ...s, x: s.cx * nW, footY: s.foot * nH, wCss, hCss, a, b: blurred(small, 4), refl: reflection(small, 0.2) });
       await tick();
     }
     const r = rng(21), many = LOW_END ? 0.65 : 1;
@@ -89,11 +92,12 @@ export async function createScene(cv: HTMLCanvasElement, imgs: Images, isTall: (
   }
 
   /** one slow settle-in, then the camera holds still: dishes never swell and shrink */
-  const cam = (t: number): { push: number; pan: number; bob: number } => ({ push: 1 + 0.02 * smooth(clamp(t / 5)), pan: Math.sin(TAU * t / 16 + 0.6) * 0.005 * W, bob: 0 });
+  const cam = (t: number): { push: number; pan: number; bob: number } => ({ push: 1 + PUSH * smooth(clamp(t / 5)), pan: 0, bob: 0 });
 
   function drawAbout(img: HTMLCanvasElement, w: number, h: number, cx: number, cy: number, s: number, alpha: number, op?: GlobalCompositeOperation): void {
     ctx.save(); ctx.globalAlpha = alpha; if (op) ctx.globalCompositeOperation = op;
-    ctx.translate(F.x, F.y); ctx.scale(s, s); ctx.translate(-F.x, -F.y); ctx.drawImage(img, cx - w / 2, cy - h, w, h); ctx.restore();
+    const snap = (v: number): number => Math.round(v * D) / D;                       // whole device pixels: a resting dish is never resampled, so fine lettering stays crisp
+    ctx.drawImage(img, snap(F.x + (cx - w / 2 - F.x) * s), snap(F.y + (cy - h - F.y) * s), w * s, h * s); ctx.restore();
   }
 
   function render(t: number): Anchor {
@@ -128,7 +132,9 @@ export async function createScene(cv: HTMLCanvasElement, imgs: Images, isTall: (
       const x = it.x + it.dx * (1 - u) * W * 0.5 + c.pan * it.depth, y = it.footY + (1 - u) * it.rise * H + c.bob * it.depth + settle * H * 0.0035;
       const s = 1 + (c.push - 1) * it.z;
       ctx.save(); ctx.translate(F.x, F.y); ctx.scale(s, s); ctx.translate(-F.x, -F.y);
-      ctx.save(); ctx.globalAlpha = 0.55 * u * it.shadow; ctx.translate(x, y); ctx.transform(1, 0, -0.75, 0.24, 0, 0); ctx.drawImage(it.sil, -it.wCss / 2, -it.hCss, it.wCss, it.hCss); ctx.restore();   // cast shadow, laid across the counter away from the light
+      ctx.save(); ctx.translate(x + it.wCss * 0.14, y); ctx.scale(1, 0.13);
+      const cg = ctx.createRadialGradient(0, 0, 0, 0, 0, it.wCss * 0.62); cg.addColorStop(0, `rgba(5,3,2,${0.5 * u * it.shadow})`); cg.addColorStop(1, 'rgba(5,3,2,0)');
+      ctx.fillStyle = cg; ctx.beginPath(); ctx.arc(0, 0, it.wCss * 0.62, 0, TAU); ctx.fill(); ctx.restore();                                                                                          // soft cast shadow, pooled on the counter away from the light
       ctx.save(); ctx.translate(x, y - it.hCss * 0.01); ctx.scale(1, 0.16);
       const sg = ctx.createRadialGradient(0, 0, 0, 0, 0, it.wCss * 0.55); sg.addColorStop(0, `rgba(0,0,0,${0.85 * u})`); sg.addColorStop(1, 'rgba(0,0,0,0)');
       ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(0, 0, it.wCss * 0.55, 0, TAU); ctx.fill(); ctx.restore();                                                                                                       // tight contact shadow
@@ -185,20 +191,6 @@ export async function createScene(cv: HTMLCanvasElement, imgs: Images, isTall: (
     });
     ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
 
-    // 5b. the air shimmers above the hot food: thin strips of the picture slide sideways a pixel or two
-    const hz = smooth(prog(t, 2.6, 4));
-    if (haze && hz > 0) {
-      ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0);
-      for (const { it, x, y, s } of boxes.slice(0, 3)) {
-        const zx = F.x + (x - it.wCss / 2 - F.x) * s, zw = it.wCss * s, top = F.y + (y - it.hCss - F.y) * s, zh = H * (it.key === 'chicken' ? 0.2 : 0.12);
-        for (let py = Math.floor((top - zh) * D); py < top * D; py += 3 * D) {
-          const k2 = (py / D - (top - zh)) / zh, off = Math.sin(py * 0.06 / D + t * 3.3 + x * 0.01) * 1.2 * hz * Math.sin(Math.PI * k2) * D;
-          ctx.drawImage(cv, zx * D, py, zw * D, 3 * D, zx * D + off, py, zw * D, 3 * D);
-        }
-      }
-      ctx.restore();
-    }
-
     // 6. dust in the warm light, then a few big soft lights close to the lens
     ctx.globalCompositeOperation = 'lighter';
     const env2 = smooth(prog(t, 0.6, 2.6));
@@ -232,6 +224,7 @@ export async function createScene(cv: HTMLCanvasElement, imgs: Images, isTall: (
   return {
     resize: layout,
     render,
-    cheaper(): boolean { if (dprCap <= 1) return false; dprCap = Math.max(1, dprCap - 0.25); void layout(); return true; },
+    cheaper(): boolean { if (!LOW_END || dprCap <= 1) return false;   // never trade away sharpness on a capable screen
+      dprCap = Math.max(1, dprCap - 0.25); void layout(); return true; },
   };
 }

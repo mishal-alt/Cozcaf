@@ -126,10 +126,18 @@ export function lit(src: HTMLCanvasElement, lift: number): HTMLCanvasElement {
   return c;
 }
 
-export function silhouette(src: HTMLCanvasElement, k: number): HTMLCanvasElement {
-  const c = mk(src.width, src.height), g = ctx2d(c);
-  g.drawImage(src, 0, 0); g.globalCompositeOperation = 'source-in'; g.fillStyle = '#050302'; g.fillRect(0, 0, c.width, c.height);
-  return blurred(c, k);
+/** Unsharp mask for a photo that was enlarged to fill a sharper screen: only solid interior pixels are touched, so cut-out edges get no halo.
+ *  `up` is how much bigger the sprite is than its source; at 1 or below nothing was enlarged and it is left alone. */
+export function sharpen(src: HTMLCanvasElement, up: number): HTMLCanvasElement {
+  if (up <= 1.05) return src;
+  const w = src.width, h = src.height, amt = Math.min(0.9, 0.35 + (up - 1) * 0.5);
+  const b = blurred(src, 2), a = ctx2d(src).getImageData(0, 0, w, h), bd = ctx2d(b).getImageData(0, 0, w, h).data, d = a.data;
+  for (let i = 0; i < d.length; i += 4) {
+    if ((d[i + 3] ?? 0) < 250 || (bd[i + 3] ?? 0) < 250) continue;
+    for (let k = 0; k < 3; k++) { const v = d[i + k] ?? 0; d[i + k] = clamp(v + amt * (v - (bd[i + k] ?? 0)), 0, 255); }
+  }
+  ctx2d(src).putImageData(a, 0, 0);
+  return src;
 }
 
 export function reflection(src: HTMLCanvasElement, strength: number): HTMLCanvasElement {

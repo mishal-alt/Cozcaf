@@ -7,10 +7,12 @@ import plateUrl from '../assets/hero/plate.webp?url';
 import { COARSE, LOW_END, TALL, reduced } from './env';
 import { initPage } from './page';
 import { T_REST, createScene } from './scene';
+import { prog, smooth } from './math';
 import type { Images } from './scene';
 
-/** the arrival (dishes landing, heading revealed) plays this much faster than the design clock until INTRO_END */
-const INTRO_SPEED = 1.3, INTRO_END = 4.4;
+/** the arrival (dishes landing, heading revealed) plays this much faster than the design clock, easing back to normal speed between INTRO_EASE_FROM and INTRO_EASE_TO
+ *  (a sudden change of speed shows up as a jerk in everything that is still moving) */
+const INTRO_SPEED = 1.3, INTRO_EASE_FROM = 3.2, INTRO_EASE_TO = 6;
 
 const load = (src: string): Promise<HTMLImageElement> =>
   new Promise((res, rej) => {
@@ -50,7 +52,7 @@ export async function bootHero(): Promise<void> {
       last = now;
       acc += dt;
       if (LOW_END && acc < 1 / 32) return;                                         // a modest phone draws about 30 frames a second: the motion is slow, and the battery lasts
-      t += acc * (t < INTRO_END ? INTRO_SPEED : 1); acc = 0;                        // the arrival plays quicker; the ambient motion keeps its calm pace
+      t += acc * (1 + (INTRO_SPEED - 1) * (1 - smooth(prog(t, INTRO_EASE_FROM, INTRO_EASE_TO)))); acc = 0;                        // the arrival plays quicker; the ambient motion keeps its calm pace
       const a = performance.now();
       draw();
       slow = performance.now() - a > 22 ? slow + 1 : Math.max(0, slow - 1);      // a sagging frame rate: draw fewer pixels
