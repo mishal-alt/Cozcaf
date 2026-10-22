@@ -135,7 +135,6 @@ export const footer = {
   heading: ['Stay close to ', { em: 'the cafe' }],
   lead: 'New pours, seasonal plates and quiet evenings, shared as they happen.',
   whatsapp: 'Message us on WhatsApp',
-  instagram: 'Follow on Instagram',
   socialsLabel: 'COZCAF on the web',
   exploreHeading: 'Explore',
   visitHeading: 'Visit',
@@ -146,7 +145,10 @@ export const footer = {
     { href: '#visit', label: 'Visit' },
     { href: '#gallery', label: 'Gallery' },
   ],
-  copyright: 'COZCAF · Made with care in Kodappali',
+  rights: 'All rights reserved.',
+  developedBy: 'Developed by',
+  developer: 'Zetron Tech',
+  developerUrl: 'https://www.zetron.in/',
   toTop: 'Back to top',
 } as const;
 
