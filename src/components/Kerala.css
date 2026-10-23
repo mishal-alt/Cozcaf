@@ -1,0 +1,87 @@
+/* the Kerala map: the whole state in moss, COZCAF's pin on the Malappuram coast, and a slow ripple that spreads from it across Kerala */
+.kerala { background: var(--cream-2); }
+#site .kerala .wrap { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "head map" "side map"; column-gap: clamp(40px, 6vw, 112px); row-gap: clamp(28px, 4vh, 48px); align-items: start; padding-block: clamp(72px, 12vh, 140px); }
+.k-head { grid-area: head; align-self: end; display: grid; gap: clamp(14px, 2.4vh, 24px); justify-items: start; }
+.k-head .eyebrow { color: var(--muted); }
+.k-head .d-l { font-size: clamp(40px, min(4.4vw, 8vh), 68px); }
+.k-head em { color: var(--muted); }
+.k-body { max-width: 34em; font-size: 17px; line-height: 1.65; font-weight: 500; color: var(--ink); }
+
+.k-side { grid-area: side; display: grid; gap: clamp(24px, 3.6vh, 36px); justify-items: start; width: 100%; }
+.k-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; margin: 0; border-top: 1px solid var(--rule); }
+.k-stats > div { padding: 18px 16px 0 0; }
+.k-stats > div + div { padding-left: 16px; border-left: 1px solid var(--rule); }
+.k-stats dt { font: 700 12px/1.4 var(--font-body); letter-spacing: .2em; text-transform: uppercase; color: var(--coffee-d); }
+.k-stats dd { margin: 8px 0 0; display: grid; gap: 4px; }
+.k-stats b { font: 800 clamp(34px, 3.4vw, 48px)/1 var(--font-display); letter-spacing: .02em; color: var(--deep-moss); }
+.k-stats dd span { font-size: 14px; line-height: 1.4; color: var(--muted); }
+.k-side .ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* the map card: the state stands upright, as tall as the screen allows */
+.k-map { grid-area: map; position: relative; margin: 0; height: min(78svh, 820px); aspect-ratio: var(--ar); padding: 0; }
+.k-map > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.k-land { fill: var(--moss); filter: drop-shadow(0 30px 40px rgba(35,43,30,.22)); }
+.k-home { fill: #52624A; }
+.k-dist { fill: none; stroke: var(--sage); stroke-opacity: .32; stroke-width: 1.2; stroke-linejoin: round; }
+.k-edge { fill: none; stroke: var(--deep-moss); stroke-width: 2; stroke-linejoin: round; opacity: .5; }
+.k-wave circle { fill: rgba(191,201,166,.07); stroke: var(--sage); stroke-width: 2.5; vector-effect: non-scaling-stroke; transform-box: fill-box; transform-origin: center; transform: scale(0); opacity: 0; }
+.k-town circle { fill: var(--sage); }
+.k-town circle { stroke: var(--cream-2); stroke-width: 3; }
+.k-town text { font: 700 17px/1 var(--font-body); letter-spacing: .14em; text-transform: uppercase; fill: var(--muted); text-anchor: end; }   /* every town is on the coast: its name sits out at sea */
+.k-ring { fill: none; stroke: var(--cream); stroke-width: 2; vector-effect: non-scaling-stroke; transform-box: fill-box; transform-origin: center; opacity: 0; }
+.k-dot { fill: var(--cream); filter: drop-shadow(0 4px 10px rgba(0,0,0,.35)); }
+.k-core { fill: var(--coffee); }
+
+/* the COZCAF tag beside the pin, in the real logo lettering */
+.k-tag { position: absolute; left: var(--px); top: var(--py); transform: translate(18px, -50%); display: grid; gap: 5px; padding: 10px 14px 9px; border-radius: 14px; background: var(--deep-moss); color: var(--cream); box-shadow: 0 14px 30px -10px rgba(0,0,0,.45); white-space: nowrap; transition: background var(--t); }
+.k-tag::before { content: ""; position: absolute; right: 100%; top: 50%; width: 12px; height: 1.5px; background: var(--deep-moss); }
+a.k-tag:hover { background: var(--moss); }
+.k-tag svg { width: 108px; height: auto; fill: var(--cream); }
+.k-tag span { font: 700 10.5px/1 var(--font-body); letter-spacing: .18em; text-transform: uppercase; color: var(--sage); }
+
+/* the open sea off the south-west coast holds the invitation */
+.k-next { position: absolute; left: 0; bottom: 17%; display: grid; gap: 6px; padding: 16px 20px; border-radius: 16px; background: var(--cream); border: 1px dashed rgba(46,56,39,.35); }
+.k-next span { font: 700 11px/1 var(--font-body); letter-spacing: .2em; text-transform: uppercase; color: var(--coffee-d); }
+.k-next b { font: 800 26px/1 var(--font-display); letter-spacing: .02em; text-transform: uppercase; color: var(--deep-moss); }
+
+/* motion, once the map scrolls in: the coast draws itself, the pin drops, then the ripple spreads and wakes each town */
+html.js-rv .k-map .k-edge { stroke-dasharray: 1; stroke-dashoffset: 1; }
+html.js-rv .k-map.in .k-edge { animation: kDraw 2.4s var(--ease-io) .2s forwards; }
+html.js-rv .k-map .k-land, html.js-rv .k-map .k-home, html.js-rv .k-map .k-dist { opacity: 0; transition: opacity 1.4s ease .9s; }
+html.js-rv .k-map.in .k-land, html.js-rv .k-map.in .k-home, html.js-rv .k-map.in .k-dist { opacity: 1; }
+html.js-rv .k-map .k-dot, html.js-rv .k-map .k-core { transform-box: fill-box; transform-origin: 50% 100%; transform: translateY(-60px) scale(.4); opacity: 0; }
+html.js-rv .k-map.in .k-dot, html.js-rv .k-map.in .k-core { animation: kDrop .9s cubic-bezier(.34,1.56,.64,1) 1.5s forwards; }
+html.js-rv .k-map .k-tag, html.js-rv .k-map .k-next { opacity: 0; translate: 0 10px; transition: opacity .8s ease, translate .9s var(--ease-out); }
+html.js-rv .k-map.in .k-tag { opacity: 1; translate: 0 0; transition-delay: 2s; }
+html.js-rv .k-map.in .k-next { opacity: 1; translate: 0 0; transition-delay: 3.4s; }
+html.js-rv .k-map .k-town { opacity: .25; transition: opacity .8s ease; }
+html.js-rv .k-map.in .k-town { opacity: 1; transition-delay: calc(1.8s + var(--t)); }
+.k-map.in .k-wave circle { animation: kWave 6.6s cubic-bezier(.2,.6,.3,1) infinite; animation-delay: calc(1.9s + var(--i) * 2.2s); }
+.k-map.in .k-ring { animation: kRing 2.6s ease-out 2.2s infinite; }
+.k-map.in .k-ring.b { animation-delay: 3.5s; }
+html:not(.js-rv) .k-wave circle:first-child { transform: scale(.45); opacity: .35; }   /* still pages (reduced motion, no script) keep one quiet ring */
+@keyframes kDraw { to { stroke-dashoffset: 0; } }
+@keyframes kDrop { to { transform: none; opacity: 1; } }
+@keyframes kWave { 0% { transform: scale(0); opacity: 1; } 70% { opacity: .35; } 100% { transform: scale(1); opacity: 0; } }
+@keyframes kRing { 0% { transform: scale(.5); opacity: .9; } 100% { transform: scale(2.2); opacity: 0; } }
+
+/* phones and narrow tablets: words first, then the map as tall as fits, then the numbers */
+@media (max-width: 900px) {
+  #site .kerala .wrap { grid-template-columns: minmax(0, 1fr); grid-template-areas: "head" "map" "side"; row-gap: 32px; padding-block: 64px 72px; }
+  .k-head .d-l { font-size: clamp(40px, 11.5vw, 64px); }
+  .k-body { font-size: 16px; }
+  .k-map { justify-self: center; height: min(124vw, 560px, 70svh); }
+  .k-tag { padding: 8px 11px 7px; }
+  .k-tag svg { width: 84px; }
+  .k-town text { font-size: 21px; }
+  .k-next { left: -6%; bottom: 16%; padding: 12px 14px; }
+  .k-next b { font-size: 21px; }
+  .k-stats b { font-size: 34px; }
+  .k-stats > div { padding-right: 10px; }
+  .k-stats > div + div { padding-left: 12px; }
+  .k-stats dt { font-size: 11px; letter-spacing: .16em; }
+  .k-stats dd span { font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .k-map.in .k-wave circle, .k-map.in .k-ring { animation: none; }
+}

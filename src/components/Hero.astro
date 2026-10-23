@@ -8,9 +8,18 @@ const marquee = hero.marquee.join(' • ') + ' •';
 const state = openState(site.hours);
 ---
 <section id="hero" aria-label={`${site.name}, a cozy specialty coffee cafe`}>
-  <canvas id="fx" aria-hidden="true"></canvas>
+  <div id="stage" aria-hidden="true">
+    <video id="soft" muted playsinline loop preload="none" tabindex="-1" src={hero.film.soft}></video>
+    <img id="still" src={hero.film.poster} alt="" width="720" height="1280" fetchpriority="high" decoding="async" />
+    <video id="film" muted playsinline loop preload="none" tabindex="-1"><source src={hero.film.src} type="video/mp4" /></video>
+    <div class="scrim"></div>
+  </div>
   <h1 class="sr">{site.h1}</h1>
-  <p id="kicker">{site.tagline}</p>
+  <p id="kicker">{site.tagline.split(' ').map((w, i, all) => <><span class="w">{w}</span>{i < all.length - 1 ? ' ' : ''}</>)}</p>
+  <div id="cat" role="group" aria-label={hero.scenesLabel}>
+    <div class="cat-mask" aria-live="off">{hero.scenes.map((n, i) => <span class="cat-w" data-i={i}><b>{String(i + 1).padStart(2, '0')}</b>{n}</span>)}</div>
+    <div class="cat-dots">{hero.scenes.map((n, i) => <button type="button" class="cat-dot" data-i={i} aria-label={`Show ${n}`}><i></i></button>)}</div>
+  </div>
   <span class="chip" id="chip" data-open-chip data-open="true" data-opens={site.hours.open} data-closes={site.hours.close} data-tz={site.hours.tz}><i class="dot" aria-hidden="true"></i><span data-open-text>Open daily &middot; {state.range}</span></span>
 
   <div id="badge" aria-hidden="true">

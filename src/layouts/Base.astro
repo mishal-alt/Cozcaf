@@ -21,11 +21,6 @@ import jakarta500 from '../assets/fonts/plus-jakarta-sans-500-latin.woff2?url';
 import jakarta600 from '../assets/fonts/plus-jakarta-sans-600-latin.woff2?url';
 import jakarta700 from '../assets/fonts/plus-jakarta-sans-700-latin.woff2?url';
 
-import plate from '../assets/hero/plate.webp?url';
-import chicken from '../assets/hero/chicken.webp?url';
-import pasta from '../assets/hero/pasta.webp?url';
-import fries from '../assets/hero/fries.webp?url';
-import coffee from '../assets/hero/coffee.webp?url';
 
 const abs = (path: string): string => new URL(path, site.url + '/').href;
 const canonical = abs('/');
@@ -75,11 +70,7 @@ if (has.rating) jsonLd.aggregateRating = { '@type': 'AggregateRating', ratingVal
     <link rel="preload" as="font" type="font/woff2" href={jakarta500} crossorigin />
     <link rel="preload" as="font" type="font/woff2" href={jakarta600} crossorigin />
     <link rel="preload" as="font" type="font/woff2" href={jakarta700} crossorigin />
-    <link rel="preload" as="image" href={plate} type="image/webp" />
-    <link rel="preload" as="image" href={chicken} type="image/webp" />
-    <link rel="preload" as="image" href={coffee} type="image/webp" />
-    <link rel="preload" as="image" href={pasta} type="image/webp" />
-    <link rel="preload" as="image" href={fries} type="image/webp" />
+    <link rel="preload" as="image" href="/video/hero/cozcaf-opening.webp" fetchpriority="high" />
     <meta name="description" content={site.description} />
     <meta name="theme-color" content={site.themeColor} />
     <link rel="canonical" href={canonical} />

@@ -1,7 +1,7 @@
 # COZCAF
 
 Static front-end site for the COZCAF cafe (Kodappali, Parappanangadi). Astro (static output) + TypeScript (strict) + plain CSS.
-The hero is a custom Canvas 2D engine ported 1:1 from the approved prototype. No animation libraries, no backend.
+The opening page is one looping film of the cafe's dishes (`public/video/hero`) under the COZCAF lettering, which docks into the header on scroll. No animation libraries, no backend.
 
 ## Run it
 
@@ -24,7 +24,7 @@ Everything editable is typed data, no HTML to touch:
 | `src/data/site.ts` | phone, WhatsApp, Instagram, address, hours, Maps link, PDF menu, rating, domain, SEO text |
 | `src/data/menu.ts` | the four menu categories and their dishes |
 | `src/data/copy.ts` | every other line of page copy and the photo alt texts |
-| `src/hero/scene.ts` | the opening scene: where each dish sits, its timing, the light and the steam |
+| `hero.scenes` / `hero.film` in `src/data/copy.ts` | the four opening scenes' names, and the film's files and timing (seconds per table and per camera move) in `public/video/hero` |
 
 If a value is empty (WhatsApp, phone, PDF, email, parking, rating, map embed), the element that depends on it is **not rendered at all**.
 Fill it in, rebuild, and it appears everywhere it is used, including the structured data.
@@ -39,7 +39,7 @@ src/
   components/   one .astro per section, its .css beside it (Header, Hero, Story, Craft, Signatures, Menu,
                 Philosophy, Visit, Gallery, Footer, Lightbox, Ticker, Loader, IntroControls ...)
   data/         site.ts  menu.ts  copy.ts  images.ts
-  hero/         the Canvas 2D engine (config, timeline, pose, cup, pour, bean, steam, morph, clock, input, boot ...)
+  hero/         the opening page: film controller (index), lettering, badge and copy (page), env and easing helpers
   scripts/      small interaction modules: reveal, parallax, nav-active, menu-tabs, lightbox, mobile-nav, open-now
   styles/       tokens, base, type, buttons, chip, reveal, fonts
   assets/       self-hosted WOFF2 fonts and the hero textures (hashed at build)

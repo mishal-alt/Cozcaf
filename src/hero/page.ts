@@ -3,7 +3,6 @@
    ====================================================================== */
 import { TALL, reduced } from './env';
 import { clamp, easeInOut, easeOutBack, easeOutCubic, lerp, prog, smooth } from './math';
-import type { Anchor } from './scene';
 
 const $ = <T extends Element = HTMLElement>(id: string): T => {
   const e = document.getElementById(id);
@@ -19,7 +18,13 @@ const DOCK_RANGE = 0.85;
 
 export interface PageEls {
   /** call every frame of the scene with its clock */
-  chrome(t: number, a: Anchor): void;
+  chrome(t: number): void;
+  /** the table in view and how far through its time it is (0..1): moves the category word and the dots */
+  table(cur: number, progress: number): void;
+  /** a dot was tapped */
+  onPick(cb: (i: number) => void): void;
+  /** hovering or focusing the category chip asks the camera to wait */
+  onHold(cb: (hold: boolean) => void): void;
   /** re-read the layout (the lettering's resting place in the header, the heading's size) */
   measure(): void;
   /** scroll progress 0..1 of the dock; moves the lettering and fades the hero */
@@ -30,17 +35,12 @@ export function initPage(): PageEls {
   const hero = $('hero'), wm = $<SVGSVGElement>('wm'), link = $<HTMLAnchorElement>('logoLink'), icon = $('wmIcon'), sheen = $('sheen');
   const letters = Array.from(wm.querySelectorAll<SVGPathElement>('path.wl'));
   const hdrBg = $('hdrBg'), nav = $('nav'), hr = $('hr'), kicker = $('kicker'), badge = $('badge'), bsvg = $('bsvg');
-  const bl = document.getElementById('bl'), br = document.getElementById('br'), chip = $('chip'), marq = $('marq');
+  const bl = document.getElementById('bl'), br = document.getElementById('br'), chip = $('chip'), marq = $('marq'), cat = $('cat');
+  const words = Array.from(cat.querySelectorAll<HTMLElement>('.cat-w')), dots = Array.from(cat.querySelectorAll<HTMLButtonElement>('.cat-dot'));
+  let shown = -1;
 
-  // the tagline stays real text; each word gets its own span to reveal
-  const words = (kicker.textContent ?? '').trim().split(/\s+/);
-  kicker.textContent = '';
-  const spans = words.map((w, i) => {
-    const s = document.createElement('span');
-    s.className = 'w'; s.textContent = w; kicker.appendChild(s);
-    if (i < words.length - 1) kicker.appendChild(document.createTextNode(' '));
-    return s;
-  });
+  // the tagline is real text, split into one span per word when the page is built (so the browser never repaints it); each word glides up into place
+  const spans = Array.from(kicker.querySelectorAll<HTMLElement>('.w'));
 
   let tx0 = 0, ty0 = 0, ty1 = 0, kd = 1, vh = innerHeight, docked = false, menu = false;
 
@@ -48,15 +48,17 @@ export function initPage(): PageEls {
   function measure(): void {
     const W = innerWidth, tall = TALL.matches;
     vh = innerHeight;
-    const hw = tall ? Math.min(W * 0.88, 520) : Math.min(W * 0.46, 660), hy = tall ? 78 : 96;
-    document.documentElement.style.setProperty('--hw', hw + 'px');
-    document.documentElement.style.setProperty('--hy', hy + 'px');
+    // phones: centred over the dark top of the film; wide screens: the left column, beside the film panel (as the reference site does)
+    const hw = tall ? Math.min(W * 0.88, 520) : Math.min(W * 0.36, 520), hy = tall ? 78 : Math.round(vh * 0.3), hx = tall ? (W - hw) / 2 : Math.max(48, W * 0.055);
+    hero.style.setProperty('--hw', hw + 'px');
+    hero.style.setProperty('--hy', hy + 'px');
+    hero.style.setProperty('--hx', hx + 'px');
     const ub = hw / LET_W, wb = 354 * ub, hb = VB_H * ub;                            // px per unit, and the lockup's big size
     wm.setAttribute('width', String(wb)); wm.setAttribute('height', String(hb));
     wm.style.width = wb + 'px'; wm.style.height = hb + 'px';
     const r = link.getBoundingClientRect(), logoH = parseFloat(getComputedStyle(document.getElementById('hdr') as HTMLElement).getPropertyValue('--logo-h')) || 22;
     kd = logoH / hb;
-    tx0 = (W - hw) / 2 - r.left - (LET_X - VB_X) * ub;
+    tx0 = hx - r.left - (LET_X - VB_X) * ub;
     ty0 = hy - r.top - (LET_Y - VB_Y) * ub;
     ty1 = (r.height - logoH) / 2;
   }
@@ -77,26 +79,39 @@ export function initPage(): PageEls {
 
   const put = (e: HTMLElement | null, o: number, y = 0): void => { if (e) { e.style.opacity = o.toFixed(3); e.style.transform = `translate3d(0,${y.toFixed(2)}px,0)`; } };
 
-  function chrome(t: number, a: Anchor): void {
+  function chrome(t: number): void {
     const hp = easeOutCubic(prog(t, 1, 1.8));
     nav.style.opacity = hr.style.opacity = hp.toFixed(3);
-    marq.style.opacity = easeOutCubic(prog(t, 1.4, 2.2)).toFixed(3); marq.style.transform = `translate3d(0,${((1 - easeOutCubic(prog(t, 1.4, 2.2))) * 46).toFixed(1)}px,0)`;
+    marq.style.transform = `translate3d(0,${((1 - easeOutCubic(prog(t, 1.4, 2.2))) * 46).toFixed(1)}px,0)`;
     // the lettering: one letter at a time, then a single warm glint across it
-    letters.forEach((e, i) => { const q = easeOutCubic(prog(t, 2.2 + i * 0.08, 3.1 + i * 0.08)); e.style.opacity = q.toFixed(3); e.style.transform = `translateY(${((1 - q) * 9).toFixed(2)}px)`; });
-    const sp = prog(t, 3.7, 5.2);
+    letters.forEach((e, i) => { const q = easeOutCubic(prog(t, 1.2 + i * 0.07, 2 + i * 0.07)); e.style.opacity = q.toFixed(3); e.style.transform = `translateY(${((1 - q) * 9).toFixed(2)}px)`; });
+    const sp = prog(t, 3.2, 4.7);
     sheen.setAttribute('transform', `translate(${(160 + sp * 330).toFixed(1)} 0) skewX(-22)`);
     sheen.style.opacity = String(Math.sin(Math.PI * sp));
-    spans.forEach((w, i) => { const q = easeOutCubic(prog(t, 2.6 + i * 0.09, 3.1 + i * 0.09)); w.style.opacity = q.toFixed(3); w.style.transform = `translateY(${(8 * (1 - q)).toFixed(2)}px)`; });
-    // the badge pops in beside the bucket and turns
-    const bp = prog(t, 2.5, 3.1), sz = a.land ? 124 : 92, bx = innerWidth / 2 + (a.x + a.w * 0.52 - innerWidth / 2) * a.s, by = innerHeight * (a.land ? 0.62 : 0.64) + (a.y - a.h * 0.68 - innerHeight * (a.land ? 0.62 : 0.64)) * a.s;
+    spans.forEach((w, i) => { const q = easeOutCubic(prog(t, 1.7 + i * 0.08, 2.2 + i * 0.08)); w.style.transform = `translateY(${(10 * (1 - q)).toFixed(2)}px)`; });
+    // the badge sits at the right edge, clear of the lettering, and pops in once the first clip is playing
+    const bp = prog(t, 2.5, 3.1), land = !TALL.matches, sz = land ? 124 : 80;
     badge.style.width = badge.style.height = sz + 'px';
-    badge.style.left = Math.min(innerWidth - sz - 14, bx) + 'px'; badge.style.top = Math.max(110, by) + 'px';
+    badge.style.left = (land ? innerWidth - sz - 80 : innerWidth - sz - 12) + 'px'; badge.style.top = (land ? innerHeight * 0.3 : innerHeight * 0.285) + 'px';
     badge.style.opacity = clamp(bp * 2).toFixed(3); badge.style.transform = `scale(${(0.55 + 0.45 * easeOutBack(bp, 1.2)).toFixed(4)})`;
     bsvg.style.transform = `rotate(${reduced ? 0 : ((t * 360) / 28).toFixed(2)}deg)`;
     const ex = easeOutCubic(prog(t, 2.4, 3.2));
     put(bl, ex, (1 - ex) * 14); put(br, ex, (1 - ex) * 14);
     chip.style.opacity = easeOutCubic(prog(t, 3.3, 4.1)).toFixed(3);
+    cat.style.opacity = easeOutCubic(prog(t, 3.3, 4.1)).toFixed(3);
   }
+
+  function table(cur: number, progress: number): void {
+    if (cur !== shown) {
+      words.forEach((w, i) => { w.classList.toggle('on', i === cur); w.classList.toggle('off', shown >= 0 && i === shown); if (i !== cur && i !== shown) w.classList.remove('off'); });
+      dots.forEach((d, i) => { d.classList.toggle('on', i === cur); if (i === cur) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
+      shown = cur;
+    }
+    const d = dots[cur]; if (d) d.style.setProperty('--p', progress.toFixed(3));
+  }
+  const picks: ((i: number) => void)[] = [], holds: ((h: boolean) => void)[] = [];
+  dots.forEach((d, i) => d.addEventListener('click', () => picks.forEach((f) => f(i))));
+  for (const [on, off] of [['pointerenter', 'pointerleave'], ['focusin', 'focusout']] as const) { cat.addEventListener(on, () => holds.forEach((f) => f(true))); cat.addEventListener(off, () => holds.forEach((f) => f(false))); }
 
   // opening the menu sheet at the top of the page sends the lettering up into the header, the same glide as scrolling; closing it brings it back
   new MutationObserver(() => {
@@ -110,5 +125,5 @@ export function initPage(): PageEls {
   }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
   measure();
-  return { chrome, measure, scroll };
+  return { chrome, table, measure, scroll, onPick: (cb) => { picks.push(cb); }, onHold: (cb) => { holds.push(cb); } };
 }

@@ -16,6 +16,8 @@ What mattered for the score: the loader, fonts and critical CSS are plain HTML; 
 
 Opening page redesign (live canvas scene, about 310 KB of dish images): Desktop 99 to 100, Mobile 74 to 87 (LCP about 3.7 s, TBT 110 ms typical). The old cup scene scored Mobile 90 on the same machine; the remaining gap is the larger first load.
 
+Video opening page (four clips): Desktop 90 to 91, Mobile 71 to 77 (TBT 0 to 290 ms, Speed Index 1.3 to 1.7 s). Lighthouse's simulated mobile LCP reads 6.6 s every run, although in a real 4x-throttled trace the tagline paints at about 0.4 s; the simulator appears to tie it to the video start. Keep the 1.8 s video delay (`VIDEO_DELAY` in `src/hero/index.ts`): starting at load cost about 10 more points.
+
 Reproduce:
 
 ```sh
@@ -24,3 +26,5 @@ npm run lighthouse -- --runs=5          # add -- --only=mobile for one profile
 ```
 
 Reports are written to `tools/compare/out/lh/` (ignored by git).
+
+Opening film (one 6 MB Veo film, image first frame, film starts 0.6 s after load): Desktop 94 to 96, Mobile 75 to 91 (3 runs each). Keep the first frame as a real `<img>` and the film starting after `load`: with the video itself as the first paint, Lighthouse read LCP as the full film download (46 s).

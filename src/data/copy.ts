@@ -21,6 +21,11 @@ export const hero = {
   lines: ['Seriously good coffee.', 'Not-so-serious people.', 'Your daily dose of something good.'],
   right: ['Your cozy corner.', 'Every day.'],
   cue: 'Good things below',
+  /** the four tables the opening page's camera visits, in order (the menu's own categories) */
+  scenes: ['Coffee', 'Cold Drinks', 'Snacks & Sides', 'Mains'],
+  scenesLabel: 'Opening scenes',
+  /** the opening film in public/video/hero: one loop through the four scenes. Each dish holds `dish` seconds, then the camera moves for `move` seconds. */
+  film: { src: '/video/hero/cozcaf-opening.mp4', soft: '/video/hero/cozcaf-opening-soft.mp4', poster: '/video/hero/cozcaf-opening.webp', dish: 8, move: 16 / 3 },
   badge: 'FRESHLY BREWED ✱ HAPPILY SIPPED ✱',
   ctaMenu: 'View menu',
   ctaVisit: 'Visit us',
@@ -101,6 +106,20 @@ export const philosophy = {
     { name: 'espresso-shot', label: 'An espresso shot pulling into a small glass beneath the machine' },
     { name: 'iced-latte', label: 'A layered iced latte with ice cubes, ready to serve', zoom: 1.7, origin: '8% 100%' },
   ],
+} as const;
+
+/** the Kerala map: one pin today, drawn on the whole state (the reference site's network map, told honestly for a single cafe) */
+export const kerala = {
+  eyebrow: 'Our Kerala',
+  heading: ['One cozy corner today. ', { em: 'A whole state in mind.' }],
+  body: 'COZCAF began with a single cafe in Kodappali, Parappanangadi. Every recipe, every cup and every corner is made to travel. This pin is where the story starts.',
+  stats: [
+    { label: 'Cafes', value: '1', note: 'and counting' },
+    { label: 'Districts', value: '1 of 14', note: 'Malappuram first' },
+  ],
+  next: { label: 'Next stop', value: 'Your town?' },
+  follow: 'Follow the journey',
+  mapAlt: 'Map of Kerala with COZCAF marked at Parappanangadi, on the Malappuram coast',
 } as const;
 
 export const visit = {

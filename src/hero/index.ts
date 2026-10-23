@@ -1,27 +1,22 @@
-/** The COZCAF opening page: a warm still-life drawn live on a canvas, with the lettering that docks into the header. Loaded as its own chunk after the first paint. */
-import chickenUrl from '../assets/hero/chicken.webp?url';
-import coffeeUrl from '../assets/hero/coffee.webp?url';
-import friesUrl from '../assets/hero/fries.webp?url';
-import pastaUrl from '../assets/hero/pasta.webp?url';
-import plateUrl from '../assets/hero/plate.webp?url';
-import { COARSE, LOW_END, TALL, reduced } from './env';
+/** The COZCAF opening page: one film that travels round four tables (Coffee, Cold Drinks, Snacks & Sides, Mains) in a loop, behind the
+ *  lettering that docks into the header. The category chip follows the film. Loaded as its own chunk after the first paint. */
+import { hero } from '../data/copy';
+import { reduced } from './env';
 import { initPage } from './page';
-import { T_REST, createScene } from './scene';
-import { prog, smooth } from './math';
-import type { Images } from './scene';
 
-/** the arrival (dishes landing, heading revealed) plays this much faster than the design clock, easing back to normal speed between INTRO_EASE_FROM and INTRO_EASE_TO
- *  (a sudden change of speed shows up as a jerk in everything that is still moving) */
-const INTRO_SPEED = 1.3, INTRO_EASE_FROM = 3.2, INTRO_EASE_TO = 6;
+const COUNT = hero.scenes.length, DISH = hero.film.dish, MOVE = hero.film.move, LOOP = COUNT * (DISH + MOVE);
+/** the film starts this long after load: the poster is its first frame, so the hand-over is seamless and the page paints first */
+const START_DELAY = 600;
+const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+/** reduced motion or Data Saver: the film never downloads; its first frame stands in for it */
+const still = reduced || saveData;
 
-const load = (src: string): Promise<HTMLImageElement> =>
-  new Promise((res, rej) => {
-    const i = new Image();
-    i.decoding = 'async';
-    i.onload = () => { (i.decode ? i.decode() : Promise.resolve()).catch(() => {}).then(() => res(i)); };   // decoded off the main thread, so the first draw does not stall
-    i.onerror = () => rej(new Error(`COZCAF hero: could not load ${src}`));
-    i.src = src;
-  });
+/** which table is in view at film time t, and how far through its turn (the label changes halfway through each camera move) */
+function sceneAt(t: number): { cur: number; progress: number } {
+  const span = DISH + MOVE, x = ((t % LOOP) + LOOP + MOVE / 2) % LOOP;
+  const cur = Math.floor(x / span) % COUNT;
+  return { cur, progress: (x - cur * span) / span };
+}
 
 const hideLoader = (): void => {
   const ld = document.getElementById('loader');
@@ -37,50 +32,51 @@ const fallback = (err: unknown): void => {
 
 export async function bootHero(): Promise<void> {
   try {
-    const [plate, chicken, pasta, fries, coffee] = await Promise.all([plateUrl, chickenUrl, pastaUrl, friesUrl, coffeeUrl].map(load));
-    const imgs = { plate, chicken, pasta, fries, coffee } as Images;
-    const cv = document.getElementById('fx') as HTMLCanvasElement;
-    const scene = await createScene(cv, imgs, () => TALL.matches);
+    const film = document.getElementById('film') as HTMLVideoElement, soft = document.getElementById('soft') as HTMLVideoElement;
     const page = initPage();
+    const wide = (): boolean => getComputedStyle(soft).display !== 'none';
+    let raf = 0, covered = false, skip = 0;
+    const t0 = performance.now();
+    const clock = (): number => (performance.now() - t0) / 1000 + skip;
 
-    let t = reduced ? T_REST : 0, last = 0, raf = 0, slow = 0, acc = 0;
-    const draw = (): void => { page.chrome(t, scene.render(t)); };
-
-    const frame = (now: number): void => {
-      raf = requestAnimationFrame(frame);
-      const dt = last ? Math.min(0.05, (now - last) / 1000) : 0;
-      last = now;
-      acc += dt;
-      if (LOW_END && acc < 1 / 32) return;                                         // a modest phone draws about 30 frames a second: the motion is slow, and the battery lasts
-      t += acc * (1 + (INTRO_SPEED - 1) * (1 - smooth(prog(t, INTRO_EASE_FROM, INTRO_EASE_TO)))); acc = 0;                        // the arrival plays quicker; the ambient motion keeps its calm pace
-      const a = performance.now();
-      draw();
-      slow = performance.now() - a > 22 ? slow + 1 : Math.max(0, slow - 1);      // a sagging frame rate: draw fewer pixels
-      if (slow > 45 && scene.cheaper()) slow = 0;
+    const tick = (): void => {
+      raf = requestAnimationFrame(tick);
+      page.chrome(clock());
+      const s = sceneAt(film.currentTime || 0);
+      page.table(s.cur, s.progress);
+      if (wide() && !soft.paused && Math.abs(soft.currentTime - film.currentTime) > 0.25) soft.currentTime = film.currentTime;   // keep the soft backdrop in step
     };
-    const wake = (): void => { if (!raf && !reduced && !document.hidden) { last = 0; raf = requestAnimationFrame(frame); } };
+    const wake = (): void => { if (!raf) raf = requestAnimationFrame(tick); };
     const sleep = (): void => { cancelAnimationFrame(raf); raf = 0; };
-    const onScroll = (): void => {
-      const sp = page.scroll();
-      if (sp >= 0.99) sleep(); else wake();                                       // fully covered by the page: stop drawing
+    const play = (): void => {
+      if (still || covered || document.hidden) return;
+      film.muted = true; void film.play().then(() => film.classList.add('on')).catch(() => {});
+      if (wide()) { soft.muted = true; void soft.play().catch(() => {}); }
     };
+    const pause = (): void => { film.pause(); soft.pause(); };
 
     page.scroll();
-    draw();
     hideLoader();
-    if (reduced) { /* one calm finished frame, no loop */ } else wake();
+    if (still) { page.chrome(9); page.table(0, 0); }
+    else {
+      wake();
+      const start = (): void => { setTimeout(play, START_DELAY); };   // the film starts downloading only after the page has loaded
+      if (document.readyState === 'complete') start(); else addEventListener('load', start, { once: true });
+    }
 
-    addEventListener('scroll', onScroll, { passive: true });
-    document.addEventListener('visibilitychange', () => { if (document.hidden) sleep(); else if (page.scroll() < 0.99) wake(); });
-    let rz = 0, w0 = innerWidth, h0 = innerHeight;
-    addEventListener('resize', () => {
-      clearTimeout(rz);
-      rz = window.setTimeout(() => {
-        if (COARSE && Math.abs(innerWidth - w0) < 2 && Math.abs(innerHeight - h0) < 130) return;   // a phone's address bar sliding away
-        w0 = innerWidth; h0 = innerHeight;
-        void scene.resize().then(() => { page.measure(); page.scroll(); draw(); });
-      }, 120);
-    });
+    // a dot jumps the film to the start of that table
+    page.onPick((i) => { film.currentTime = i * (DISH + MOVE); soft.currentTime = film.currentTime; if (still) page.table(i, 0); else play(); });
+    page.onHold((h) => { if (still) return; if (h) pause(); else play(); });
+    // autoplay refused (battery saver, in-app browsers): the first touch tries again
+    for (const ev of ['touchstart', 'pointerdown'] as const) addEventListener(ev, () => play(), { once: true, passive: true });
+
+    addEventListener('scroll', () => {
+      const c = page.scroll() >= 0.99;                                                  // fully covered by the page: stop drawing and playing
+      if (c !== covered) { covered = c; if (c) { skip = 99; page.chrome(clock()); sleep(); pause(); } else { wake(); play(); } }
+    }, { passive: true });
+    document.addEventListener('visibilitychange', () => { if (document.hidden) { sleep(); pause(); } else if (!covered) { wake(); play(); } });
+    let rz = 0;
+    addEventListener('resize', () => { clearTimeout(rz); rz = window.setTimeout(() => { page.measure(); page.scroll(); if (wide()) play(); }, 120); });
   } catch (err) {
     fallback(err);
   }

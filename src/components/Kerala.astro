@@ -1,0 +1,58 @@
+---
+import './Kerala.css';
+import { kerala as K } from '../data/copy';
+import { KERALA as M } from '../data/kerala-map';
+import { site } from '../data/site';
+import { visit } from '../data/copy';
+import { has } from '../lib/links';
+import { headingHtml } from '../lib/split';
+
+const [px, py] = M.pin;
+const pct = (v: number, of: number): string => ((v / of) * 100).toFixed(2) + '%';
+// each town lights up as the ripple from COZCAF reaches it
+const far = Math.max(...M.towns.map((t) => Math.hypot(t.at[0] - px, t.at[1] - py)));
+const towns = M.towns.filter((t) => t.name !== 'Kasaragod' && t.name !== 'Thrissur').map((t) => ({ ...t, delay: (0.6 + (Math.hypot(t.at[0] - px, t.at[1] - py) / far) * 2.2).toFixed(2) + 's' }));
+const year = site.since.replace(/\D/g, '');
+---
+<section class="kerala on-light" id="kerala" aria-labelledby="keralaH">
+  <div class="wrap">
+    <div class="k-head">
+      <span class="eyebrow rv">{K.eyebrow}</span>
+      <h2 class="d-l split" id="keralaH" style="--d:.1s" set:html={headingHtml(K.heading)}></h2>
+      <p class="k-body rv" style="--d:.25s">{K.body}</p>
+    </div>
+
+    <figure class="k-map rv" style={`--d:.15s;--px:${pct(px, M.w)};--py:${pct(py, M.h)};--ar:${M.w}/${M.h}`}>
+      <svg viewBox={`0 0 ${M.w} ${M.h}`} role="img" aria-label={K.mapAlt}>
+        <defs><clipPath id="kClip"><path d={M.outline} /></clipPath></defs>
+        <path class="k-land" d={M.outline} />
+        <path class="k-home" d={M.home} />
+        <path class="k-dist" d={M.districts} />
+        <g clip-path="url(#kClip)" class="k-wave" aria-hidden="true">
+          {[0, 1, 2].map((i) => <circle cx={px} cy={py} r="700" style={`--i:${i}`} />)}
+        </g>
+        <path class="k-edge" d={M.outline} pathLength="1" />
+        {towns.map((t) => <g class="k-town" style={`--t:${t.delay}`}><circle cx={t.at[0]} cy={t.at[1]} r="5" /><text x={t.at[0] - 14} y={t.at[1] + 6}>{t.name}</text></g>)}
+        <g class="k-pin" aria-hidden="true">
+          <circle class="k-ring" cx={px} cy={py} r="26" /><circle class="k-ring b" cx={px} cy={py} r="26" />
+          <circle class="k-dot" cx={px} cy={py} r="11" /><circle class="k-core" cx={px} cy={py} r="4.5" />
+        </g>
+      </svg>
+      {has.maps
+        ? <a class="k-tag" href={site.mapsUrl} target="_blank" rel="noopener" aria-label={visit.mapLabel}><svg viewBox="127 310 354 63" aria-hidden="true"><use href="#p-icon"/><use href="#p-word"/></svg><span>{site.locality.split(', ').pop()}</span></a>
+        : <span class="k-tag"><svg viewBox="127 310 354 63" aria-hidden="true"><use href="#p-icon"/><use href="#p-word"/></svg><span>{site.locality.split(', ').pop()}</span></span>}
+      <figcaption class="k-next"><span>{K.next.label}</span><b>{K.next.value}</b></figcaption>
+    </figure>
+
+    <div class="k-side rv" style="--d:.35s">
+      <dl class="k-stats">
+        {K.stats.map((s) => <div><dt>{s.label}</dt><dd><b>{s.value}</b><span>{s.note}</span></dd></div>)}
+        <div><dt>Since</dt><dd><b>{year}</b><span>{site.locality.split(', ')[0]}</span></dd></div>
+      </dl>
+      <div class="ctas">
+        {has.maps && <a class="btn primary" href={site.mapsUrl} target="_blank" rel="noopener">{visit.directions}</a>}
+        <a class="btn ghost" href={site.instagramUrl} target="_blank" rel="noopener">{K.follow}</a>
+      </div>
+    </div>
+  </div>
+</section>

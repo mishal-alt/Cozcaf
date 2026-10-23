@@ -1,0 +1,8 @@
+Opening-page film: made for COZCAF with Google Flow (Veo 3.1 video, Nano Banana images) on the client's Google AI Pro plan,
+then edited into one loop. Order: Coffee, camera move, Cold Drinks, move, Snacks & Sides, move, Mains, move back to Coffee.
+Each dish shot is 8 s; each camera move is 5.33 s (an 8 s Veo clip at 1.5x). The COZCAF logos on the cup and bucket are the real lockup.
+Every clip carries Google's small "Veo" mark (visible watermarking is required in the client's region).
+  cozcaf-opening.mp4       720x1280, the film itself
+  cozcaf-opening.webp      first frame, shown until the film plays
+  cozcaf-opening-soft.mp4  a tiny copy, blurred behind the film on wide screens
+Master files (1080x1920) are kept outside the repo.

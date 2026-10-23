@@ -2,10 +2,41 @@
    One canvas draws the still-life; the copy, badge and ticker are plain HTML laid over it. The COZCAF lettering lives in the header
    (Header.astro) and docks there on the first scroll. --hw / --hy (the heading's width and top) are set by src/hero/page.ts. */
 #hero { position: fixed; inset: 0; z-index: 0; overflow: hidden; background: #0b0d08; --hw: min(46vw, 660px); --hy: 96px; }
-#fx { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+/* ---- the stage: one film that travels round the four tables. Phones show it full screen; wider screens show it as a tall panel in the
+   middle with a soft, blurred copy of the same film filling the sides, so nothing is cropped away. ---- */
+#stage { position: absolute; inset: 0; z-index: 0; overflow: hidden; background: #0b0d08; isolation: isolate; }
+#film, #still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; display: block; }
+#film { opacity: 0; transition: opacity .8s ease; }   /* the first frame shows as a still image at once; the film fades in over it once it is really playing */
+#film.on { opacity: 1; }
+#soft { display: none; }
+.scrim { position: absolute; inset: 0; z-index: 4; pointer-events: none; background:
+  linear-gradient(to bottom, rgba(10,13,8,.72) 0%, rgba(10,13,8,.22) 24%, rgba(10,13,8,0) 44%, rgba(10,13,8,.25) 78%, rgba(10,13,8,.8) 100%); }
+@media (min-aspect-ratio: 4/5) {
+  #soft { display: block; position: absolute; inset: -6%; width: 112%; height: 112%; object-fit: cover; filter: blur(34px) saturate(1.15) brightness(.55); transform: scale(1.06); }
+  #film, #still { left: 62%; right: auto; width: auto; height: 100%; aspect-ratio: 9 / 16; transform: translateX(-50%); object-fit: cover; object-position: 50% 50%;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%); mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%); }
+  .scrim { background: linear-gradient(to bottom, rgba(10,13,8,.7) 0%, rgba(10,13,8,.15) 26%, rgba(10,13,8,0) 50%, rgba(10,13,8,.55) 100%),
+    linear-gradient(to right, rgba(10,13,8,.72) 0%, rgba(10,13,8,.35) 38%, rgba(10,13,8,0) 55%, rgba(10,13,8,0) 80%, rgba(10,13,8,.5) 100%); }
+}
 
-#kicker { position: absolute; left: 0; right: 0; top: calc(var(--hy) + var(--hw) * .1864 + 16px); margin: 0; text-align: center; font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: .25em; text-transform: uppercase; color: var(--text-md); text-shadow: 0 1px 12px rgba(0,0,0,.5); }
-#kicker .w { display: inline-block; opacity: 0; }
+#kicker { position: absolute; z-index: 6; left: 0; right: 0; top: calc(var(--hy) + var(--hw) * .1864 + 16px); margin: 0; text-align: center; font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: .25em; text-transform: uppercase; color: var(--text-md); text-shadow: 0 1px 12px rgba(0,0,0,.5); }
+#kicker .w { display: inline-block; }   /* painted from the start; the words only glide up into place, so the tagline is on screen as soon as the page is */
+
+/* the category chip and its four dots: the word slides up out of a mask when the camera moves on */
+#cat { position: absolute; left: 0; right: 0; top: calc(var(--hy) + var(--hw) * .1864 + 44px); display: grid; justify-items: center; gap: 2px; pointer-events: none; opacity: 0; }
+.cat-mask { position: relative; height: 22px; width: 240px; overflow: hidden; }
+.cat-w { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 10px; font: 700 12px/22px var(--font-body); letter-spacing: .24em; text-transform: uppercase; color: var(--cream); text-shadow: 0 1px 12px rgba(0,0,0,.55); transform: translateY(115%); transition: transform .8s var(--ease-out, cubic-bezier(.19,1,.22,1)); }
+.cat-w b { font-weight: 600; color: var(--sage, #BFC9A6); }
+.cat-w.on { transform: none; transition-delay: .15s; }
+.cat-w.off { transform: translateY(-115%); }
+.cat-dots { display: flex; gap: 0; pointer-events: auto; }
+.cat-dot { position: relative; width: 44px; height: 44px; margin-block: -7px; padding: 0; border: 0; background: none; display: grid; place-items: center; cursor: pointer; }
+.cat-dot i { position: relative; display: block; width: 26px; height: 3px; border-radius: 3px; background: rgba(244,239,230,.3); overflow: hidden; transition: background .3s ease; }
+.cat-dot i::after { content: ""; position: absolute; inset: 0; background: var(--cream); transform-origin: 0 50%; transform: scaleX(0); }
+.cat-dot.on i::after { transform: scaleX(var(--p, 0)); }
+.cat-dot.done i::after { transform: scaleX(1); }
+.cat-dot:hover i { background: rgba(244,239,230,.5); }
+.cat-dot:focus-visible { outline: 2px solid var(--cream); outline-offset: -4px; border-radius: 8px; }
 
 #chip { position: absolute; left: 80px; bottom: 204px; height: 26px; padding: 0 12px; font-size: 11.5px; line-height: 24px; letter-spacing: .06em; border-color: rgba(244,239,230,.35); background: rgba(46,56,39,.45); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); opacity: 0; }
 
@@ -33,7 +64,7 @@
 @keyframes bob { 0%, 100% { transform: translateY(-1.5px); } 50% { transform: translateY(2px); } }
 
 /* ticker: full-width cream chrome pinned to the bottom of the hero */
-#marq { position: absolute; left: 0; right: 0; bottom: 0; height: calc(46px + env(safe-area-inset-bottom, 0px)); padding-bottom: env(safe-area-inset-bottom, 0px); background: var(--cream); color: var(--deep-moss); overflow: hidden; display: flex; align-items: center; font-size: 14px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; opacity: 0; }
+#marq { position: absolute; left: 0; right: 0; bottom: 0; height: calc(46px + env(safe-area-inset-bottom, 0px)); padding-bottom: env(safe-area-inset-bottom, 0px); background: var(--cream); color: var(--deep-moss); overflow: hidden; display: flex; align-items: center; font-size: 14px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }   /* always painted (it only slides up), so the first real text of the page is on screen as soon as the page is */
 .mq-open { display: none; }                                                   /* phones only: the opening hours lead the ticker */
 .track { display: flex; gap: 32px; width: max-content; animation: tick 25s linear infinite; }
 
@@ -46,8 +77,18 @@
 }
 
 /* if the canvas could not start, the page still reads: finished text on a dark ground */
-.hero-static #kicker .w, .hero-static #badge, .hero-static #bl, .hero-static #br, .hero-static #chip, .hero-static #marq, .hero-static #nav, .hero-static #hr, .hero-static #wm .wl { opacity: 1 !important; }
+.hero-static #cat, .hero-static #kicker .w, .hero-static #badge, .hero-static #bl, .hero-static #br, .hero-static #chip, .hero-static #marq, .hero-static #nav, .hero-static #hr, .hero-static #wm .wl { opacity: 1 !important; }
+.hero-static .cat-w[data-i="0"] { transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .track, .cue .cb::after, .cue svg { animation: none; }
+}
+
+/* wide screens: the heading, tagline and category sit in the left column, left-aligned with the lettering, beside the film panel */
+@media (min-aspect-ratio: 4/5) {
+  #kicker { left: var(--hx); right: auto; text-align: left; font-size: 13px; }
+  #cat { left: var(--hx); right: auto; justify-items: start; top: calc(var(--hy) + var(--hw) * .1864 + 54px); }
+  .cat-mask { width: 260px; }
+  .cat-w { justify-content: flex-start; }
+  .cat-dots { margin-left: -9px; }
 }
