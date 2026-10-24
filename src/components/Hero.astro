@@ -9,7 +9,7 @@ const state = openState(site.hours);
 ---
 <section id="hero" aria-label={`${site.name}, a cozy specialty coffee cafe`}>
   <div id="stage" aria-hidden="true">
-    <video id="soft" muted playsinline loop preload="none" tabindex="-1" src={hero.film.soft}></video>
+    <div id="smoke"><i class="smk a" style={`background-image:url(${hero.film.smoke[0]})`}></i><i class="smk b" style={`background-image:url(${hero.film.smoke[1]})`}></i></div>
     <img id="still" src={hero.film.poster} alt="" width="720" height="1280" fetchpriority="high" decoding="async" />
     <video id="film" muted playsinline loop preload="none" tabindex="-1"><source src={hero.film.src} type="video/mp4" /></video>
     <div class="scrim"></div>

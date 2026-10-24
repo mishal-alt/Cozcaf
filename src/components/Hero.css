@@ -3,18 +3,23 @@
    (Header.astro) and docks there on the first scroll. --hw / --hy (the heading's width and top) are set by src/hero/page.ts. */
 #hero { position: fixed; inset: 0; z-index: 0; overflow: hidden; background: #0b0d08; --hw: min(46vw, 660px); --hy: 96px; }
 /* ---- the stage: one film that travels round the four tables. Phones show it full screen; wider screens show it as a tall panel in the
-   middle with a soft, blurred copy of the same film filling the sides, so nothing is cropped away. ---- */
+   right of centre, with real drifting smoke (two stills, slowly moving against each other) filling the width, so the panel's edges
+   melt into the smoke and the whole screen reads as one film. ---- */
 #stage { position: absolute; inset: 0; z-index: 0; overflow: hidden; background: #0b0d08; isolation: isolate; }
 #film, #still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; display: block; }
 #film { opacity: 0; transition: opacity .8s ease; }   /* the first frame shows as a still image at once; the film fades in over it once it is really playing */
 #film.on { opacity: 1; }
-#soft { display: none; }
+#still.off { visibility: hidden; transition: visibility 0s .9s; }   /* once the film has faded in, the first frame must not show through the panel's soft edges */
+#smoke { display: none; }
 .scrim { position: absolute; inset: 0; z-index: 4; pointer-events: none; background:
   linear-gradient(to bottom, rgba(10,13,8,.72) 0%, rgba(10,13,8,.22) 24%, rgba(10,13,8,0) 44%, rgba(10,13,8,.25) 78%, rgba(10,13,8,.8) 100%); }
 @media (min-aspect-ratio: 4/5) {
-  #soft { display: block; position: absolute; inset: -6%; width: 112%; height: 112%; object-fit: cover; filter: blur(34px) saturate(1.15) brightness(.55); transform: scale(1.06); }
+  #smoke { display: block; position: absolute; inset: 0; overflow: hidden; }
+  .smk { position: absolute; inset: -12%; background-size: cover; background-position: 50% 100%; mix-blend-mode: screen; will-change: transform, opacity; }
+  .smk.a { opacity: .85; animation: smA 46s ease-in-out infinite alternate; }
+  .smk.b { opacity: .6; transform: scaleX(-1); animation: smB 63s ease-in-out infinite alternate; }
   #film, #still { left: 62%; right: auto; width: auto; height: 100%; aspect-ratio: 9 / 16; transform: translateX(-50%); object-fit: cover; object-position: 50% 50%;
-    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%); mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%); }
+    -webkit-mask-image: linear-gradient(to right, transparent 0, rgba(0,0,0,.55) 8%, #000 20%, #000 80%, rgba(0,0,0,.55) 92%, transparent 100%); mask-image: linear-gradient(to right, transparent 0, rgba(0,0,0,.55) 8%, #000 20%, #000 80%, rgba(0,0,0,.55) 92%, transparent 100%); }
   .scrim { background: linear-gradient(to bottom, rgba(10,13,8,.7) 0%, rgba(10,13,8,.15) 26%, rgba(10,13,8,0) 50%, rgba(10,13,8,.55) 100%),
     linear-gradient(to right, rgba(10,13,8,.72) 0%, rgba(10,13,8,.35) 38%, rgba(10,13,8,0) 55%, rgba(10,13,8,0) 80%, rgba(10,13,8,.5) 100%); }
 }
@@ -80,7 +85,13 @@
 .hero-static #cat, .hero-static #kicker .w, .hero-static #badge, .hero-static #bl, .hero-static #br, .hero-static #chip, .hero-static #marq, .hero-static #nav, .hero-static #hr, .hero-static #wm .wl { opacity: 1 !important; }
 .hero-static .cat-w[data-i="0"] { transform: none; }
 
+@keyframes smA { 0% { transform: translate3d(-3%, 2%, 0) scale(1.02); opacity: .7; } 50% { opacity: .95; } 100% { transform: translate3d(3%, -4%, 0) scale(1.12); opacity: .8; } }
+@keyframes smB { 0% { transform: scaleX(-1) translate3d(-2%, -2%, 0) scale(1.1); opacity: .45; } 50% { opacity: .7; } 100% { transform: scaleX(-1) translate3d(4%, 3%, 0) scale(1.02); opacity: .5; } }
+
+#hero.covered .smk { animation-play-state: paused; }   /* no drifting smoke while the page covers the opening */
+
 @media (prefers-reduced-motion: reduce) {
+  .smk { animation: none !important; }
   .track, .cue .cb::after, .cue svg { animation: none; }
 }
 

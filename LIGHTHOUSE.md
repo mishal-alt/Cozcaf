@@ -28,3 +28,5 @@ npm run lighthouse -- --runs=5          # add -- --only=mobile for one profile
 Reports are written to `tools/compare/out/lh/` (ignored by git).
 
 Opening film (one 6 MB Veo film, image first frame, film starts 0.6 s after load): Desktop 94 to 96, Mobile 75 to 91 (3 runs each). Keep the first frame as a real `<img>` and the film starting after `load`: with the video itself as the first paint, Lighthouse read LCP as the full film download (46 s).
+
+Opening film v2 (7.5 MB film, smoke stills instead of the blurred copy): Desktop 97, Mobile 76 (1 run each, same range as v1).

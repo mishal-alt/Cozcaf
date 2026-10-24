@@ -32,9 +32,8 @@ const fallback = (err: unknown): void => {
 
 export async function bootHero(): Promise<void> {
   try {
-    const film = document.getElementById('film') as HTMLVideoElement, soft = document.getElementById('soft') as HTMLVideoElement;
+    const film = document.getElementById('film') as HTMLVideoElement, poster = document.getElementById('still');
     const page = initPage();
-    const wide = (): boolean => getComputedStyle(soft).display !== 'none';
     let raf = 0, covered = false, skip = 0;
     const t0 = performance.now();
     const clock = (): number => (performance.now() - t0) / 1000 + skip;
@@ -44,16 +43,14 @@ export async function bootHero(): Promise<void> {
       page.chrome(clock());
       const s = sceneAt(film.currentTime || 0);
       page.table(s.cur, s.progress);
-      if (wide() && !soft.paused && Math.abs(soft.currentTime - film.currentTime) > 0.25) soft.currentTime = film.currentTime;   // keep the soft backdrop in step
     };
     const wake = (): void => { if (!raf) raf = requestAnimationFrame(tick); };
     const sleep = (): void => { cancelAnimationFrame(raf); raf = 0; };
     const play = (): void => {
       if (still || covered || document.hidden) return;
-      film.muted = true; void film.play().then(() => film.classList.add('on')).catch(() => {});
-      if (wide()) { soft.muted = true; void soft.play().catch(() => {}); }
+      film.muted = true; void film.play().then(() => { film.classList.add('on'); poster?.classList.add('off'); }).catch(() => {});
     };
-    const pause = (): void => { film.pause(); soft.pause(); };
+    const pause = (): void => { film.pause(); };
 
     page.scroll();
     hideLoader();
@@ -65,18 +62,18 @@ export async function bootHero(): Promise<void> {
     }
 
     // a dot jumps the film to the start of that table
-    page.onPick((i) => { film.currentTime = i * (DISH + MOVE); soft.currentTime = film.currentTime; if (still) page.table(i, 0); else play(); });
+    page.onPick((i) => { film.currentTime = i * (DISH + MOVE); if (still) page.table(i, 0); else play(); });
     page.onHold((h) => { if (still) return; if (h) pause(); else play(); });
     // autoplay refused (battery saver, in-app browsers): the first touch tries again
     for (const ev of ['touchstart', 'pointerdown'] as const) addEventListener(ev, () => play(), { once: true, passive: true });
 
     addEventListener('scroll', () => {
       const c = page.scroll() >= 0.99;                                                  // fully covered by the page: stop drawing and playing
-      if (c !== covered) { covered = c; if (c) { skip = 99; page.chrome(clock()); sleep(); pause(); } else { wake(); play(); } }
+      if (c !== covered) { covered = c; document.getElementById('hero')?.classList.toggle('covered', c); if (c) { skip = 99; page.chrome(clock()); sleep(); pause(); } else { wake(); play(); } }
     }, { passive: true });
     document.addEventListener('visibilitychange', () => { if (document.hidden) { sleep(); pause(); } else if (!covered) { wake(); play(); } });
     let rz = 0;
-    addEventListener('resize', () => { clearTimeout(rz); rz = window.setTimeout(() => { page.measure(); page.scroll(); if (wide()) play(); }, 120); });
+    addEventListener('resize', () => { clearTimeout(rz); rz = window.setTimeout(() => { page.measure(); page.scroll(); }, 120); });
   } catch (err) {
     fallback(err);
   }

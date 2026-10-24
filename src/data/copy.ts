@@ -25,7 +25,7 @@ export const hero = {
   scenes: ['Coffee', 'Cold Drinks', 'Snacks & Sides', 'Mains'],
   scenesLabel: 'Opening scenes',
   /** the opening film in public/video/hero: one loop through the four scenes. Each dish holds `dish` seconds, then the camera moves for `move` seconds. */
-  film: { src: '/video/hero/cozcaf-opening.mp4', soft: '/video/hero/cozcaf-opening-soft.mp4', poster: '/video/hero/cozcaf-opening.webp', dish: 8, move: 16 / 3 },
+  film: { src: '/video/hero/cozcaf-opening.mp4', smoke: ['/video/hero/smoke1.webp', '/video/hero/smoke2.webp'], poster: '/video/hero/cozcaf-opening.webp', dish: 8, move: 16 / 3 },
   badge: 'FRESHLY BREWED ✱ HAPPILY SIPPED ✱',
   ctaMenu: 'View menu',
   ctaVisit: 'Visit us',
