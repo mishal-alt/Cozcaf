@@ -16,8 +16,22 @@ export const has = {
   rating: site.rating.value !== '' && site.rating.count !== '' && isUrl(site.rating.url),
 } as const;
 
-export const waHref = (kind: 'order' | 'reserve'): string =>
-  'https://wa.me/' + digits(site.whatsappNumber) + '?text=' + encodeURIComponent(kind === 'reserve' ? site.whatsappReserveText : site.whatsappOrderText);
+const waText = { order: site.whatsappOrderText, reserve: site.whatsappReserveText, partner: site.whatsappPartnerText } as const;
+
+export const waHref = (kind: keyof typeof waText): string =>
+  'https://wa.me/' + digits(site.whatsappNumber) + '?text=' + encodeURIComponent(waText[kind]);
 
 export const telHref = 'tel:' + site.phone.replace(/[^\d+]/g, '');
 export const mailHref = 'mailto:' + site.email;
+
+const partnerWa = digits(site.partnerWhatsapp).length >= 10;
+
+/** partnership enquiries go to the best channel that exists: the owner's WhatsApp, the cafe's WhatsApp, email, then Instagram */
+export const partnerHref: string = partnerWa
+  ? 'https://wa.me/' + digits(site.partnerWhatsapp) + '?text=' + encodeURIComponent(site.whatsappPartnerText)
+  : has.wa
+    ? waHref('partner')
+    : has.email
+      ? mailHref + '?subject=' + encodeURIComponent('Partnership enquiry') + '&body=' + encodeURIComponent(site.whatsappPartnerText)
+      : site.instagramUrl;
+export const partnerExternal = partnerWa || has.wa || !has.email;

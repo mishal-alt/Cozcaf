@@ -40,6 +40,9 @@ export interface SiteConfig {
   whatsappNumber: string;
   whatsappOrderText: string;
   whatsappReserveText: string;
+  /** the owner's WhatsApp, used only for partnership enquiries (country code + number) */
+  partnerWhatsapp: string;
+  whatsappPartnerText: string;
   /** TO SUPPLY: e.g. "+91 98XXX XXXXX". Empty hides the tap-to-call line. */
   phone: string;
   /** TO SUPPLY (optional): shown in the footer when filled. */
@@ -92,6 +95,8 @@ export const site: SiteConfig = {
   whatsappNumber: '',
   whatsappOrderText: "Hi COZCAF, I'd like to order",
   whatsappReserveText: "Hi COZCAF, I'd like to reserve a table",
+  partnerWhatsapp: '918891476363',
+  whatsappPartnerText: "Hi COZCAF, I'd like to talk about a partnership.",
   phone: '',
   email: '',
   instagramHandle: '@coz__caf',

@@ -2,7 +2,7 @@
 import './Footer.css';
 import { footer } from '../data/copy';
 import { site } from '../data/site';
-import { has, mailHref, telHref, waHref } from '../lib/links';
+import { has, mailHref, partnerHref, partnerExternal, telHref, waHref } from '../lib/links';
 import { headingHtml } from '../lib/split';
 import { openState } from '../lib/hours';
 
@@ -28,7 +28,7 @@ const year = new Date().getFullYear();
       <div class="foot-cols rv" style="--d:.3s">
         <div><h3>{footer.visitHeading}</h3><address>{has.maps
           ? <a href={site.mapsUrl} target="_blank" rel="noopener"><span>{site.landmark}</span><br><span>{site.locality}</span></a>
-          : <><span>{site.landmark}</span><br><span>{site.locality}</span></>}</address><p class="hrs"><span>{site.hours.label}</span>, <span>{state.range}</span></p><p><span class="chip foot-chip" data-open-chip data-open="true" data-opens={site.hours.open} data-closes={site.hours.close} data-tz={site.hours.tz}><i class="dot" aria-hidden="true"></i><span data-open-text>Open daily &middot; {state.range}</span></span></p>{has.phone && <p><a class="tel" href={telHref}>{site.phone}</a></p>}{has.email && <p><a class="mail" href={mailHref}>{site.email}</a></p>}</div>
+          : <><span>{site.landmark}</span><br><span>{site.locality}</span></>}</address><p class="hrs"><span>{site.hours.label}</span>, <span>{state.range}</span></p><p><span class="chip foot-chip" data-open-chip data-open="true" data-opens={site.hours.open} data-closes={site.hours.close} data-tz={site.hours.tz}><i class="dot" aria-hidden="true"></i><span data-open-text>Open daily &middot; {state.range}</span></span></p>{has.phone && <p><a class="tel" href={telHref}>{site.phone}</a></p>}{has.email && <p><a class="mail" href={mailHref}>{site.email}</a></p>}<p><a class="partner" href={partnerHref} target={partnerExternal ? '_blank' : undefined} rel={partnerExternal ? 'noopener' : undefined}>{footer.partner} &rarr;</a></p></div>
       </div>
     </div>
   </div>

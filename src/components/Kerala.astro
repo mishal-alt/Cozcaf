@@ -4,7 +4,7 @@ import { kerala as K } from '../data/copy';
 import { KERALA as M } from '../data/kerala-map';
 import { site } from '../data/site';
 import { visit } from '../data/copy';
-import { has } from '../lib/links';
+import { has, partnerHref, partnerExternal } from '../lib/links';
 import { headingHtml } from '../lib/split';
 
 const [px, py] = M.pin;
@@ -13,6 +13,7 @@ const pct = (v: number, of: number): string => ((v / of) * 100).toFixed(2) + '%'
 const far = Math.max(...M.towns.map((t) => Math.hypot(t.at[0] - px, t.at[1] - py)));
 const towns = M.towns.filter((t) => t.name !== 'Kasaragod' && t.name !== 'Thrissur').map((t) => ({ ...t, delay: (0.6 + (Math.hypot(t.at[0] - px, t.at[1] - py) / far) * 2.2).toFixed(2) + 's' }));
 const year = site.since.replace(/\D/g, '');
+const ext = partnerExternal ? { target: '_blank', rel: 'noopener' } : {};
 ---
 <section class="kerala on-light" id="kerala" aria-labelledby="keralaH">
   <div class="wrap">
@@ -41,7 +42,7 @@ const year = site.since.replace(/\D/g, '');
       {has.maps
         ? <a class="k-tag" href={site.mapsUrl} target="_blank" rel="noopener" aria-label={visit.mapLabel}><svg viewBox="127 310 354 63" aria-hidden="true"><use href="#p-icon"/><use href="#p-word"/></svg><span>{site.locality.split(', ').pop()}</span></a>
         : <span class="k-tag"><svg viewBox="127 310 354 63" aria-hidden="true"><use href="#p-icon"/><use href="#p-word"/></svg><span>{site.locality.split(', ').pop()}</span></span>}
-      <figcaption class="k-next"><span>{K.next.label}</span><b>{K.next.value}</b></figcaption>
+      <a class="k-next" href={partnerHref} {...ext} aria-label={K.next.aria}><span>{K.next.label}</span><b>{K.next.value}<i aria-hidden="true">&rarr;</i></b></a>
     </figure>
 
     <div class="k-side rv" style="--d:.35s">
@@ -49,9 +50,10 @@ const year = site.since.replace(/\D/g, '');
         {K.stats.map((s) => <div><dt>{s.label}</dt><dd><b>{s.value}</b><span>{s.note}</span></dd></div>)}
         <div><dt>Since</dt><dd><b>{year}</b><span>{site.locality.split(', ')[0]}</span></dd></div>
       </dl>
-      <div class="ctas">
-        {has.maps && <a class="btn primary" href={site.mapsUrl} target="_blank" rel="noopener">{visit.directions}</a>}
-        <a class="btn ghost" href={site.instagramUrl} target="_blank" rel="noopener">{K.follow}</a>
+      <div class="k-partner" id="partner">
+        <span class="eyebrow">{K.partner.eyebrow}</span>
+        <p>{K.partner.line}</p>
+        <a class="btn primary k-talk" href={partnerHref} {...ext}><svg class="k-wa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/></svg><span>{K.partner.cta}</span><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i></a>
       </div>
     </div>
   </div>

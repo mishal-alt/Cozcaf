@@ -22,10 +22,10 @@ export const hero = {
   right: ['Your cozy corner.', 'Every day.'],
   cue: 'Good things below',
   /** the four tables the opening page's camera visits, in order (the menu's own categories) */
-  scenes: ['Coffee', 'Cold Drinks', 'Snacks & Sides', 'Mains'],
+  scenes: ['Coffee', 'Cold Drinks', 'Burgers & Wraps', 'Pasta'],
   scenesLabel: 'Opening scenes',
   /** the opening film in public/video/hero: one loop through the four scenes. Each dish holds `dish` seconds, then the camera moves for `move` seconds. */
-  film: { src: '/video/hero/cozcaf-opening.mp4', smoke: ['/video/hero/smoke1.webp', '/video/hero/smoke2.webp'], poster: '/video/hero/cozcaf-opening.webp', dish: 8, move: 16 / 3 },
+  film: { src: '/video/hero/cozcaf-opening.mp4', srcHd: '/video/hero/cozcaf-opening-1080.mp4', smoke: ['/video/hero/smoke1.webp', '/video/hero/smoke2.webp'], poster: '/video/hero/cozcaf-opening.webp', dish: 8, move: 16 / 3 },
   badge: 'FRESHLY BREWED ✱ HAPPILY SIPPED ✱',
   ctaMenu: 'View menu',
   ctaVisit: 'Visit us',
@@ -117,8 +117,12 @@ export const kerala = {
     { label: 'Cafes', value: '1', note: 'and counting' },
     { label: 'Districts', value: '1 of 14', note: 'Malappuram first' },
   ],
-  next: { label: 'Next stop', value: 'Your town?' },
-  follow: 'Follow the journey',
+  next: { label: 'Next stop', value: 'Your town?', aria: 'Bring COZCAF to your town: start a partnership conversation' },
+  partner: {
+    eyebrow: 'Partner with COZCAF',
+    line: "Love what we pour? We're looking for the right people to bring COZCAF to their town.",
+    cta: 'Start a conversation',
+  },
   mapAlt: 'Map of Kerala with COZCAF marked at Parappanangadi, on the Malappuram coast',
 } as const;
 
@@ -153,6 +157,7 @@ export const footer = {
   whatsapp: 'Message us on WhatsApp',
   socialsLabel: 'COZCAF on the web',
   visitHeading: 'Visit',
+  partner: 'Partnerships',
   rights: 'All rights reserved.',
   developedBy: 'Developed by',
   developer: 'Zetron Tech',

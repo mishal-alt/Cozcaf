@@ -17,6 +17,17 @@
 .k-stats dd span { font-size: 14px; line-height: 1.4; color: var(--muted); }
 .k-side .ctas { display: flex; flex-wrap: wrap; gap: 12px; }
 
+/* the quiet answer to "Next stop: your town?": a partnership invitation under the numbers */
+.k-partner { display: grid; gap: 12px; justify-items: start; width: 100%; padding-top: 22px; border-top: 1px solid var(--rule); }
+.k-partner .eyebrow { color: var(--coffee-d); font-weight: 700; font-size: 12px; letter-spacing: .2em; }
+.k-partner p { max-width: 30em; margin: 0; font-size: 16px; line-height: 1.6; font-weight: 500; color: var(--ink); }
+/* the call to talk: the site's moss pill, with the WhatsApp mark and a cream arrow disc that slides on hover */
+#site .k-talk { height: 54px; gap: 12px; margin-top: 6px; padding: 0 7px 0 22px; letter-spacing: .04em; }
+.k-talk .k-wa { width: 19px; height: 19px; opacity: .85; }
+.k-talk i { display: grid; place-items: center; width: 40px; height: 40px; margin-left: 8px; border-radius: 50%; background: var(--cream); color: var(--deep-moss); }
+.k-talk i svg { width: 17px; height: 17px; transition: translate .4s var(--ease-out); }
+.k-talk:hover i svg { translate: 3px 0; }
+
 /* the map card: the state stands upright, as tall as the screen allows */
 .k-map { grid-area: map; position: relative; margin: 0; height: min(78svh, 820px); aspect-ratio: var(--ar); padding: 0; }
 .k-map > svg { display: block; width: 100%; height: 100%; overflow: visible; }
@@ -43,6 +54,10 @@ a.k-tag:hover { background: var(--moss); }
 .k-next { position: absolute; left: 0; bottom: 17%; display: grid; gap: 6px; padding: 16px 20px; border-radius: 16px; background: var(--cream); border: 1px dashed rgba(46,56,39,.35); }
 .k-next span { font: 700 11px/1 var(--font-body); letter-spacing: .2em; text-transform: uppercase; color: var(--coffee-d); }
 .k-next b { font: 800 26px/1 var(--font-display); letter-spacing: .02em; text-transform: uppercase; color: var(--deep-moss); }
+.k-next i { display: inline-block; margin-left: 8px; font-style: normal; color: var(--coffee); transition: translate var(--t); }
+a.k-next { color: inherit; text-decoration: none; transition: border-color var(--t), box-shadow var(--t), opacity .8s ease, translate .9s var(--ease-out); }
+a.k-next:hover { border-style: solid; border-color: var(--deep-moss); box-shadow: 0 14px 30px -14px rgba(35,43,30,.35); }
+a.k-next:hover i { translate: 4px 0; }
 
 /* motion, once the map scrolls in: the coast draws itself, the pin drops, then the ripple spreads and wakes each town */
 html.js-rv .k-map .k-edge { stroke-dasharray: 1; stroke-dashoffset: 1; }
@@ -81,6 +96,7 @@ html:not(.js-rv) .k-wave circle:first-child { transform: scale(.45); opacity: .3
   .k-stats > div + div { padding-left: 12px; }
   .k-stats dt { font-size: 11px; letter-spacing: .16em; }
   .k-stats dd span { font-size: 13px; }
+  .k-partner p { font-size: 15px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .k-map.in .k-wave circle, .k-map.in .k-ring { animation: none; }

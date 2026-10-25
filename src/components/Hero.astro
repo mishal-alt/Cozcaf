@@ -11,7 +11,7 @@ const state = openState(site.hours);
   <div id="stage" aria-hidden="true">
     <div id="smoke"><i class="smk a" style={`background-image:url(${hero.film.smoke[0]})`}></i><i class="smk b" style={`background-image:url(${hero.film.smoke[1]})`}></i></div>
     <img id="still" src={hero.film.poster} alt="" width="720" height="1280" fetchpriority="high" decoding="async" />
-    <video id="film" muted playsinline loop preload="none" tabindex="-1"><source src={hero.film.src} type="video/mp4" /></video>
+    <video id="film" muted playsinline loop preload="none" tabindex="-1"><source src={hero.film.srcHd} type="video/mp4" media="(min-width: 1200px) and (min-resolution: 1.5dppx), (min-width: 1800px)" /><source src={hero.film.src} type="video/mp4" /></video>
     <div class="scrim"></div>
   </div>
   <h1 class="sr">{site.h1}</h1>
