@@ -14,12 +14,15 @@
 .scrim { position: absolute; inset: 0; z-index: 4; pointer-events: none; background:
   linear-gradient(to bottom, rgba(10,13,8,.72) 0%, rgba(10,13,8,.22) 24%, rgba(10,13,8,0) 44%, rgba(10,13,8,.25) 78%, rgba(10,13,8,.8) 100%); }
 @media (min-aspect-ratio: 4/5) {
-  #smoke { display: block; position: absolute; inset: 0; overflow: hidden; }
+  /* the smoke thins out behind the middle of the film panel (centred at 62%, 56.25vh wide) and is back to full by the panel's edges, so the edges still melt into it */
+  #smoke { display: block; position: absolute; inset: 0; overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, #000 calc(62% - 30vh), rgba(0,0,0,.1) calc(62% - 16vh), rgba(0,0,0,.1) calc(62% + 16vh), #000 calc(62% + 30vh)); mask-image: linear-gradient(to right, #000 calc(62% - 30vh), rgba(0,0,0,.1) calc(62% - 16vh), rgba(0,0,0,.1) calc(62% + 16vh), #000 calc(62% + 30vh)); }
   .smk { position: absolute; inset: -12%; background-size: cover; background-position: 50% 100%; mix-blend-mode: screen; will-change: transform, opacity; }
   .smk.a { opacity: .85; animation: smA 46s ease-in-out infinite alternate; }
   .smk.b { opacity: .6; transform: scaleX(-1); animation: smB 63s ease-in-out infinite alternate; }
   #film, #still { left: 62%; right: auto; width: auto; height: 100%; aspect-ratio: 9 / 16; transform: translateX(-50%); object-fit: cover; object-position: 50% 50%;
-    -webkit-mask-image: linear-gradient(to right, transparent 0, rgba(0,0,0,.55) 8%, #000 20%, #000 80%, rgba(0,0,0,.55) 92%, transparent 100%); mask-image: linear-gradient(to right, transparent 0, rgba(0,0,0,.55) 8%, #000 20%, #000 80%, rgba(0,0,0,.55) 92%, transparent 100%); }
+    /* a wide soft fade at the sides, plus an oval that keeps the dishes (lower middle of the frame) solid where they reach into that fade */
+    -webkit-mask-image: linear-gradient(to right, transparent 0, rgba(0,0,0,.55) 8%, #000 20%, #000 80%, rgba(0,0,0,.55) 92%, transparent 100%), radial-gradient(ellipse 50% 30% at 50% 66%, #000 50%, rgba(0,0,0,.5) 78%, transparent 100%); mask-image: linear-gradient(to right, transparent 0, rgba(0,0,0,.55) 8%, #000 20%, #000 80%, rgba(0,0,0,.55) 92%, transparent 100%), radial-gradient(ellipse 50% 30% at 50% 66%, #000 50%, rgba(0,0,0,.5) 78%, transparent 100%); }
   .scrim { background: linear-gradient(to bottom, rgba(10,13,8,.7) 0%, rgba(10,13,8,.15) 26%, rgba(10,13,8,0) 50%, rgba(10,13,8,.55) 100%),
     linear-gradient(to right, rgba(10,13,8,.72) 0%, rgba(10,13,8,.35) 38%, rgba(10,13,8,0) 55%, rgba(10,13,8,0) 80%, rgba(10,13,8,.5) 100%); }
 }

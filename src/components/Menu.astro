@@ -18,7 +18,7 @@ const slug = (n: string) => n.toLowerCase().replace(/[^a-z0-9]+/g, '-');
       <p class="b-m rv" style="--d:.25s">{menuIntro.lead}</p>
     </div>
     <div class="tabs rv" style="--d:.3s" role="tablist" aria-label={menuIntro.tabsLabel}>
-      {menu.categories.map((c) => <button class="tab" role="tab" id={`tab-${c.id}`} aria-controls="panel" aria-selected={c.id === first ? 'true' : 'false'} tabindex={c.id === first ? 0 : -1} data-cat={c.id}>{c.label}</button>)}
+      {menu.categories.map((c) => <button class="tab" role="tab" id={`tab-${c.id}`} aria-controls="panel" aria-selected={c.id === first ? 'true' : 'false'} tabindex={c.id === first ? 0 : -1} data-cat={c.id} aria-label={c.label}>{c.label.includes(' & ') ? <>{c.label.split(' & ')[0]}<span class="tab-x"> &amp; {c.label.split(' & ')[1]}</span></> : c.label}</button>)}
       <span class="tab-ind" id="tab-ind" aria-hidden="true"></span>
     </div>
     <div class="panel rv" style="--d:.4s" id="panel" role="tabpanel" aria-labelledby={`tab-${first}`} tabindex="0">

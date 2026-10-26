@@ -6,7 +6,10 @@
 .philosophy .eyebrow { color: var(--sage); }
 .philosophy .quote { max-width: 16ch; }
 .clip-card { width: clamp(150px, 17vw, 250px); aspect-ratio: 3 / 4; overflow: hidden; border-radius: var(--r-card); background: var(--moss); }
-.clip-card video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.clip-card { position: relative; }
+.clip-card video { display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(.82) contrast(1.08) brightness(.94) sepia(.1); }
+/* one editorial grade and a soft vignette, so the phone footage sits in the brand's moss and cream */
+.clip-card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: radial-gradient(ellipse at center, transparent 55%, rgba(20,24,16,.35)); }
 .clip-card.left { justify-self: start; transform: translateY(-28px); }
 .clip-card.right { justify-self: end; transform: translateY(40px); }
 

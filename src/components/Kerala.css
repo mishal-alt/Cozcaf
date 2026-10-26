@@ -36,9 +36,9 @@
 .k-dist { fill: none; stroke: var(--sage); stroke-opacity: .32; stroke-width: 1.2; stroke-linejoin: round; }
 .k-edge { fill: none; stroke: var(--deep-moss); stroke-width: 2; stroke-linejoin: round; opacity: .5; }
 .k-wave circle { fill: rgba(191,201,166,.07); stroke: var(--sage); stroke-width: 2.5; vector-effect: non-scaling-stroke; transform-box: fill-box; transform-origin: center; transform: scale(0); opacity: 0; }
-.k-town circle { fill: var(--sage); }
+.k-town circle { fill: var(--moss); }
 .k-town circle { stroke: var(--cream-2); stroke-width: 3; }
-.k-town text { font: 700 17px/1 var(--font-body); letter-spacing: .14em; text-transform: uppercase; fill: var(--muted); text-anchor: end; }   /* every town is on the coast: its name sits out at sea */
+.k-town text { font: 700 17px/1 var(--font-body); letter-spacing: .14em; text-transform: uppercase; fill: var(--moss); fill-opacity: .8; text-anchor: end; }   /* every town is on the coast: its name sits out at sea */
 .k-ring { fill: none; stroke: var(--cream); stroke-width: 2; vector-effect: non-scaling-stroke; transform-box: fill-box; transform-origin: center; opacity: 0; }
 .k-dot { fill: var(--cream); filter: drop-shadow(0 4px 10px rgba(0,0,0,.35)); }
 .k-core { fill: var(--coffee); }

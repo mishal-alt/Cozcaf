@@ -67,6 +67,7 @@
   .tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; width: 100%; }
   .tab { min-height: 56px; padding: 6px 2px; justify-content: center; text-align: center; font-size: 10.5px; line-height: 1.25; letter-spacing: .06em; text-wrap: balance; transition: color .35s ease, transform .35s var(--ease-out); }
   .tab:active { transform: scale(.96); }
+  .tab-x { display: none; }   /* "Snacks & Sides" reads "Snacks", so all four labels sit on one line */
   .tab-ind { height: 3px; border-radius: 3px; transition: transform .55s cubic-bezier(.34,1.3,.5,1), width .45s var(--ease-io); }
 }
 
