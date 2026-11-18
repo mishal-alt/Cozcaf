@@ -16,7 +16,7 @@ export const has = {
   rating: site.rating.value !== '' && site.rating.count !== '' && isUrl(site.rating.url),
 } as const;
 
-const waText = { order: site.whatsappOrderText, reserve: site.whatsappReserveText, partner: site.whatsappPartnerText } as const;
+const waText = { order: site.whatsappOrderText, reserve: site.whatsappReserveText, beans: site.whatsappBeansText, partner: site.whatsappPartnerText } as const;
 
 export const waHref = (kind: keyof typeof waText): string =>
   'https://wa.me/' + digits(site.whatsappNumber) + '?text=' + encodeURIComponent(waText[kind]);

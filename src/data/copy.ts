@@ -45,7 +45,7 @@ export const ticker = ['Good Coffee', 'Comfort Food', 'Hand-Poured Latte Art', '
 export const craft = {
   eyebrow: 'Our Craft',
   heading: ['From bean to cup, ', { em: 'nothing is hurried.' }],
-  lead: 'Our story begins with the bean. We choose characterful coffees with care and pack them in our signature boxes. They are the same beans you taste in every cup we pour.',
+  lead: 'Our story begins with the bean. We choose characterful coffees with care and pack them in our signature boxes. They are the same beans you taste in every cup we pour, and you can take them home.',
   body: 'Behind the bar, every shot is dialled in by hand, milk is steamed to a silky microfoam, and each cup is finished with art worth pausing for.',
   ticks: ['Carefully chosen beans', 'Hand-poured latte art', 'Take-home beans & gift boxes'],
   /** labels for the fact strip; the values come from src/data/site.ts */
@@ -54,6 +54,15 @@ export const craft = {
   caption: 'The bar · hand-crafted daily',
   reel: { name: 'craft-reel', label: 'Behind the COZCAF bar: milk being steamed, a barista at work and an iced coffee being poured' },
   small: { name: 'beans', alt: 'Freshly roasted coffee beans spilling from a wooden scoop onto a worn table' },
+  /** the take-home beans, shown like a menu dish card (photo: public/menu/cozcaf-beans-*, built by tools/beans-image.mjs) */
+  beans: {
+    tag: 'Now selling',
+    title: 'COZCAF House Beans',
+    text: 'The same beans we pour every day, packed fresh for you to brew at home.',
+    photo: { slug: 'cozcaf-beans', alt: 'A black COZCAF coffee pouch with roasted beans spilling beside it' },
+    order: 'Order beans on WhatsApp',
+    counter: 'Ask for a pack at the counter',
+  },
 } as const;
 
 export const signatures = {
@@ -82,7 +91,7 @@ export const signatures = {
       kind: 'Pasta',
       title: 'Alfredo Pasta',
       text: 'Silky white sauce blended with tender chicken and Italian herbs.',
-      photo: { name: 'sig-alfredo', alt: 'A green bowl of creamy chicken Alfredo pasta with herbs, next to a linen napkin' },
+      photo: { name: 'sig-alfredo', alt: 'A green bowl of penne in creamy white Alfredo sauce with parsley, next to a linen napkin' },
     },
   ],
 } as const;

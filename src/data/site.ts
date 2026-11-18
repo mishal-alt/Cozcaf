@@ -40,6 +40,8 @@ export interface SiteConfig {
   whatsappNumber: string;
   whatsappOrderText: string;
   whatsappReserveText: string;
+  /** pre-filled message of the "Order beans" button in Our Craft */
+  whatsappBeansText: string;
   /** the owner's WhatsApp, used only for partnership enquiries (country code + number) */
   partnerWhatsapp: string;
   whatsappPartnerText: string;
@@ -82,7 +84,7 @@ export interface SiteConfig {
 
 export const site: SiteConfig = {
   name: 'COZCAF',
-  url: 'https://cozcaf.example',
+  url: 'https://www.cozcaf.in',
   lang: 'en',
   locale: 'en_IN',
   title: 'COZCAF | Specialty coffee and kitchen in Kodappali, Parappanangadi',
@@ -95,6 +97,7 @@ export const site: SiteConfig = {
   whatsappNumber: '',
   whatsappOrderText: "Hi COZCAF, I'd like to order",
   whatsappReserveText: "Hi COZCAF, I'd like to reserve a table",
+  whatsappBeansText: "Hi COZCAF, I'd like to buy a pack of your coffee beans",
   partnerWhatsapp: '918891476363',
   whatsappPartnerText: "Hi COZCAF, I'd like to talk about a partnership.",
   phone: '',

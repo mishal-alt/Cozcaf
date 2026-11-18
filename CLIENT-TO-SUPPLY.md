@@ -7,7 +7,7 @@ All of them are filled in `src/data/site.ts` unless noted.
 
 | Item | Where it shows | What happens until supplied |
 | --- | --- | --- |
-| **WhatsApp number** (country code + number, digits only) | header "Order" button, menu, visit card, footer | all WhatsApp buttons hidden; header shows "Find us" |
+| **WhatsApp number** (country code + number, digits only) | header "Order" button, menu, visit card, footer, "Order beans on WhatsApp" in Our Craft | all WhatsApp buttons hidden; header shows "Find us"; the beans card says "Ask for a pack at the counter" |
 | **Phone number** | "Call us" in the visit card and footer, structured data | no tap-to-call line |
 | **Menu PDF** (a link to the file) | "Download full menu (PDF)" under the menu | button hidden |
 | **Final address and exact Google Maps place link** (Share, Copy link) | all "Get directions" and map links | currently a Maps search for "COZCAF Kodappali Parappanangadi" |
@@ -20,7 +20,9 @@ All of them are filled in `src/data/site.ts` unless noted.
 - **Instagram:** `@coz__caf` (`https://www.instagram.com/coz__caf/`), confirmed by the client.
 - **Established year:** "Est. 2021" in the hero line.
 - **Menu:** dishes in `src/data/menu.ts` come from the client PDF. Prices are not stored or shown (as in the approved design); dietary marks (V / VG / Spicy) can be added if wanted.
-- **Menu wording:** dish names follow the PDF; descriptions the PDF lacked were written for the layout, so ask the client to review them.
+- **Menu wording:** dish names follow the PDF; descriptions the PDF lacked were written for the layout, so ask the client to review them. The PDF gives no lines for the burgers or the Zinger Wrap, so all four Burgers & Wraps lines were written for the site.
+- **Burgers & Wraps photos** are generated studio shots (Figma AI), as are the house-beans pouch and the white Alfredo / Creamy Tomato penne (recoloured from the Arrabbiata photo). Replace with real photos when available, same file names.
+- **House beans:** the Our Craft card says the beans are for sale, with no pack sizes or prices (the PDF lists none). Please supply pack sizes (e.g. 250 g / 500 g), whole bean / ground, and prices if they should be shown.
 
 ## Optional
 
@@ -33,9 +35,9 @@ The social share image `public/og.jpg` (1200 x 630) should be reviewed too.
 
 ## To make it feel more premium (please ask the client)
 
-- **Veg / non-veg marks:** the menu shows them only where the PDF is clear (chicken dishes, "Veg or Non-Veg" dishes). Please confirm the coffees, faloodas, fruit salad and Classic Spaghetti so every dish can carry its mark (`diet` in `src/data/menu.ts`).
+- **Veg / non-veg marks:** the menu shows them only where the PDF is clear (chicken dishes, "Veg or Non-Veg" dishes). Please confirm the coffees so every dish can carry its mark (`diet` in `src/data/menu.ts`).
 - **Prices** (or at least "from ₹…") for the menu, if the client wants them shown.
 - **Google rating + 2–3 short real reviews** for a reviews strip (never invented).
 - **A high-resolution evening photo of the cafe under the fairy lights** (2000 px+) for the Visit section, which says "Evenings under the fairy lights".
 - **A real photoshoot of the three signatures** (Rose Latte, Piccolo, Alfredo) to match the rest of the real photos.
-- **A photo of the take-home beans / gift boxes** (mentioned in Our Craft) so they can get their own card.
+- **A real photo of the take-home bean pack** to replace the generated pouch on the Our Craft beans card (`public/COZ Menu Images/originals/figma/COZCAF Beans.png`, then `node tools/beans-image.mjs`).

@@ -26,20 +26,20 @@ export const menu = {
       id: 'coffee',
       label: 'Coffee',
       items: [
-        { name: 'Coffee Affogato', tag: '', diet: [], desc: 'Ice cream and hot espresso. Dessert or coffee? Why not both.' },
-        { name: 'Spanish Iced Latte', tag: '', diet: [], desc: 'Sweet, creamy and oh-so-satisfying. You’ll love it.' },
         { name: 'Ice Toffee', tag: '', diet: [], desc: 'Toffee, coffee and ice: sweet happiness in every sip.' },
         { name: 'Ice Mocha', tag: '', diet: [], desc: 'Chocolatey, creamy and chilled to perfection.' },
+        { name: 'Coffee Affogato', tag: '', diet: [], desc: 'Ice cream and hot espresso. Dessert or coffee? Why not both.' },
+        { name: 'Spanish Iced Latte', tag: '', diet: [], desc: 'Sweet, creamy and oh-so-satisfying. You’ll love it.' },
       ],
     },
     {
-      id: 'cold',
-      label: 'Cold Drinks',
+      id: 'burgers',
+      label: 'Burgers & Wraps',
       items: [
-        { name: 'Dry Fruit Falooda', tag: '', diet: [], desc: 'Layered falooda finished with crunchy dry fruits.' },
-        { name: 'Spanish Falooda', tag: '', diet: [], desc: 'Falooda layered with our sweet, creamy Spanish touch.' },
-        { name: 'Dry Fruit Salad', tag: '', diet: [], desc: 'Fruit and dry fruits, chilled and generously served.' },
-        { name: 'Royal Falooda', tag: '', diet: [], desc: 'A richer, royal take on our layered falooda.' },
+        { name: 'Chicken Double Patty Burger', tag: '', diet: ['NonVeg'], desc: 'Two juicy chicken patties, a fresh bun and indulgent layers.' },
+        { name: 'Mexican Spicy Zinger', tag: '', diet: ['NonVeg', 'Spicy'], desc: 'Crispy zinger fillet with a fiery Mexican kick.' },
+        { name: 'Zinger Burger', tag: '', diet: ['NonVeg'], desc: 'Crunchy zinger fillet, fresh lettuce and creamy mayo in a soft bun.' },
+        { name: 'Zinger Wrap', tag: '', diet: ['NonVeg'], desc: 'Crispy zinger chicken rolled in a soft wrap with bold flavours.' },
       ],
     },
     {
@@ -57,8 +57,8 @@ export const menu = {
       label: 'Mains',
       items: [
         { name: 'Fried Chicken', tag: '', diet: ['NonVeg'], desc: 'Crispy, golden fried chicken served with kuboos, French fries, mayo and ketchup.' },
-        { name: 'Classic Spaghetti', tag: '', diet: [], desc: 'Traditional spaghetti tossed in a timeless Italian-style sauce.' },
         { name: 'Spicy Arrabbiata Pasta', tag: '', diet: ['Veg', 'NonVeg', 'Spicy'], desc: 'Classic arrabbiata sauce with rich spice. Veg or Non-Veg.' },
+        { name: 'Creamy Tomato Pasta', tag: '', diet: ['Veg', 'NonVeg'], desc: 'A smooth tomato cream sauce. Veg or Non-Veg.' },
         { name: 'Alfredo Pasta', tag: 'Signature', diet: ['Veg', 'NonVeg'], desc: 'Rich, creamy white sauce with Italian herbs. Veg or Non-Veg.' },
       ],
     },

@@ -16,6 +16,18 @@
 .ticks li { display: flex; align-items: center; gap: 16px; font: 600 13px/1.3 var(--font-body); letter-spacing: .14em; text-transform: uppercase; }
 .ticks li::before { content: ""; width: 24px; height: 1px; background: var(--moss); flex: none; }
 .craft .link { color: var(--moss); }
+/* take-home beans: a menu dish card (same cream plate, logo and baked photo) turned sideways, so it reads as something you can buy */
+.beans { display: grid; grid-template-columns: 168px minmax(0, 1fr); align-items: center; gap: 24px; width: 100%; padding: 14px 22px 14px 14px; border-radius: 28px; background: var(--cream); border: 1px solid rgba(46,56,39,.12); }
+.beans-ph { border-radius: 18px; }
+.beans-ph .dish-logo { width: 40%; top: 7%; }
+.beans-body { display: grid; gap: 8px; justify-items: start; min-width: 0; }
+.beans-body .tag { margin-bottom: 4px; }
+.beans-body .h-s { color: var(--deep-moss); }
+.beans-body p { font-size: 15px; line-height: 1.6; }
+.beans-body .link { margin-top: 4px; }
+.beans-note { margin-top: 4px; font: 700 12px/1.3 var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--moss); }
+.beans:hover .dish-img img { transform: scale(1.04); }
+
 /* fact strip: big condensed figures over small labels (the value is read after its label) */
 .stats { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 0 clamp(28px, 4vw, 56px); width: 100%; margin: 8px 0 0; padding-top: 24px; border-top: 1px solid rgba(46,56,39,.18); }
 .stats div { display: flex; flex-direction: column-reverse; gap: 8px; }
@@ -26,4 +38,14 @@
   .craft .wrap { grid-template-columns: 1fr; }
   .collage figcaption { display: none; }
   .collage { padding-bottom: 96px; }
+}
+
+@media (max-width: 520px) {
+  .beans { grid-template-columns: 116px minmax(0, 1fr); gap: 16px; padding: 10px 14px 10px 10px; border-radius: 22px; }
+  .beans-ph { border-radius: 14px; }
+  .beans-body { gap: 6px; }
+  .beans-body .tag { font-size: 10px; letter-spacing: .12em; padding: 5px 9px; margin-bottom: 2px; }
+  .beans-body .h-s { font-size: clamp(19px, 5.4vw, 23px); line-height: 1.05; }
+  .beans-body p { font-size: 13px; line-height: 1.5; }
+  .beans-note, .beans-body .link { font-size: 11px; }
 }

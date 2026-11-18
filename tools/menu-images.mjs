@@ -4,7 +4,7 @@
 //   node tools/menu-images.mjs <dir-with-cutout-pngs>
 import sharp from 'sharp';
 import { mkdirSync, readdirSync } from 'node:fs';
-import { ICON_PATH, WORD_PATH } from '../src/components/logo-paths.ts';
+import { printedLogo as bucketLogo } from './logo-print.mjs';
 
 const src = process.argv[2];
 const out = new URL('../public/menu/', import.meta.url).pathname;
@@ -15,21 +15,10 @@ const SIZES = [1024, 2048];
 const BASELINE = 0.91; // bottom edge of every dish, as a fraction of the card height
 // standard size per dish type, as a fraction of the card: bowls by rim width, the rest by height
 const STANDARD = { bowl: { w: 0.84 }, glass: { h: 0.7 }, short: { h: 0.64 } };
-const TYPE = { 'dry-fruit-salad': 'short', 'fried-chicken': 'short' };
-
-/** printed COZCAF mark for the plain green bucket: bean on top, lettering below (cream, like a printed cup) */
-async function bucketLogo(width) {
-  const svg = (box, d, w, h) => Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box}" width="${w}" height="${h}"><path fill="#F4EEDD" fill-rule="evenodd" d="${d}"/></svg>`);
-  const iconH = Math.round(width * 0.34), iconW = Math.round(iconH * 48 / 63);
-  const wordH = Math.round(width * 0.17), wordW = Math.round(wordH * 306 / 63);
-  const icon = await sharp(svg('127 310 48 63', ICON_PATH, iconW, iconH), { density: 72 }).png().toBuffer();
-  const word = await sharp(svg('175 310 306 63', WORD_PATH, wordW, wordH), { density: 72 }).png().toBuffer();
-  const gap = Math.round(width * 0.07);
-  const W = Math.max(iconW, wordW), H = iconH + gap + wordH;
-  const img = await sharp({ create: { width: W, height: H, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
-    .composite([{ input: icon, left: Math.round((W - iconW) / 2), top: 0 }, { input: word, left: Math.round((W - wordW) / 2), top: iconH + gap }]).png().toBuffer();
-  return { img, W, H };
-}
+const TYPE = {
+  'fried-chicken': 'short',
+  'chicken-double-patty-burger': 'short', 'mexican-spicy-zinger': 'short', 'zinger-burger': 'short', 'zinger-wrap': 'short',
+};
 
 for (const f of readdirSync(src).filter((n) => n.endsWith('.png'))) {
   const slug = f.replace(/\.png$/, '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
