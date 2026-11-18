@@ -1,4 +1,4 @@
-/** The COZCAF opening page: one film that travels round four tables (Coffee, Cold Drinks, Snacks & Sides, Mains) in a loop, behind the
+/** The COZCAF opening page: one film that travels round four tables (Coffee, Cold Drinks, Starter, Mains) in a loop, behind the
  *  lettering that docks into the header. The category chip follows the film. Loaded as its own chunk after the first paint. */
 import { hero } from '../data/copy';
 import { reduced } from './env';

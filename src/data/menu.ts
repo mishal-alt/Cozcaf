@@ -33,18 +33,8 @@ export const menu = {
       ],
     },
     {
-      id: 'burgers',
-      label: 'Burgers & Wraps',
-      items: [
-        { name: 'Chicken Double Patty Burger', tag: '', diet: ['NonVeg'], desc: 'Two juicy chicken patties, a fresh bun and indulgent layers.' },
-        { name: 'Mexican Spicy Zinger', tag: '', diet: ['NonVeg', 'Spicy'], desc: 'Crispy zinger fillet with a fiery Mexican kick.' },
-        { name: 'Zinger Burger', tag: '', diet: ['NonVeg'], desc: 'Crunchy zinger fillet, fresh lettuce and creamy mayo in a soft bun.' },
-        { name: 'Zinger Wrap', tag: '', diet: ['NonVeg'], desc: 'Crispy zinger chicken rolled in a soft wrap with bold flavours.' },
-      ],
-    },
-    {
-      id: 'snacks',
-      label: 'Snacks & Sides',
+      id: 'starter',
+      label: 'Starter',
       items: [
         { name: 'Peri Peri Loaded Fries', tag: '', diet: ['NonVeg', 'Spicy'], desc: 'Spicy peri peri chicken over golden fries with a fiery kick.' },
         { name: 'Cheesy Chicken Loaded Fries', tag: '', diet: ['NonVeg'], desc: 'Crispy fries topped with succulent chicken, rich cheese and indulgent layers.' },
@@ -53,13 +43,23 @@ export const menu = {
       ],
     },
     {
+      id: 'burgers',
+      label: 'Burgers & Wraps',
+      items: [
+        { name: 'Chicken Double Patty Burger', tag: '', diet: ['NonVeg'], desc: 'Two juicy chicken patties, a fresh bun and indulgent layers.' },
+        { name: 'Zinger Wrap', tag: '', diet: ['NonVeg'], desc: 'Crispy zinger chicken rolled in a soft wrap with bold flavours.' },
+        { name: 'Mexican Spicy Zinger', tag: '', diet: ['NonVeg', 'Spicy'], desc: 'Crispy zinger fillet with a fiery Mexican kick.' },
+        { name: 'Zinger Burger', tag: '', diet: ['NonVeg'], desc: 'Crunchy zinger fillet, fresh lettuce and creamy mayo in a soft bun.' },
+      ],
+    },
+    {
       id: 'mains',
       label: 'Mains',
       items: [
-        { name: 'Fried Chicken', tag: '', diet: ['NonVeg'], desc: 'Crispy, golden fried chicken served with kuboos, French fries, mayo and ketchup.' },
         { name: 'Spicy Arrabbiata Pasta', tag: '', diet: ['Veg', 'NonVeg', 'Spicy'], desc: 'Classic arrabbiata sauce with rich spice. Veg or Non-Veg.' },
-        { name: 'Creamy Tomato Pasta', tag: '', diet: ['Veg', 'NonVeg'], desc: 'A smooth tomato cream sauce. Veg or Non-Veg.' },
         { name: 'Alfredo Pasta', tag: 'Signature', diet: ['Veg', 'NonVeg'], desc: 'Rich, creamy white sauce with Italian herbs. Veg or Non-Veg.' },
+        { name: 'Creamy Tomato Pasta', tag: '', diet: ['Veg', 'NonVeg'], desc: 'A smooth tomato cream sauce. Veg or Non-Veg.' },
+        { name: 'Fried Chicken', tag: '', diet: ['NonVeg'], desc: 'Crispy, golden fried chicken served with kuboos, French fries, mayo and ketchup.' },
       ],
     },
   ],
